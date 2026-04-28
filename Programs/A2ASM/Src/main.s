@@ -37,7 +37,7 @@ main
     mov     R5,#ConstByteA  ; Anw07
     strh    R5,[R0]         ; Anw08
     
-;* swap memory - 0xaffe to AF FE in memory. lower Byte to higher adress and higher Byte to lower adress.
+;* swap memory - 0xaffe to AF FE in memory. lower Byte to higher adress and higher Byte to lower adress
     ldr     R0, =VariableC  ; load adress of VariableC to R2 = 0x20000010
     ldrb    R2, [R0]        ; load lowest Byte from memory at adress R0 to R2. R2 = 0xfe
     ldrb    R3, [R0, #1]    ; load the next byte with offset of 1 byte from meemory at adress R0 to R3. R3 = 0xaf
@@ -46,7 +46,7 @@ main
     strh    R2, [R0]        ; store halfword of R2 to memory at adress R0. Memory should look like af fe
 
 ;* Change value from x1234 to x4321
-    ldr     R1,=VariableB   ; Anw09
+    ldr     R1,=VariableB   ; Anw09 load address of VariableB to R1
     ldrh    R6,[R1]         ; Anw0A load halfword from memory at adress R1 - first 2 bytes
     rev16   R6, R6          ; Anw0B reverse order of the first 2 bytes of R6
     strh    R6, [R1]        ; Anw0C store halfword in memory at adress R1
