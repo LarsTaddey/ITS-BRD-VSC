@@ -20,9 +20,15 @@
 	AREA MyData, DATA, align = 2
 	
 	    GLOBAL text
+
+
 DEFAULT_BRIGHTNESS DCW  800
+
+
 	
 text	DCB	"Hallo liebes TI-Labor (asm-project)",0
+
+PrimZahlSieb		DCB 0
 
 
 ;********************************************
@@ -48,10 +54,17 @@ main	PROC
 		LDR	r0,=text
         BL  lcdPrintS
 
+;forever	b	forever		; nowhere to retun if main ends		
+		ENDP
+	
+		ALIGN
+       
+		END
+
 ; Labels benötigter Speicherbereiche setzen.
 ; Benötigte Labels: 	
 	; PrimZahlSieb: Speicherbereich für die Werte, ob eine Zahl eine Primzahl ist. Repräsentiert durch die Adresse relativ zu PrimZahlSieb (Zahl 2 = PrimZahlSieb + 2)
-	; Primzahlen: Speicherbereich für die gefundenen Primzahlen als tatsächliche Zahlen
+	; Primzahlen: Speicherbereich für die gefundenen Primzahlen als tatsächliche Zahlen (=PrimZahlSieb + Limit + 1)
 	; Sieb: Zeigt auf den Beginn der Funktion, um Primzahlen mit dem Verfahren nach Erathosthenes zu finden
 	; Abspeichern: Schreibt die gefunden Primzahlen in den Speicher ab Abspeichern
 
@@ -91,11 +104,3 @@ main	PROC
 			; r1 enthält aktuelles Limit
 			; r4 enthält Adresse des neuen Speicherbereichs
 			; r5 als Zählregister
-
-
-forever	b	forever		; nowhere to retun if main ends		
-		ENDP
-	
-		ALIGN
-       
-		END
