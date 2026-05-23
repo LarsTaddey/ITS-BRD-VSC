@@ -3,67 +3,82 @@ public class PrimzahlSieb
     public static void main(String[] args)
     {
         sieb();
-
     }
 
-    private static final int _NUMBER = 1000;
-    private static final boolean[] _PRIMZAHL_SIEB = new boolean[_NUMBER + 1];
-    private static final int _START_PRIMZAHL = 2;
+    private static final int LIMIT = 1000;
+    private static final boolean[] PRIMZAHL_SIEB = new boolean[LIMIT + 1];
 
     private static void sieb()
     {
         // Alle Feldelemente ab 2 auf 1 (wahr) setzen
-        for (int i = _START_PRIMZAHL; i <= _NUMBER; ++i)
+        for (int i = 2; i <= LIMIT; ++i)
         {
-            _PRIMZAHL_SIEB[i] = true;
+            PRIMZAHL_SIEB[i] = true;
         }
 
-        // Finde die nächste potenzielle Primzahl
-       for(int i = _START_PRIMZAHL; i <= _NUMBER; ++i)
-       {
-           // Wenn das Quadrat groesser als das Limit, dann abbrechen
-           if(i * i > _NUMBER)
-           {
-               break;
-           }
+        for (int i = 2; i * i <= LIMIT; ++i){
+            if (PRIMZAHL_SIEB[i])
+            {
+                for(int j = i * i; j <= LIMIT; j += i)
+                {
+                    PRIMZAHL_SIEB[j] = false;
+                }
+            }
+        }
 
-           // Wenn die nächste Primzahl gefunden wurde, also true dann markiere das Quadrat und alle vielfachen
-           if(_PRIMZAHL_SIEB[i])
-           {
-               for(int j = i * i; j <= _NUMBER; j += i)
-               {
-                _PRIMZAHL_SIEB[j] = false;
-               }
-           }
-       }
-        // Wenn alle Vielfachen markiert wurden, sind nur noch Primzahlen übrig
-        // Jetzt wird die Methode Abspeichern aufgerufen, um die Primzahlen in einem eigenem Feld zu speichern
+        // Alle Vielfachen wurden markiert
        abspeichern();
     }
 
     private static void abspeichern()
     {
-        int count = 0;
+        int zaehler = 0;
         // Die Groesse des neuen Feldes bestimmen, anhand der gefundenen Werte, die =true sind
-        for (int i = 0; i <= _NUMBER; ++i)
+        for (int i = 2; i <= LIMIT; ++i)
         {
-            if (_PRIMZAHL_SIEB[i])
+            if (PRIMZAHL_SIEB[i])
             {
-                ++count;
+                ++zaehler;
             }
         }
-        int[] primZahlen = new int[count];
+        // Setze die Groesse des Feldes auf den Wert des Zaehlers
+        int[] primZahlen = new int[zaehler];
 
-        // Zähler wieder auf 0 setzen
-        count = 0;
+        int index = 0;
         // Gefundene Primzahlen in ein neues Feld schreiben
-        for( int i = _START_PRIMZAHL; i <= _NUMBER; ++i)
+        for(int i = 2; i <= LIMIT; ++i)
         {
-            if (_PRIMZAHL_SIEB[i])
+            if (PRIMZAHL_SIEB[i])
             {
-                primZahlen[count] = i;
-                ++count;
+                primZahlen[index] = i;
+                ++index;
             }
         }
+        System.out.println(java.util.Arrays.toString(primZahlen));
+    }
+
+    private static void siebWHILE()
+    {
+        // Alle Feldelemente ab 2 auf 1 (wahr) setzen
+        for (int i = 2; i <= LIMIT; ++i)
+        {
+            PRIMZAHL_SIEB[i] = true;
+        }
+
+        int i = 2;
+        while(i*i <= LIMIT)
+        {
+            if(PRIMZAHL_SIEB[i])
+            {
+                int j = i * i;
+                while(j <= LIMIT)
+                {
+                    PRIMZAHL_SIEB[j] = false;
+                    j += i;
+                }
+            }
+            ++i;
+        }
+        abspeichern();
     }
 }

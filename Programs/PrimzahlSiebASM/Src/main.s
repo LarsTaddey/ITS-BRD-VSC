@@ -24,11 +24,9 @@
 
 DEFAULT_BRIGHTNESS DCW  800
 
-
-	
 text	DCB	"Hallo liebes TI-Labor (asm-project)",0
 
-PrimZahlSieb		DCB 0
+PrimZahlSieb		SPACE 8/2, 1
 
 
 ;********************************************
@@ -42,8 +40,11 @@ PrimZahlSieb		DCB 0
 ;--------------------------------------------
 	EXPORT main [CODE]
 	
+LIMIT = 1000
+
 main	PROC				
 
+		ldr r0, =PrimZahlSieb
         BL initITSboard
 		ldr r1, =DEFAULT_BRIGHTNESS
 		ldrh r0, [r1]
