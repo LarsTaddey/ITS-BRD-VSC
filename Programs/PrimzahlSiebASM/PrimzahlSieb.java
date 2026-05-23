@@ -8,7 +8,11 @@ public class PrimzahlSieb
     private static final int LIMIT = 1000;
     private static final boolean[] PRIMZAHL_SIEB = new boolean[LIMIT + 1];
 
-    private static void sieb()
+    /**
+     * Angepasst für Aufgabe 5. Gibt eine Liste aller Primzahlen als boolean[] zurück, wobei die Indizes der Primzahlen auf true gesetzt sind.
+     * @return boolean[] mit true an den Indizes der Primzahlen, false an den anderen Indizes
+     */
+    private static boolean[] sieb()
     {
         // Alle Feldelemente ab 2 auf 1 (wahr) setzen
         for (int i = 2; i <= LIMIT; ++i)
@@ -27,16 +31,20 @@ public class PrimzahlSieb
         }
 
         // Alle Vielfachen wurden markiert
-       abspeichern();
+       return PRIMZAHL_SIEB;
     }
 
-    private static void abspeichern()
+    /**
+     * Diese Methode speichert die gefundenen Primzahlen in einem neuen Feld ab und gibt dieses aus. Sie wird aufgerufen, nachdem das Sieb ausgeführt wurde.
+     * @param primzahlen Das boolean[] mit den markierten Primzahlen, das vom Sieb zurückgegeben wurde
+     */
+    private static void abspeichern(boolean[] primzahlen)
     {
         int zaehler = 0;
         // Die Groesse des neuen Feldes bestimmen, anhand der gefundenen Werte, die =true sind
         for (int i = 2; i <= LIMIT; ++i)
         {
-            if (PRIMZAHL_SIEB[i])
+            if (primzahlen[i])
             {
                 ++zaehler;
             }
@@ -48,7 +56,7 @@ public class PrimzahlSieb
         // Gefundene Primzahlen in ein neues Feld schreiben
         for(int i = 2; i <= LIMIT; ++i)
         {
-            if (PRIMZAHL_SIEB[i])
+            if (primzahlen[i])
             {
                 primZahlen[index] = i;
                 ++index;
@@ -78,7 +86,6 @@ public class PrimzahlSieb
                 }
             }
             ++i;
-        }
-        abspeichern();
+        }        
     }
 }
