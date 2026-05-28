@@ -1,20 +1,21 @@
 ;************************************************
 ;* Beginn der globalen Daten *
 ;************************************************
-                AREA MyData, DATA, align = 2
+    AREA MyData, DATA, align = 2
 
 LIMIT 			EQU		1000								; Die gesetzte Obergrenze des Bereichs (hier 1000)
-PrimZahlSieb 	FILL 	LIMIT + 1							; Der Speicherbereich, der das Sieb repräsentiert 0 = false, 1 = true
-Primzahlen		FILL 	(LIMIT / 2) * 4						; Der Speicherbereich, der die gefundenen Primzahlen enthält. 
+PrimZahlSieb 	FILL 	LIMIT + 1, 1						; Der Speicherbereich, der das Sieb repräsentiert 0 = false, 1 = true
+Primzahlen		FILL 	(LIMIT / 2) * 2						; Der Speicherbereich, der die gefundenen Primzahlen enthält. 
 															; Länge wird approximiert, um etwas Speicher zu sparen
+															; Für 1000 kann auch direkt 168 als Größe angegeben werden
 
 ;***********************************************
 ;* Beginn des Programms *
 ;************************************************
     AREA |.text|, CODE, READONLY, ALIGN = 3
+
 ; ----- S t a r t des Hauptprogramms -----
         		EXPORT main
-        		EXTERN initITSboard
 main    		PROC
 
 ;------------------------------------------------
@@ -24,28 +25,15 @@ Sieb
 				ldr		R0, =PrimZahlSieb					; Startadresse des Siebs wird in R0 geladen
 				ldr 	R1, =LIMIT							; Der Wert von Limit wird in R1 geladen
 
-;------------------------------------------------			
-; for-Schleife: Initialisieren
-;------------------------------------------------	
-for_init
-				mov 	R5, #2								; Setze den Zähler R5 auf 2
-				mov 	R6, #1								; Setze R6, zum setzen der Bytes im Sieb, auf 1
-until_init
-				cmp 	R5, R1								; Schleifenabbruch, wenn R5 größer als R1 (LIMIT) ist
-				bgt 	enddo_init							; Sonst springe in die Schleife
-do_init
-				strb	R6, [R0,R5]							; Setze das Byte an der Stelle ab R0 + R5, im Speicher, auf 1
-step_init
-				add 	R5, #1								; Erhöhe den Zähler um 1
-				b 		until_init							; Springe zum Schleifenanfang
-enddo_init
-
+				mov 	R6, #0								; Setze R6 auf 0 zum markieren
+				strb    R6, [R0]							; Setze ersten beiden Bytes im Speicher, der Vollständigkeit, auf 0
+				strb 	R6, [R0, #1]						
 ;------------------------------------------------			
 ; Äußere for-Schleife: Finde potentielle Primzahlen 
 ;------------------------------------------------	
 for_sieben
 				mov 	R5, #2								; Setze den Zähler wieder auf 2
-				mov 	R6, #0								; Setze R6 auf 0 zum markieren
+				mov 	R6, #0								
 until_sieben
 				mul 	R3, R5, R5							; Berechne das Quadrat aus der momentanen Stelle (Zähler) und schreibe in R3
 				cmp		R3, R1								; Vergleiche, ob R3 größer als R1
@@ -76,18 +64,37 @@ enddo_markieren
 endif_sieben
 
 step_sieben							
-				add 	R5, #1	
+				add 	R5, #1								; Erhöhe den Zähler um 1
 				b 		until_sieben						; Springe zum Anfang der äußeren Schleife
 enddo_sieben
-				b 		Abspeichern							; Sieb ist fertig, springe zu Abspeichern
-
-
-;---Ignorieren ist nicht Teil der Aufgabe 5---------------------------------------------------------------------------------------------------------------------------------------------------------------
+															; Sieb ist fertig, mache mit Teilfunktion Abspeichern weiter
 
 ;------------------------------------------------			
 ; Teilfunktion Abspeichern
 ;------------------------------------------------
 Abspeichern
+				ldr 	R4, =Primzahlen						; Lade die Startadresse von Primzahlen in R4
+for_abspeichern
+				mov 	R5, #2								; Setze den Zähler wieder auf 2
+until_abspeichern
+				cmp 	R5, R1								; Vergleiche, ob R5 > R1 ist,
+				bgt 	enddo_abspeichern					; Wenn R5 > 1, dann ist Abspeichern fertig und somit das ganze Programm,
+															; sonst gehe in die Schleife
+do_abspeichern																							
+
+if_abspeichern
+				ldrb 	R2, [R0, R5]						; Lade ein Byte ab Stelle R0 + R5 in R2
+				cmp 	R2, #1								; Vergleiche, ob R2 == 1									
+				bne 	endif_abspeichern					; Wenn R2 == 1, dann mache weiter, sonst pringe zu endif_abspeichern
+then_abspeichern
+				str 	R5, [R4]							; Speicher den Wert des Zählers, der einer Primzahl entspricht, im Speicher an der Adresse R4
+				add 	R4, #2								; Erhöhe die Speicheradresse um 2, damit größre Zahlen dargestellt werden können (2 Bytes)															
+endif_abspeichern											
+				
+step_abspeichern
+				add 	R5, #1								; Erhöhe den Zähler um 1
+				b 		until_abspeichern					; Springe zum Anfang der Schleife
+enddo_abspeichern					
 
 forever         
 				; Existiert nur für den Breakpoint zum debuggen
