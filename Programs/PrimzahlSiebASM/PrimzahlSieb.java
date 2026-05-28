@@ -20,6 +20,7 @@ public class PrimzahlSieb
             PRIMZAHL_SIEB[i] = true;
         }
 
+        // Potentielle Primzahl finden und Vielfache markieren
         for (int i = 2; i * i <= LIMIT; ++i){
             if (PRIMZAHL_SIEB[i])
             {

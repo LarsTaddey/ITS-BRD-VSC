@@ -1,6 +1,6 @@
 CompileFlags:
   CompilationDatabase: >-
-    /mnt/NVMe_3_Dateien/Eigene_Dateien/Uni/HAW/ITS-BRD-REPO/ITS-BRD-VSC/Programs/PrimzahlSiebASM/out/PrimzahlSiebASM/ITSboard_Assembly/Debug
+    /home/lars/Documents/Uni/Programming/VSCode/GT/ITS-BRD-VSC/Programs/PrimzahlSiebASM/out/PrimzahlSiebASM/ITSboard_Assembly/Debug
   Add:
     - "-D_ILP32=1\r\n"
     - "-D_USE_STATIC_INLINE=1\r\n"
@@ -413,27 +413,27 @@ CompileFlags:
     - "-D__thumb__=1\r\n"
     - '-D__ARMCOMPILER_LIBCXX=1'
     - >-
-      -I/mnt/NVMe_3_Dateien/Eigene_Dateien/Uni/HAW/ITS-BRD-REPO/ITS-BRD-VSC/Programs/PrimzahlSiebASM/Inc
+      -I/home/lars/Documents/Uni/Programming/VSCode/GT/ITS-BRD-VSC/Programs/PrimzahlSiebASM/Inc
     - >-
-      -I/mnt/NVMe_3_Dateien/Eigene_Dateien/Uni/HAW/ITS-BRD-REPO/ITS-BRD-VSC/Programs/PrimzahlSiebASM/../../stm32cubef4/Drivers/CMSIS/Device/ST/STM32F4xx/Include
+      -I/home/lars/Documents/Uni/Programming/VSCode/GT/ITS-BRD-VSC/Programs/PrimzahlSiebASM/../../stm32cubef4/Drivers/CMSIS/Device/ST/STM32F4xx/Include
     - >-
-      -I/mnt/NVMe_3_Dateien/Eigene_Dateien/Uni/HAW/ITS-BRD-REPO/ITS-BRD-VSC/Programs/PrimzahlSiebASM/../../stm32cubef4/Drivers/CMSIS/Include
+      -I/home/lars/Documents/Uni/Programming/VSCode/GT/ITS-BRD-VSC/Programs/PrimzahlSiebASM/../../stm32cubef4/Drivers/CMSIS/Include
     - >-
-      -I/mnt/NVMe_3_Dateien/Eigene_Dateien/Uni/HAW/ITS-BRD-REPO/ITS-BRD-VSC/Programs/PrimzahlSiebASM/../../stm32cubef4/Drivers/STM32F4xx_HAL_Driver/Inc
+      -I/home/lars/Documents/Uni/Programming/VSCode/GT/ITS-BRD-VSC/Programs/PrimzahlSiebASM/../../stm32cubef4/Drivers/STM32F4xx_HAL_Driver/Inc
     - >-
-      -I/mnt/NVMe_3_Dateien/Eigene_Dateien/Uni/HAW/ITS-BRD-REPO/ITS-BRD-VSC/Programs/PrimzahlSiebASM/../../stm32cubef4/Drivers/BSP/STM32F4xx_Nucleo_144
+      -I/home/lars/Documents/Uni/Programming/VSCode/GT/ITS-BRD-VSC/Programs/PrimzahlSiebASM/../../stm32cubef4/Drivers/BSP/STM32F4xx_Nucleo_144
     - >-
-      -I/mnt/NVMe_3_Dateien/Eigene_Dateien/Uni/HAW/ITS-BRD-REPO/ITS-BRD-VSC/Programs/PrimzahlSiebASM/../../stm32cubef4/Utilities/Fonts
+      -I/home/lars/Documents/Uni/Programming/VSCode/GT/ITS-BRD-VSC/Programs/PrimzahlSiebASM/../../stm32cubef4/Utilities/Fonts
     - >-
-      -I/mnt/NVMe_3_Dateien/Eigene_Dateien/Uni/HAW/ITS-BRD-REPO/ITS-BRD-VSC/Programs/PrimzahlSiebASM/../../DisplayWaveshare/Inc
+      -I/home/lars/Documents/Uni/Programming/VSCode/GT/ITS-BRD-VSC/Programs/PrimzahlSiebASM/../../DisplayWaveshare/Inc
     - >-
-      -I/mnt/NVMe_3_Dateien/Eigene_Dateien/Uni/HAW/ITS-BRD-REPO/ITS-BRD-VSC/Programs/PrimzahlSiebASM/../../ITS_BRD_LIB/Utilities/AddFonts
+      -I/home/lars/Documents/Uni/Programming/VSCode/GT/ITS-BRD-VSC/Programs/PrimzahlSiebASM/../../ITS_BRD_LIB/Utilities/AddFonts
     - >-
-      -I/mnt/NVMe_3_Dateien/Eigene_Dateien/Uni/HAW/ITS-BRD-REPO/ITS-BRD-VSC/Programs/PrimzahlSiebASM/tmp/PrimzahlSiebASM.Debug+ITSboard_Assembly
+      -I/home/lars/Documents/Uni/Programming/VSCode/GT/ITS-BRD-VSC/Programs/PrimzahlSiebASM/tmp/PrimzahlSiebASM.Debug+ITSboard_Assembly
     - >-
-      -I/mnt/NVMe_3_Dateien/Eigene_Dateien/Uni/HAW/ITS-BRD-REPO/ITS-BRD-VSC/Programs/PrimzahlSiebASM/RTE/_Debug_ITSboard_Assembly
+      -I/home/lars/Documents/Uni/Programming/VSCode/GT/ITS-BRD-VSC/Programs/PrimzahlSiebASM/RTE/_Debug_ITSboard_Assembly
     - '-I/home/lars/.cache/arm/packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include'
     - >-
       -I/home/lars/.cache/arm/packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include
     - >-
-      -I/mnt/NVMe_3_Dateien/Eigene_Dateien/Uni/HAW/ITS-BRD-REPO/ITS-BRD-VSC/Programs/PrimzahlSiebASM/../../ITS_BRD_LIB/Inc
+      -I/home/lars/Documents/Uni/Programming/VSCode/GT/ITS-BRD-VSC/Programs/PrimzahlSiebASM/../../ITS_BRD_LIB/Inc
