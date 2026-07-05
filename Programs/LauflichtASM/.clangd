@@ -1,0 +1,5 @@
+CompileFlags:
+  CompilationDatabase: /mnt/NVMe_3_Dateien/Eigene_Dateien/Uni/HAW/ITS-BRD-REPO/ITS-BRD-VSC/Programs/LauflichtASM/out/LauflichtASM/ITSboard_Assembly/Debug
+  Add:
+    - -include
+    - /mnt/NVMe_3_Dateien/Eigene_Dateien/Uni/HAW/ITS-BRD-REPO/ITS-BRD-VSC/Programs/LauflichtASM/out/LauflichtASM/ITSboard_Assembly/Debug/compile_macros.h
