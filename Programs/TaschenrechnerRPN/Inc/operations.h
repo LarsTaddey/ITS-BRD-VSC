@@ -27,11 +27,6 @@ int mult();
 int div();
 
 /**
- * @brief Prints the result on the display
- */
-int print();
-
-/**
  * @brief Swaps the first to elements of the stack
  * 
  */
@@ -48,8 +43,3 @@ int print_n(int count);
  * @brief Clears the stack 
  */
 void clear();
-
-/**
- * @brief Multiplies the top element on the stack by two
- */
-int mul_2();
