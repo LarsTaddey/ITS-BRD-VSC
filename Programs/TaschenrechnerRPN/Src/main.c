@@ -1,8 +1,14 @@
 /**
  ******************************************************************************
  * @file    main.c
- * @author  Franz Korf, Len Peschko
- * @brief   ITS-Board-Rechner mit umgekehrter polnischer Notation
+ * @author  Lennard Peschko, Lars Taddey
+ * @brief   ITS-Board-Calculator with reverse polish notation.
+ * This module handles the functionality of getting tokens from the scanner
+ * module and calls a dedicated operation depending on the token. It contains
+ * two states. One state is the normal state where the calculator waits for an
+ * allowed input and the other state is the error-state where the calculator
+ * display an error message and waits for the clear operation to return to the
+ * first state.
  ******************************************************************************
  */
 
@@ -19,20 +25,18 @@
 static Stack stack;
 static int32_t error = ERROR_NONE;
 static char msg_buffer[MSG_BUFFER];
-static const char *error_prefix = "Error:\n";
-static const char *clear_message = "\nReset calculator (press C)";
+static const char *error_prefix = "Error:";
+static const char *clear_message = "To reset calculator\npress C (clear)";
 
 int main(void) {
 
-   // Initialisierung des ITS-Boards
+   // Initilization of the ITS-Board, display and stack
    initITSboard();
    init_display();
    init_stack(&stack);
 
-   push(&stack, INT32_MAX);
-
+   // State 1: Handle incoming tokens and assign them an operation
    while (1) {
-      // Zustand: Operation eingeben und ggf. Ergebnis ausgeben
       do {
          T_token token = next_token();
          switch (token.tok) {
@@ -57,14 +61,14 @@ int main(void) {
          case SWAP:
             error = swap(&stack);
             break;
-         case PRT_ALL:
+         case PRT_ALL: // only print top three elements from the stack
             error = print_n(&stack, 3);
-            break; // "all" is a lie but whatever
+            break;
          case CLEAR:
             clear(&stack);
             break;
          case DOUBLE:
-            error = mul_2(&stack);
+            error = mult_by_two(&stack);
             break;
          case OVERFLOW:
             error = ERROR_NUM_OVERFLOW;
@@ -75,12 +79,13 @@ int main(void) {
          }
       } while (error == ERROR_NONE);
 
-      // Zustand: Fehler anzeigen und quittieren
+      // State 2: Shows error message on the display and waits for a clear.
       set_err_mode();
-      snprintf(msg_buffer, sizeof(msg_buffer), "%s%s%s\n", error_prefix,
+      // format data into a char buffer and store resulting string in that
+      // buffer
+      snprintf(msg_buffer, sizeof(msg_buffer), "%s\n%s\n%s\n", error_prefix,
                error_message(error), clear_message);
       print_stdout(msg_buffer);
-      // TODO: Fehlertyp ausgeben
       do {
          T_token token = next_token();
          if (token.tok == CLEAR) {

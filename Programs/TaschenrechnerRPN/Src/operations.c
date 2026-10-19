@@ -1,3 +1,10 @@
+/**
+ * @brief This module implements basic functionality for the defined cases in
+ * token.h. It is able to do arithmetic operations, swap top elements on the
+ * stack, print n-elements from the stack, clear the stack and display and
+ * double the top element of the stack.
+ */
+
 #include "operations.h"
 #include "display.h"
 #include "errors.h"
@@ -5,18 +12,11 @@
 #include <stdio.h>
 
 /**
- * @brief Helper function that returns, if the stack has a given amount of
- * elements
- * @param stack the stack to check
- * @param count the count to check if stack contains this many elements
- */
-
-/**
  * @brief Helper function which pops two elements from the stack. It also checks
  * if the pop operation causes any errors.
  * @param stack the stack to pop from
  * @param number2 where to store the value of the top element
- * @param number1 where to store the value of the top-1 element
+ * @param number1 where to store the value of the top - 1 element
  */
 
 static int32_t pop_operands(Stack *stack, int32_t *number1, int32_t *number2) {
@@ -33,6 +33,7 @@ static int32_t pop_operands(Stack *stack, int32_t *number1, int32_t *number2) {
    if (error < 0) {
       return error;
    }
+
    return 0;
 }
 
@@ -99,6 +100,9 @@ int32_t div(Stack *stack) {
    if (divisor == 0) {
       return ERROR_DIVISION_BY_ZERO;
    }
+   if (dividend == INT32_MIN && divisor == -1) {
+      return ERROR_ARITHMETIC_OVERFLOW;
+   }
 
    return push(stack, dividend / divisor);
 }
@@ -129,7 +133,6 @@ int32_t print_n(Stack *stack, int32_t count) {
       count = stack->size;
    }
    for (int i = 1; i <= count; i++) {
-
       char msg[MSG_BUFFER];
       snprintf(msg, sizeof(msg), "%d\n", stack->array[stack->size - i]);
       print_stdout(msg);
@@ -144,7 +147,7 @@ void clear(Stack *stack) {
    clear_echo_term();
 }
 
-int32_t mul_2(Stack *stack) {
+int32_t mult_by_two(Stack *stack) {
    int32_t temporary;
 
    if (stack->size == 0) {

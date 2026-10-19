@@ -3,6 +3,5 @@
  * @brief Defines global constant
  */
 
-// error codes to return from operations
-
+// Buffer in bytes for a string to print on the display
 #define MSG_BUFFER 64

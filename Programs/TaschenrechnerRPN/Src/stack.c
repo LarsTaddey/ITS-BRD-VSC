@@ -1,4 +1,6 @@
 /**
+ * @brief This module implements basic functions of a stack. It is possible to
+ * push from and pop to the stack. The stack has a fixed size (see stack.h).
  */
 
 #include "stack.h"

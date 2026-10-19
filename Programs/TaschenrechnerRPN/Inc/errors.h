@@ -1,10 +1,10 @@
 /**
- * @brief Defines error constants and returns an error message depending on the
- * received error code
+ * @brief Defines error constants and a simple function to handle error-codes.
  */
 
 #include <stdint.h>
 
+// Defines a "unique" number for each error that can occur
 #define ERROR_NONE 0
 #define ERROR_STACK_UNDERFLOW (-1)
 #define ERROR_STACK_OVERFLOW (-2)
@@ -17,6 +17,6 @@
 /**
  * @brief Returns a string constant depending on the given error code
  * @param error a negative number which represents an error
- * @return a string constant
+ * @return a pointer to the address of the char sequence
  */
 const char *error_message(int32_t error);

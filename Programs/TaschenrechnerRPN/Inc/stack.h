@@ -1,12 +1,11 @@
 /**
  * @file stack.h
- * @author
- * @date Oct 26
- * @brief This file is responsible for push and pop operations on a stack
+ * @brief This module defines the stack and basic functions for the stack.
  */
 
 #include <stdint.h>
 
+// Maximum size of the stack-array
 #define MAX_SIZE 10
 
 /// The stack is implemented as a static array of integers
