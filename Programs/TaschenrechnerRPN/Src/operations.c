@@ -1,0 +1,160 @@
+#include "operations.h"
+#include "display.h"
+#include "errors.h"
+#include "main.h"
+#include <stdio.h>
+
+/**
+ * @brief Helper function that returns, if the stack has a given amount of
+ * elements
+ * @param stack the stack to check
+ * @param count the count to check if stack contains this many elements
+ */
+
+/**
+ * @brief Helper function which pops two elements from the stack. It also checks
+ * if the pop operation causes any errors.
+ * @param stack the stack to pop from
+ * @param number2 where to store the value of the top element
+ * @param number1 where to store the value of the top-1 element
+ */
+
+static int32_t pop_operands(Stack *stack, int32_t *number1, int32_t *number2) {
+   int32_t error;
+
+   if (stack->size < 2) {
+      return ERROR_STACK_UNDERFLOW;
+   }
+   error = pop(stack, number2);
+   if (error < 0) {
+      return error;
+   }
+   error = pop(stack, number1);
+   if (error < 0) {
+      return error;
+   }
+   return 0;
+}
+
+int32_t add(Stack *stack) {
+   int32_t number1;
+   int32_t number2;
+   int32_t error;
+
+   error = pop_operands(stack, &number1, &number2);
+   if (error != 0) {
+      return error;
+   }
+   if ((number2 > 0 && number1 > INT32_MAX - number2) ||
+       (number2 < 0 && number1 < INT32_MIN - number2)) {
+      return ERROR_ARITHMETIC_OVERFLOW;
+   }
+
+   return push(stack, number1 + number2);
+}
+
+int32_t sub(Stack *stack) {
+   int32_t minuend;
+   int32_t subtrahend;
+   int32_t error;
+
+   error = pop_operands(stack, &minuend, &subtrahend);
+   if (error != 0) {
+      return error;
+   }
+   if ((subtrahend < 0 && minuend > INT32_MAX + subtrahend) ||
+       (subtrahend > 0 && minuend < INT32_MIN + subtrahend)) {
+      return ERROR_ARITHMETIC_OVERFLOW;
+   }
+
+   return push(stack, minuend - subtrahend);
+}
+
+int32_t mult(Stack *stack) {
+   int32_t multiplicand;
+   int32_t multiplier;
+   int32_t error;
+
+   error = pop_operands(stack, &multiplicand, &multiplier);
+   if (error != 0) {
+      return error;
+   }
+   if ((multiplier > 0 && multiplicand > INT32_MAX * multiplier) ||
+       (multiplier < 0 && multiplicand < INT32_MIN * multiplier)) {
+      return ERROR_ARITHMETIC_OVERFLOW;
+   }
+
+   return push(stack, multiplicand * multiplier);
+}
+
+int32_t div(Stack *stack) {
+   int32_t dividend;
+   int32_t divisor;
+   int32_t error;
+
+   error = pop_operands(stack, &dividend, &divisor);
+   if (error != 0) {
+      return error;
+   }
+   if (divisor == 0) {
+      return ERROR_DIVISION_BY_ZERO;
+   }
+
+   return push(stack, dividend / divisor);
+}
+
+int32_t swap(Stack *stack) {
+   int32_t temporary;
+
+   if (stack->size < 2) {
+      return ERROR_STACK_UNDERFLOW;
+   }
+   temporary = stack->array[stack->size - 1];
+   stack->array[stack->size - 1] = stack->array[stack->size - 2];
+   stack->array[stack->size - 2] = temporary;
+
+   return 0;
+}
+
+int32_t print_n(Stack *stack, int32_t count) {
+
+   clear_stdout();
+   if (stack->size == 0) {
+      print_stdout("Empty Stack!");
+   }
+
+   if (count < 0) {
+      count = 0;
+   } else if (count > stack->size) {
+      count = stack->size;
+   }
+   for (int i = 1; i <= count; i++) {
+
+      char msg[MSG_BUFFER];
+      snprintf(msg, sizeof(msg), "%d\n", stack->array[stack->size - i]);
+      print_stdout(msg);
+   }
+
+   return 0;
+}
+
+void clear(Stack *stack) {
+   stack->size = 0;
+   clear_stdout();
+   clear_echo_term();
+}
+
+int32_t mul_2(Stack *stack) {
+   int32_t temporary;
+
+   if (stack->size == 0) {
+      return ERROR_STACK_UNDERFLOW;
+   }
+   temporary = stack->array[stack->size - 1];
+   if (temporary > INT32_MAX / 2 || temporary < INT32_MIN / 2) {
+      return ERROR_STACK_OVERFLOW;
+   }
+   stack->array[stack->size - 1] = temporary * 2;
+
+   return 0;
+}
