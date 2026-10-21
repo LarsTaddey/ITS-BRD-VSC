@@ -1,6 +1,9 @@
 /**
  * @file stack.h
+ * @author Lennard Peschko (), Lars Taddey (2880138) - HAW Hamburg
  * @brief This module defines the stack and basic functions for the stack.
+ * @date October 2026
+ * @version GSP Aufgabe 1.1
  */
 
 #include <stdint.h>

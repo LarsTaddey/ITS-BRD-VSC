@@ -1,6 +1,10 @@
 /**
+ * @file errors.c
+ * @author Lennard Peschko (), Lars Taddey (2880138) - HAW Hamburg
  * @brief Implements a simple function which translates an error-code to a
  * readable string
+ * @date October 2026
+ * @version GSP Aufgabe 1.1
  */
 
 #include "errors.h"

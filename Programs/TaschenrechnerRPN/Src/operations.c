@@ -1,14 +1,19 @@
 /**
+ * @file operations.c
+ * @author Lennard Peschko (), Lars Taddey (2880138) - HAW Hamburg
  * @brief This module implements basic functionality for the defined cases in
  * token.h. It is able to do arithmetic operations, swap top elements on the
  * stack, print n-elements from the stack, clear the stack and display and
  * double the top element of the stack.
+ * @date October 2026
+ * @version GSP Aufgabe 1.1
  */
 
 #include "operations.h"
 #include "display.h"
 #include "errors.h"
 #include "main.h"
+#include <stdint.h>
 #include <stdio.h>
 
 /**
@@ -80,8 +85,23 @@ int32_t mult(Stack *stack) {
    if (error != 0) {
       return error;
    }
-   if ((multiplier > 0 && multiplicand > INT32_MAX * multiplier) ||
-       (multiplier < 0 && multiplicand < INT32_MIN * multiplier)) {
+   if ((multiplicand == 0) | (multiplier == 0)) {
+      return push(stack, 0);
+   }
+
+   if ((multiplicand == -1 & multiplier == INT32_MIN) ||
+       (multiplier == -1 & multiplicand == INT32_MIN)) {
+      return ERROR_ARITHMETIC_OVERFLOW;
+   }
+
+   if (((multiplicand > 0 & multiplier > 0) &&
+        multiplicand > INT32_MAX / multiplier) ||
+       ((multiplicand > 0 & multiplier < 0) &&
+        multiplier < INT32_MIN / multiplicand) ||
+       ((multiplicand < 0 & multiplier > 0) &&
+        multiplicand < INT32_MIN / multiplier) ||
+       ((multiplicand < 0 & multiplier < 0) &&
+        multiplicand < INT32_MAX / multiplier)) {
       return ERROR_ARITHMETIC_OVERFLOW;
    }
 

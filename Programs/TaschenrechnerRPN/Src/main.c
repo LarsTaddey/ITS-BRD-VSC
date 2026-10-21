@@ -1,14 +1,16 @@
 /**
  ******************************************************************************
- * @file    main.c
- * @author  Lennard Peschko, Lars Taddey
- * @brief   ITS-Board-Calculator with reverse polish notation.
+ * @file main.c
+ * @author Lennard Peschko (), Lars Taddey (2880138) - HAW Hamburg
+ * @brief ITS-Board-Calculator with reverse polish notation.
  * This module handles the functionality of getting tokens from the scanner
  * module and calls a dedicated operation depending on the token. It contains
  * two states. One state is the normal state where the calculator waits for an
  * allowed input and the other state is the error-state where the calculator
  * display an error message and waits for the clear operation to return to the
  * first state.
+ * @date October 2026
+ * @version GSP Aufgabe 1.1
  ******************************************************************************
  */
 
@@ -81,8 +83,7 @@ int main(void) {
 
       // State 2: Shows error message on the display and waits for a clear.
       set_err_mode();
-      // format data into a char buffer and store resulting string in that
-      // buffer
+
       snprintf(msg_buffer, sizeof(msg_buffer), "%s\n%s\n%s\n", error_prefix,
                error_message(error), clear_message);
       print_stdout(msg_buffer);
