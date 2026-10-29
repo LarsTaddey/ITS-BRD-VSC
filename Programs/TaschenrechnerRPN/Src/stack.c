@@ -1,6 +1,6 @@
 /**
  * @file stack.c
- * @author Lennard Peschko (), Lars Taddey (2880138) - HAW Hamburg
+ * @author Lars Taddey (2880138) - HAW Hamburg
  * @brief This module implements basic functions of a stack. It is possible to
  * push from and pop to the stack. The stack has a fixed size (see stack.h).
  * @date October 2026

@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file main.c
- * @author Lennard Peschko (), Lars Taddey (2880138) - HAW Hamburg
+ * @author Len Peschko (2840024), Lars Taddey (2880138) - HAW Hamburg
  * @brief ITS-Board-Calculator with reverse polish notation.
  * This module handles the functionality of getting tokens from the scanner
  * module and calls a dedicated operation depending on the token. It contains

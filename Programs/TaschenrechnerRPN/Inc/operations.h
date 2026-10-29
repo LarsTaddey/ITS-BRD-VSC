@@ -1,6 +1,6 @@
 /**
  * @file operations.h
- * @author Lennard Peschko (), Lars Taddey (2880138) - HAW Hamburg
+ * @author Len Peschko (2840024), Lars Taddey (2880138) - HAW Hamburg
  * @brief Defines the functions for the operation cases which are defined in
  * token.h. Arithmetic functions all pop two elements from the stack and write
  * the result back to the top of the stack. Other operations either manipulate

@@ -1,6 +1,6 @@
 /**
  * @file main.h
- * @author Lennard Peschko (), Lars Taddey (2880138) - HAW Hamburg
+ * @author Len Peschko (2840024), Lars Taddey (2880138) - HAW Hamburg
  * @brief Defines global constant
  * @date October 2026
  * @version GSP Aufgabe 1.1
