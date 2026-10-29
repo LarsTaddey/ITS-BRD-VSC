@@ -27,9 +27,6 @@
 static int32_t pop_operands(Stack *stack, int32_t *number1, int32_t *number2) {
    int32_t error;
 
-   if (stack->size < 2) {
-      return ERROR_STACK_UNDERFLOW;
-   }
    error = pop(stack, number2);
    if (error < 0) {
       return error;
@@ -127,12 +124,9 @@ int32_t div(Stack *stack) {
    return push(stack, dividend / divisor);
 }
 
-int32_t swap(Stack *stack) {
+int32_t Swap(Stack *stack) {
    int32_t temporary;
 
-   if (stack->size < 2) {
-      return ERROR_STACK_UNDERFLOW;
-   }
    temporary = stack->array[stack->size - 1];
    stack->array[stack->size - 1] = stack->array[stack->size - 2];
    stack->array[stack->size - 2] = temporary;
@@ -146,7 +140,6 @@ int32_t print_n(Stack *stack, int32_t count) {
    if (stack->size == 0) {
       print_stdout("Empty Stack!");
    }
-
    if (count < 0) {
       count = 0;
    } else if (count > stack->size) {
