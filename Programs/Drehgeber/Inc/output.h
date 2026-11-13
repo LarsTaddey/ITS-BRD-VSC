@@ -9,7 +9,6 @@
 
 #include "data_types.h"
 #include <stdbool.h>
-#include <stdint.h>
 
 /**
  * @brief Initializes the LCD display and prints default labels
@@ -27,7 +26,7 @@ void set_default_output(void);
  * represents a binary 1, while a turned off LED represents 0.
  * @param counter The counter value to display
  */
-void output_counter_leds(uint32_t counter);
+void output_counter_leds(PhaseData *phase_now);
 
 /**
  * @brief Turns the forward direction LED (D23) on or off.

@@ -10,6 +10,7 @@
 #include "stm32f429xx.h"
 #include <stdint.h>
 #include <stdio.h>
+#include <string.h>
 
 #define FORWARD_LED_MASK 0x80U
 #define BACKWARD_LED_MASK 0x40U
@@ -24,8 +25,8 @@ static const uint8_t X_COORDINATE = 3;
 static const uint8_t X_OFFSET = 15;
 static const uint8_t ANGLE_Y = 3;
 static const uint8_t SPEED_Y = ANGLE_Y + 2;
-static char text[TXT_BUFFER];
-static AngleData dummy_data = {.angle = 0.0, .angle_speed = 0.0};
+
+static AngleData dummy_data = {0};
 /**
  * @brief Writes a floating-point value to the display to the given position
  * (x,y).
@@ -37,10 +38,15 @@ static AngleData dummy_data = {.angle = 0.0, .angle_speed = 0.0};
  */
 // NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
 static void print_values(uint8_t x_coordinate, uint8_t y_coordinate,
-                         double value) {
-   lcdGotoXY(x_coordinate, y_coordinate);
-   snprintf(text, sizeof(text), "%.2f", value);
-   lcdPrintS(text);
+                         double value, char *previous_value, int index) {
+   static char text[TXT_BUFFER];
+
+   snprintf(text, sizeof(text), "%10.2f", value);
+   if (previous_value[index] != text[index]) {
+      lcdGotoXY(x_coordinate + index, y_coordinate);
+      lcdPrintC(text[index]);
+      previous_value[index] = text[index];
+   }
 }
 
 /**
@@ -52,10 +58,9 @@ static void print_values(uint8_t x_coordinate, uint8_t y_coordinate,
  * @param label adress of the char array
  */
 static void print_labels(uint8_t x_coordinate, uint8_t y_coordinate,
-                         const char *label) {
+                         char *label) {
    lcdGotoXY(x_coordinate, y_coordinate);
-   snprintf(text, sizeof(text), "%s", label);
-   lcdPrintS(text);
+   lcdPrintS(label);
 }
 
 /**
@@ -86,8 +91,9 @@ void set_default_output() {
    output_display(&dummy_data);
 }
 
-void output_counter_leds(uint32_t counter) {
-   GPIOD->ODR = (GPIOD->ODR & ~COUNTER_LED_MASK) | (counter & COUNTER_LED_MASK);
+void output_counter_leds(PhaseData *phase_now) {
+   GPIOD->ODR = (GPIOD->ODR & ~COUNTER_LED_MASK) |
+                ((uint32_t)phase_now->phase_counter & COUNTER_LED_MASK);
 }
 
 void output_forward_led(bool enabled) {
@@ -102,22 +108,28 @@ void output_error_led(bool enabled) { set_gpioe_leds(ERROR_LED_MASK, enabled); }
 
 void output_display(AngleData *angle_data) {
    // needed to be able to compare previous and current values
-   static bool initialized = false;
-   static double previous_angle = 0.0;
-   static double previous_speed = 0.0;
+   static char previous_angle[TXT_BUFFER];
+   static char previous_speed[TXT_BUFFER];
+   static int index = 0;
+   static bool first = true;
 
    if (angle_data == NULL) {
       return;
    }
-   if (!initialized || angle_data->angle != previous_angle) {
-      print_values(X_COORDINATE + X_OFFSET, ANGLE_Y, angle_data->angle);
-      previous_angle = angle_data->angle;
+
+   if (first) {
+
+      print_values(X_COORDINATE + X_OFFSET, ANGLE_Y, angle_data->angle,
+                   previous_angle, index);
+   } else {
+
+      print_values(X_COORDINATE + X_OFFSET, SPEED_Y, angle_data->angle_speed,
+                   previous_speed, index);
    }
 
-   if (!initialized || angle_data->angle_speed != previous_speed) {
-      print_values(X_COORDINATE + X_OFFSET, SPEED_Y, angle_data->angle_speed);
-      previous_speed = angle_data->angle_speed;
+   ++index;
+   if (index >= 10) {
+      first = !first;
+      index = 0;
    }
-
-   initialized = true;
 }

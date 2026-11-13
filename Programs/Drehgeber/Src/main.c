@@ -11,6 +11,7 @@
 /* Includes ------------------------------------------------------------------*/
 
 #include "angle_calculation.h"
+#include "data_types.h"
 #include "init.h"
 #include "input.h"
 #include "output.h"
@@ -22,8 +23,8 @@
 int main(void) {
    PhaseData phase_last;
    PhaseData phase_now;
+   PhaseData phase_start;
    AngleData angle_data;
-   uint32_t phase_counter;
    int32_t direction;
    SystemState state;
 
@@ -41,24 +42,37 @@ int main(void) {
       switch (state) {
       // Define variables and set default output
       case STATE_INIT:
+
+         phase_last.phase_counter = 0;
+         phase_now.phase_counter = 0;
+         // phase_last.timestamp = 0;
+
          set_default_output();
-         phase_counter = 0;
          read_pins_and_time(&phase_last);
          phase_now = phase_last;
+         phase_start = phase_last;
          state = STATE_NORMAL;
          break;
 
       // Read pins and check if a phase change occured, then calculate angle and
       // angle speed
       case STATE_NORMAL:
-         read_pins_and_time(&phase_now);
-         direction = phase_change(&phase_last, &phase_now, &phase_counter);
-         // angle and speed calc with AngleData struct (timer speed is 180Mhz)
-         // angle is = counter/1200 * 360 or counter * 0.3
-         // angle speed is = (deltaCounter * 360 * 180.000.000) / 1200 *
-         // deltaTimerTicks
 
-         output_counter_leds(phase_counter);
+         read_pins_and_time(&phase_now);
+         direction = phase_change(&phase_last, &phase_now);
+
+         if ((phase_now.timestamp - phase_start.timestamp) >
+             300 * 1000 * TICKS_PER_US) {
+            angle_data.angle = calculate_angle(&phase_now);
+            angle_data.angle_speed =
+                calculate_angular_speed(&phase_start, &phase_now);
+
+            phase_start = phase_now;
+         }
+
+         phase_last = phase_now;
+
+         output_counter_leds(&phase_now);
          output_display(&angle_data);
 
          if (direction == DIRECTION_FORWARD) {

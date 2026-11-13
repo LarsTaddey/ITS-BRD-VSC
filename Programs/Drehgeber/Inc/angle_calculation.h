@@ -7,20 +7,18 @@
 #define ANGLE_CALCULATION_H
 
 #include "data_types.h"
-#include <stdint.h>
 
 /**
  * @brief
  * @param phase_counter
- * @return AngleData
+ * @return double
  */
-AngleData calculate_angle(const uint32_t *phase_counter);
+double calculate_angle(PhaseData *phase_now);
 
 /**
  * @brief
- * @param phase_counter
- * @return AngleData
+ * @return double
  */
-AngleData calculate_angular_speed(const uint32_t *phase_counter);
+double calculate_angular_speed(PhaseData *phase_last, PhaseData *phase_now);
 
 #endif

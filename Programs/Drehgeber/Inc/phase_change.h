@@ -21,7 +21,6 @@
  * @return uint32_t The rotation direction, or an invalid transition value if
  * the transition is not valid.
  */
-int32_t phase_change(PhaseData *phase_last, const PhaseData *phase_now,
-                     uint32_t *counter);
+int32_t phase_change(PhaseData *phase_last, PhaseData *phase_now);
 
 #endif

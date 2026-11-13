@@ -15,7 +15,7 @@ int32_t read_pins_and_time(PhaseData *phase_data) {
    if (phase_data == NULL) {
       return -1;
    }
-   phase_data->phase = ~(GPIOF->IDR) & PHASE_INPUT_MASK;
+   phase_data->phase = (GPIOF->IDR) & PHASE_INPUT_MASK;
    phase_data->timestamp = getTimeStamp();
 
    return 0;

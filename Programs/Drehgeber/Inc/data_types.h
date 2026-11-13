@@ -18,7 +18,8 @@ typedef enum {
 
 typedef struct {
    uint32_t phase;
-   uint32_t timestamp;
+   uint32_t timestamp;    // Zeitstempel wann diese Phase begonnen hat
+   int32_t phase_counter; // Zählerstand des Phasenwechsels
 } PhaseData;
 
 typedef struct {
