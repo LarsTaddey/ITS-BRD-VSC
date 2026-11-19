@@ -26,7 +26,7 @@ void set_default_output(void);
  * represents a binary 1, while a turned off LED represents 0.
  * @param counter The counter value to display
  */
-void output_counter_leds(PhaseData *phase_now);
+void output_counter_leds(PhaseData phase_now);
 
 /**
  * @brief Turns the forward direction LED (D23) on or off.
@@ -51,6 +51,6 @@ void output_error_led(bool enabled);
  * only when either value differs from the previously displayed value.
  * @param angle_data Pointer to the angle and angular speed data to display.
  */
-void output_display(AngleData *angle_data);
+void output_display(AngleData angle_data);
 
 #endif

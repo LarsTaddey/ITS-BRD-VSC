@@ -13,12 +13,12 @@
  * @param phase_counter
  * @return double
  */
-double calculate_angle(PhaseData *phase_now);
+double calculate_angle(PhaseData phase_now);
 
 /**
  * @brief
  * @return double
  */
-double calculate_angular_speed(PhaseData *phase_last, PhaseData *phase_now);
+double calculate_angular_speed(PhaseData phase_last, PhaseData phase_now);
 
 #endif

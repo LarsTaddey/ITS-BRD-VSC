@@ -20,10 +20,12 @@
 #include <complex.h>
 #include <stdint.h>
 
+#define REFRESH_DELAY ((300 * 1000) * TICKS_PER_US)
+
 int main(void) {
    PhaseData phase_last;
    PhaseData phase_now;
-   PhaseData phase_start;
+   PhaseData phase_buffer;
    AngleData angle_data;
    int32_t direction;
    SystemState state;
@@ -43,14 +45,12 @@ int main(void) {
       // Define variables and set default output
       case STATE_INIT:
 
-         phase_last.phase_counter = 0;
-         phase_now.phase_counter = 0;
-         // phase_last.timestamp = 0;
-
          set_default_output();
-         read_pins_and_time(&phase_last);
+         phase_last.phase_counter = 0;
+         phase_last.timestamp = 0;
          phase_now = phase_last;
-         phase_start = phase_last;
+         phase_buffer = phase_last;
+         read_pins_and_time(&phase_last);
          state = STATE_NORMAL;
          break;
 
@@ -61,19 +61,18 @@ int main(void) {
          read_pins_and_time(&phase_now);
          direction = phase_change(&phase_last, &phase_now);
 
-         if ((phase_now.timestamp - phase_start.timestamp) >
-             300 * 1000 * TICKS_PER_US) {
-            angle_data.angle = calculate_angle(&phase_now);
+         if ((phase_now.timestamp - phase_buffer.timestamp) > REFRESH_DELAY) {
+            angle_data.angle = calculate_angle(phase_now);
             angle_data.angle_speed =
-                calculate_angular_speed(&phase_start, &phase_now);
+                calculate_angular_speed(phase_buffer, phase_now);
 
-            phase_start = phase_now;
+            phase_buffer = phase_now;
          }
 
          phase_last = phase_now;
 
-         output_counter_leds(&phase_now);
-         output_display(&angle_data);
+         output_counter_leds(phase_now);
+         output_display(angle_data);
 
          if (direction == DIRECTION_FORWARD) {
             output_backward_led(false);
@@ -86,7 +85,6 @@ int main(void) {
          if (direction == INVALID_TRANSITION) {
             output_error_led(true);
             state = STATE_ERROR;
-            break;
          }
          break;
 
