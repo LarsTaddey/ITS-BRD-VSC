@@ -12,7 +12,8 @@
  ******************************************************************************
  * @file    USB_Device/CDC_Standalone/Src/usbd_desc.c
  * @author  MCD Application Team
- * @brief   This file provides the USBD descriptors and string formatting method.
+ * @brief   This file provides the USBD descriptors and string formatting
+ * method.
  ******************************************************************************
  * @attention
  *
@@ -54,11 +55,11 @@
  */
 /* Includes ------------------------------------------------------------------*/
 #include "usbd_desc.h"
+#include "stm32f4xx_hal_def.h" /* UNUSED (hal.h ist ueber usbd_conf.h schon geladen, daher kein Zyklus) */
 #include "usbd_conf.h"
-#include "usbd_def.h"           /* USBD_SpeedTypeDef, USBD_DescriptorsTypeDef, LOBYTE/HIBYTE, USB_DESC_*, __ALIGN_* */
-#include "usbd_ctlreq.h"        /* USBD_GetString */
-#include "stm32f4xx_hal_def.h"  /* UNUSED (hal.h ist ueber usbd_conf.h schon geladen, daher kein Zyklus) */
-#include <stdint.h>             /* uint8_t, uint16_t, uint32_t */
+#include "usbd_ctlreq.h" /* USBD_GetString */
+#include "usbd_def.h" /* USBD_SpeedTypeDef, USBD_DescriptorsTypeDef, LOBYTE/HIBYTE, USB_DESC_*, __ALIGN_* */
+#include <stdint.h>   /* uint8_t, uint16_t, uint32_t */
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -80,23 +81,32 @@
 #define DEVICE_ID2 (0x1FFF7A14)
 #define DEVICE_ID3 (0x1FFF7A18)
 
-/* Laenge des Seriennummer-String-Descriptors in Bytes (bLength + Type + 12 hex chars) */
+/* Laenge des Seriennummer-String-Descriptors in Bytes (bLength + Type + 12 hex
+ * chars) */
 #define USB_SIZ_STRING_SERIAL 0x1A
 
 /* Private macro -------------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
-static uint8_t *usbd_cdc_device_descriptor(USBD_SpeedTypeDef speed, uint16_t *length);
-static uint8_t *usbd_cdc_lang_id_str_descriptor(USBD_SpeedTypeDef speed, uint16_t *length);
-static uint8_t *usbd_cdc_manufacturer_str_descriptor(USBD_SpeedTypeDef speed, uint16_t *length);
-static uint8_t *usbd_cdc_product_str_descriptor(USBD_SpeedTypeDef speed, uint16_t *length);
-static uint8_t *usbd_cdc_serial_str_descriptor(USBD_SpeedTypeDef speed, uint16_t *length);
-static uint8_t *usbd_cdc_config_str_descriptor(USBD_SpeedTypeDef speed, uint16_t *length);
-static uint8_t *usbd_cdc_interface_str_descriptor(USBD_SpeedTypeDef speed, uint16_t *length);
+static uint8_t *usbd_cdc_device_descriptor(USBD_SpeedTypeDef speed,
+                                           uint16_t *length);
+static uint8_t *usbd_cdc_lang_id_str_descriptor(USBD_SpeedTypeDef speed,
+                                                uint16_t *length);
+static uint8_t *usbd_cdc_manufacturer_str_descriptor(USBD_SpeedTypeDef speed,
+                                                     uint16_t *length);
+static uint8_t *usbd_cdc_product_str_descriptor(USBD_SpeedTypeDef speed,
+                                                uint16_t *length);
+static uint8_t *usbd_cdc_serial_str_descriptor(USBD_SpeedTypeDef speed,
+                                               uint16_t *length);
+static uint8_t *usbd_cdc_config_str_descriptor(USBD_SpeedTypeDef speed,
+                                               uint16_t *length);
+static uint8_t *usbd_cdc_interface_str_descriptor(USBD_SpeedTypeDef speed,
+                                                  uint16_t *length);
 
 /* Private variables ---------------------------------------------------------*/
 USBD_DescriptorsTypeDef fs_desc = {
-    usbd_cdc_device_descriptor,       usbd_cdc_lang_id_str_descriptor, usbd_cdc_manufacturer_str_descriptor,
-    usbd_cdc_product_str_descriptor,   usbd_cdc_serial_str_descriptor, usbd_cdc_config_str_descriptor,
+    usbd_cdc_device_descriptor,           usbd_cdc_lang_id_str_descriptor,
+    usbd_cdc_manufacturer_str_descriptor, usbd_cdc_product_str_descriptor,
+    usbd_cdc_serial_str_descriptor,       usbd_cdc_config_str_descriptor,
     usbd_cdc_interface_str_descriptor,
 };
 
@@ -105,7 +115,8 @@ USBD_DescriptorsTypeDef fs_desc = {
 #pragma data_alignment = 4
 #endif
 __ALIGN_BEGIN static uint8_t usbd_device_desc[USB_LEN_DEV_DESC] __ALIGN_END = {
-    0x12,                 /* bLength */ // NOLINT(readability-magic-numbers)
+    0x12,
+    /* bLength */         // NOLINT(readability-magic-numbers)
     USB_DESC_TYPE_DEVICE, /* bDescriptorType */
     0x00,                 /* bcdUSB */
     0x02,
@@ -130,19 +141,21 @@ __ALIGN_BEGIN static uint8_t usbd_device_desc[USB_LEN_DEV_DESC] __ALIGN_END = {
 #if defined(__ICCARM__) /*!< IAR Compiler */
 #pragma data_alignment = 4
 #endif
-__ALIGN_BEGIN static uint8_t usbd_lang_id_desc[USB_LEN_LANGID_STR_DESC] __ALIGN_END = {
-    USB_LEN_LANGID_STR_DESC,
-    USB_DESC_TYPE_STRING,
-    LOBYTE(USBD_LANGID_STRING),
-    HIBYTE(USBD_LANGID_STRING),
+__ALIGN_BEGIN static uint8_t
+    usbd_lang_id_desc[USB_LEN_LANGID_STR_DESC] __ALIGN_END = {
+        USB_LEN_LANGID_STR_DESC,
+        USB_DESC_TYPE_STRING,
+        LOBYTE(USBD_LANGID_STRING),
+        HIBYTE(USBD_LANGID_STRING),
 };
 
 #if defined(__ICCARM__) /*!< IAR Compiler */
 #pragma data_alignment = 4
 #endif
-__ALIGN_BEGIN static uint8_t usbd_string_serial[USB_SIZ_STRING_SERIAL] __ALIGN_END = {
-    USB_SIZ_STRING_SERIAL,
-    USB_DESC_TYPE_STRING,
+__ALIGN_BEGIN static uint8_t
+    usbd_string_serial[USB_SIZ_STRING_SERIAL] __ALIGN_END = {
+        USB_SIZ_STRING_SERIAL,
+        USB_DESC_TYPE_STRING,
 };
 
 #if defined(__ICCARM__) /*!< IAR Compiler */
@@ -160,7 +173,8 @@ static void get_serial_num(void);
  * @param  length: Pointer to data length variable
  * @retval Pointer to descriptor buffer
  */
-static uint8_t *usbd_cdc_device_descriptor(USBD_SpeedTypeDef speed, uint16_t *length) {
+static uint8_t *usbd_cdc_device_descriptor(USBD_SpeedTypeDef speed,
+                                           uint16_t *length) {
    /* Prevent unused argument(s) compilation warning */
    UNUSED(speed);
 
@@ -174,7 +188,8 @@ static uint8_t *usbd_cdc_device_descriptor(USBD_SpeedTypeDef speed, uint16_t *le
  * @param  length: Pointer to data length variable
  * @retval Pointer to descriptor buffer
  */
-static uint8_t *usbd_cdc_lang_id_str_descriptor(USBD_SpeedTypeDef speed, uint16_t *length) {
+static uint8_t *usbd_cdc_lang_id_str_descriptor(USBD_SpeedTypeDef speed,
+                                                uint16_t *length) {
    /* Prevent unused argument(s) compilation warning */
    UNUSED(speed);
 
@@ -188,7 +203,8 @@ static uint8_t *usbd_cdc_lang_id_str_descriptor(USBD_SpeedTypeDef speed, uint16_
  * @param  length: Pointer to data length variable
  * @retval Pointer to descriptor buffer
  */
-static uint8_t *usbd_cdc_product_str_descriptor(USBD_SpeedTypeDef speed, uint16_t *length) {
+static uint8_t *usbd_cdc_product_str_descriptor(USBD_SpeedTypeDef speed,
+                                                uint16_t *length) {
    if (speed == USBD_SPEED_HIGH) {
       USBD_GetString((uint8_t *)USBD_PRODUCT_HS_STRING, usbd_str_desc, length);
    } else {
@@ -203,7 +219,8 @@ static uint8_t *usbd_cdc_product_str_descriptor(USBD_SpeedTypeDef speed, uint16_
  * @param  length: Pointer to data length variable
  * @retval Pointer to descriptor buffer
  */
-static uint8_t *usbd_cdc_manufacturer_str_descriptor(USBD_SpeedTypeDef speed, uint16_t *length) {
+static uint8_t *usbd_cdc_manufacturer_str_descriptor(USBD_SpeedTypeDef speed,
+                                                     uint16_t *length) {
    /* Prevent unused argument(s) compilation warning */
    UNUSED(speed);
 
@@ -217,13 +234,15 @@ static uint8_t *usbd_cdc_manufacturer_str_descriptor(USBD_SpeedTypeDef speed, ui
  * @param  length: Pointer to data length variable
  * @retval Pointer to descriptor buffer
  */
-static uint8_t *usbd_cdc_serial_str_descriptor(USBD_SpeedTypeDef speed, uint16_t *length) {
+static uint8_t *usbd_cdc_serial_str_descriptor(USBD_SpeedTypeDef speed,
+                                               uint16_t *length) {
    /* Prevent unused argument(s) compilation warning */
    UNUSED(speed);
 
    *length = USB_SIZ_STRING_SERIAL;
 
-   /* Update the serial number string descriptor with the data from the unique ID*/
+   /* Update the serial number string descriptor with the data from the unique
+    * ID*/
    get_serial_num();
 
    return (uint8_t *)usbd_string_serial;
@@ -235,11 +254,13 @@ static uint8_t *usbd_cdc_serial_str_descriptor(USBD_SpeedTypeDef speed, uint16_t
  * @param  length: Pointer to data length variable
  * @retval Pointer to descriptor buffer
  */
-static uint8_t *usbd_cdc_config_str_descriptor(USBD_SpeedTypeDef speed, uint16_t *length) {
+static uint8_t *usbd_cdc_config_str_descriptor(USBD_SpeedTypeDef speed,
+                                               uint16_t *length) {
    /* Nur OTG_FS (Full Speed) wird genutzt -- es gibt keinen HS-String */
    UNUSED(speed);
 
-   USBD_GetString((uint8_t *)USBD_CONFIGURATION_FS_STRING, usbd_str_desc, length);
+   USBD_GetString((uint8_t *)USBD_CONFIGURATION_FS_STRING, usbd_str_desc,
+                  length);
    return usbd_str_desc;
 }
 
@@ -249,7 +270,8 @@ static uint8_t *usbd_cdc_config_str_descriptor(USBD_SpeedTypeDef speed, uint16_t
  * @param  length: Pointer to data length variable
  * @retval Pointer to descriptor buffer
  */
-static uint8_t *usbd_cdc_interface_str_descriptor(USBD_SpeedTypeDef speed, uint16_t *length) {
+static uint8_t *usbd_cdc_interface_str_descriptor(USBD_SpeedTypeDef speed,
+                                                  uint16_t *length) {
    /* Nur OTG_FS (Full Speed) wird genutzt -- es gibt keinen HS-String */
    UNUSED(speed);
 
@@ -274,8 +296,10 @@ static void get_serial_num(void) {
    deviceserial0 += deviceserial2;
 
    if (deviceserial0 != 0) {
-      int_to_unicode(deviceserial0, &usbd_string_serial[2], 8);   // NOLINT(readability-magic-numbers)
-      int_to_unicode(deviceserial1, &usbd_string_serial[18], 4);  // NOLINT(readability-magic-numbers)
+      int_to_unicode(deviceserial0, &usbd_string_serial[2],
+                     8); // NOLINT(readability-magic-numbers)
+      int_to_unicode(deviceserial1, &usbd_string_serial[18],
+                     4); // NOLINT(readability-magic-numbers)
    }
 }
 
@@ -290,10 +314,12 @@ static void int_to_unicode(uint32_t value, uint8_t *pbuf, uint8_t len) {
    uint8_t idx = 0;
 
    for (idx = 0; idx < len; idx++) {
-      if (((value >> 28)) < 0xA) {  // NOLINT(readability-magic-numbers)
-         pbuf[2 * idx] = (value >> 28) + '0';  // NOLINT(readability-magic-numbers)
+      if (((value >> 28)) < 0xA) { // NOLINT(readability-magic-numbers)
+         pbuf[2 * idx] =
+             (value >> 28) + '0'; // NOLINT(readability-magic-numbers)
       } else {
-         pbuf[2 * idx] = (value >> 28) + 'A' - 10;  // NOLINT(readability-magic-numbers)
+         pbuf[2 * idx] =
+             (value >> 28) + 'A' - 10; // NOLINT(readability-magic-numbers)
       }
 
       value = value << 4;

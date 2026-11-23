@@ -6,11 +6,13 @@
  *          das zur Laufzeit gewaehlte Backend durch:
  *
  *            TRANSPORT_USB_CDC       -> byte_io_usb.c  (USB-CDC, OTG_FS)
- *            TRANSPORT_UART_VIA_USB  -> byte_io_uart.c (USART3 + DMA1-Ringpuffer)
+ *            TRANSPORT_UART_VIA_USB  -> byte_io_uart.c (USART3 +
+ * DMA1-Ringpuffer)
  *
  *          Die Protokoll-/Dateischicht (input.c) sieht davon nur byte_io.h.
  *          Welcher Transport aktiv ist, meldet byte_io_transport() -- input.c
- *          signalisiert der PC-Anwendung den Modus ueber 'S' (UART) bzw. 'F' (USB).
+ *          signalisiert der PC-Anwendung den Modus ueber 'S' (UART) bzw. 'F'
+ * (USB).
  *
  *          AUFRUFER von byte_io_init(): ausschliesslich init_input() (input.c).
  ******************************************************************************
@@ -22,8 +24,9 @@
 static transport_t current_transport = TRANSPORT_USB_CDC; /* Default */
 
 void byte_io_init(transport_t transport) {
-   current_transport =
-       (transport == TRANSPORT_UART_VIA_USB) ? TRANSPORT_UART_VIA_USB : TRANSPORT_USB_CDC;
+   current_transport = (transport == TRANSPORT_UART_VIA_USB)
+                           ? TRANSPORT_UART_VIA_USB
+                           : TRANSPORT_USB_CDC;
    if (current_transport == TRANSPORT_UART_VIA_USB) {
       byte_io_uart_init();
    } else {
@@ -31,9 +34,7 @@ void byte_io_init(transport_t transport) {
    }
 }
 
-transport_t byte_io_transport(void) {
-   return current_transport;
-}
+transport_t byte_io_transport(void) { return current_transport; }
 
 uint8_t byte_io_get(void) {
    if (current_transport == TRANSPORT_UART_VIA_USB) {

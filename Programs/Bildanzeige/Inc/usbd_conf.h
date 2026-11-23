@@ -46,7 +46,7 @@
 #ifndef __USBD_CONF_H
 #define __USBD_CONF_H
 
- // NOLINTBEGIN
+// NOLINTBEGIN
 
 /* Includes ------------------------------------------------------------------*/
 /* stm32f4xx_hal.h muss der erste Include bleiben (HAL-Include-Zyklus:
@@ -54,7 +54,7 @@
    usb_clock_config.c). Direkt genutzt wird nur uint32_t (stdint.h).
    USBD_memset/USBD_memcpy werden in Core+CDC nirgends expandiert, daher
    kein <string.h>; eine TU, die die Makros nutzt, muss es selbst ziehen. */
-#include "stm32f4xx_hal.h"  // IWYU pragma: keep
+#include "stm32f4xx_hal.h" // IWYU pragma: keep
 #include <stdint.h>
 
 /* Exported types ------------------------------------------------------------*/
@@ -70,9 +70,11 @@
 
 /* DFU Class Config */
 #define USBD_DFU_MAX_ITF_NUM 1
-#define USBD_DFU_XFER_SIZE 1024             /* Max DFU Packet Size   = 1024 bytes */
-#define USBD_DFU_APP_DEFAULT_ADD 0x08008000 /* The first 3 sectors (48 KB) are reserved for DFU code */
-#define USBD_DFU_MAX_NB_OF_SECTORS 12       /* Max number of sectors: 12 sectors in Bank1 */
+#define USBD_DFU_XFER_SIZE 1024 /* Max DFU Packet Size   = 1024 bytes */
+#define USBD_DFU_APP_DEFAULT_ADD                                               \
+   0x08008000 /* The first 3 sectors (48 KB) are reserved for DFU code */
+#define USBD_DFU_MAX_NB_OF_SECTORS                                             \
+   12 /* Max number of sectors: 12 sectors in Bank1 */
 
 /* Exported macro ------------------------------------------------------------*/
 /* Memory management macros */
@@ -89,8 +91,8 @@ void USBD_static_free(void *p);
 
 /* DEBUG macros */
 #if (USBD_DEBUG_LEVEL > 0)
-#define USBD_UsrLog(...)                                                                                               \
-   printf(__VA_ARGS__);                                                                                                \
+#define USBD_UsrLog(...)                                                       \
+   printf(__VA_ARGS__);                                                        \
    printf("\n");
 #else
 #define USBD_UsrLog(...)
@@ -98,18 +100,18 @@ void USBD_static_free(void *p);
 
 #if (USBD_DEBUG_LEVEL > 1)
 
-#define USBD_ErrLog(...)                                                                                               \
-   printf("ERROR: ");                                                                                                  \
-   printf(__VA_ARGS__);                                                                                                \
+#define USBD_ErrLog(...)                                                       \
+   printf("ERROR: ");                                                          \
+   printf(__VA_ARGS__);                                                        \
    printf("\n");
 #else
 #define USBD_ErrLog(...)
 #endif
 
 #if (USBD_DEBUG_LEVEL > 2)
-#define USBD_DbgLog(...)                                                                                               \
-   printf("DEBUG : ");                                                                                                 \
-   printf(__VA_ARGS__);                                                                                                \
+#define USBD_DbgLog(...)                                                       \
+   printf("DEBUG : ");                                                         \
+   printf(__VA_ARGS__);                                                        \
    printf("\n");
 #else
 #define USBD_DbgLog(...)
@@ -117,7 +119,7 @@ void USBD_static_free(void *p);
 
 /* Exported functions ------------------------------------------------------- */
 
- // NOLINTEND
+// NOLINTEND
 
 #endif /* __USBD_CONF_H */
 

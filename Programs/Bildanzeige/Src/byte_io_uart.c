@@ -10,8 +10,8 @@
  *          haengt per USB-UART-Adapter (USB-CDC auf PC-Seite) daran.
  *
  *          Empfang: DMA1 Stream1 Channel4, circular mode, schreibt direkt in
- *          einen Ringpuffer. Der Fuellstand ergibt sich aus dem DMA-Data-Length-
- *          Register (geschrieben wird an Position SIZE_OF_RING_BUFFER -
+ *          einen Ringpuffer. Der Fuellstand ergibt sich aus dem
+ * DMA-Data-Length- Register (geschrieben wird an Position SIZE_OF_RING_BUFFER -
  *          GetDataLength). Senden: polling TXE/TC.
  *
  *          Portiert aus dem frueheren input.c (usb_uart_read / usbUartWrite /
@@ -24,19 +24,20 @@
  */
 
 #include "byte_io_backend.h"
-#include <stm32f4xx_ll_bus.h>
-#include <stm32f4xx_ll_dma.h>
-#include <stm32f4xx_ll_usart.h>
 #include "core_cm4.h" /* NVIC_DisableIRQ, SystemCoreClock */
 #include <stddef.h>
 #include <stdint.h>
+#include <stm32f4xx_ll_bus.h>
+#include <stm32f4xx_ll_dma.h>
+#include <stm32f4xx_ll_usart.h>
 
-#define UART_BAUDRATE 115200                 /* 8N1, wie vom PC-Tool erwartet */
-#define UART_BUF_SIZE 512                    /* Burst-Groesse wie im Protokoll (input.c) */
+#define UART_BAUDRATE 115200 /* 8N1, wie vom PC-Tool erwartet */
+#define UART_BUF_SIZE 512    /* Burst-Groesse wie im Protokoll (input.c) */
 #define SIZE_OF_RING_BUFFER (3 * UART_BUF_SIZE)
 #define PPRE1_MASK 0x7U /* 3-Bit-Feld PPRE1 in RCC->CFGR */
 
-static char ring_buf[SIZE_OF_RING_BUFFER]; /* RX-Ringpuffer, DMA1 schreibt direkt hinein */
+static char ring_buf[SIZE_OF_RING_BUFFER]; /* RX-Ringpuffer, DMA1 schreibt
+                                              direkt hinein */
 static int nxt_read_pos = 0;               /* naechste Leseposition im Ring */
 
 /**
@@ -46,7 +47,8 @@ static int nxt_read_pos = 0;               /* naechste Leseposition im Ring */
 static int uart_read(char *buf, size_t len) {
    // ToDo Check overflow of ring buffer
    for (size_t i = 0; i < len; i++) {
-      int pos = SIZE_OF_RING_BUFFER - (int)LL_DMA_GetDataLength(DMA1, LL_DMA_STREAM_1);
+      int pos = SIZE_OF_RING_BUFFER -
+                (int)LL_DMA_GetDataLength(DMA1, LL_DMA_STREAM_1);
       if (nxt_read_pos == pos) {
          return (int)i;
       }
@@ -85,15 +87,16 @@ static void uart_dma_init(void) {
    LL_USART_DisableIT_ERROR(USART3);
    NVIC_DisableIRQ(USART3_IRQn);
 
-   /* Baudrate neu setzen: initITSboard() hat den BRR bei 180 MHz (APB1 = 45 MHz)
-      berechnet, switch_to_168_MHz() aendert APB1 danach auf 42 MHz. Ohne
+   /* Baudrate neu setzen: initITSboard() hat den BRR bei 180 MHz (APB1 = 45
+      MHz) berechnet, switch_to_168_MHz() aendert APB1 danach auf 42 MHz. Ohne
       Nachziehen laeuft USART3 ~7 % zu langsam und jedes Byte wird verfaelscht
       (aus 'H' = 0x48 wird z.B. 0xA8). */
    LL_USART_Disable(USART3);
    /* PCLK1 aus den Registern bestimmen (LL_RCC_GetSystemClocksFreq ist ohne
       USE_FULL_LL_DRIVER nicht verfuegbar): AHB = SYSCLK (/1), APB1-Prascaler
       aus RCC->CFGR. SystemCoreClock pflegt HAL_RCC_ClockConfig nach. */
-   static const uint8_t APB_PRESC[8] = {0, 0, 0, 0, 1, 2, 3, 4}; /* PPRE: /1 /2 /4 /8 /16 */
+   static const uint8_t APB_PRESC[8] = {0, 0, 0, 0,
+                                        1, 2, 3, 4}; /* PPRE: /1 /2 /4 /8 /16 */
    uint32_t ppre1 = (RCC->CFGR & RCC_CFGR_PPRE1) >> RCC_CFGR_PPRE1_Pos;
    uint32_t pclk1 = SystemCoreClock >> APB_PRESC[ppre1 & PPRE1_MASK];
    LL_USART_SetBaudRate(USART3, pclk1, LL_USART_OVERSAMPLING_16, UART_BAUDRATE);
@@ -132,7 +135,8 @@ void byte_io_uart_init(void) {
 
 uint8_t byte_io_uart_get(void) {
    char chr;
-   while (0 == uart_read(&chr, 1)) { /* blockierend warten, bis ein Byte anliegt */
+   while (0 ==
+          uart_read(&chr, 1)) { /* blockierend warten, bis ein Byte anliegt */
    }
    return (uint8_t)chr;
 }

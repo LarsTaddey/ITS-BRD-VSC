@@ -14,8 +14,8 @@
 
 /**
  * @brief  Callback-Tabelle der CDC-Klasse (Init/DeInit/Control/Receive/
- *         TransmitCplt). Wird in usb_device_init() an USBD_CDC_RegisterInterface()
- *         uebergeben; Definition in usbd_cdc_if.c.
+ *         TransmitCplt). Wird in usb_device_init() an
+ * USBD_CDC_RegisterInterface() uebergeben; Definition in usbd_cdc_if.c.
  */
 extern USBD_CDC_ItfTypeDef usbd_interface_fops_fs;
 

@@ -7,19 +7,18 @@
 static char buf[BUF_SIZE];
 
 static const char *const SYS_ERRLIST[] = {
-    [EOK]                     = "Success",
-    [INTERNAL_ERR]            = "Internal error", 
-    [ERR_NO_ERR]              = "Wrong error number",
-    [READ_ERR]                = "Read error",
-    [HEADER_ERR]              = "Error in BITMAP header",
-    [INV_HEADER_ERR]          = "Invalid BITMAP header",
-    [INDEX_ERR]               = "Invalid index",
-    [COL_TAB_ERR]             = "Invalid color table",
-    [UNSUPPORTED_FORMAT_ERR]  = "Unsupported format",
-    [FORMAT_ERR]              = "Error in format",
-    [LINE_BUF_ERR]            = "Error in line buffer",
-    [IMG_SIZE_ERR]            = "Image size exceeds the display limit"
-};
+    [EOK] = "Success",
+    [INTERNAL_ERR] = "Internal error",
+    [ERR_NO_ERR] = "Wrong error number",
+    [READ_ERR] = "Read error",
+    [HEADER_ERR] = "Error in BITMAP header",
+    [INV_HEADER_ERR] = "Invalid BITMAP header",
+    [INDEX_ERR] = "Invalid index",
+    [COL_TAB_ERR] = "Invalid color table",
+    [UNSUPPORTED_FORMAT_ERR] = "Unsupported format",
+    [FORMAT_ERR] = "Error in format",
+    [LINE_BUF_ERR] = "Error in line buffer",
+    [IMG_SIZE_ERR] = "Image size exceeds the display limit"};
 
 /**
 * @brief Simple error handler that writes an error msg on
@@ -36,12 +35,17 @@ static const char *const SYS_ERRLIST[] = {
 * @retval None
 */
 
-int my_err_handler(bool cnd, char *file, int line, int err_no, bool loop_for_ever) {
+int my_err_handler(bool cnd, char *file, int line, int err_no,
+                   bool loop_for_ever) {
    if (!cnd) {
-      snprintf(buf, sizeof(buf) / sizeof(buf[0]), "Error in file %s line %d: %s\n", file, line, SYS_ERRLIST[err_no]);
+      snprintf(buf, sizeof(buf) / sizeof(buf[0]),
+               "Error in file %s line %d: %s\n", file, line,
+               SYS_ERRLIST[err_no]);
       lcdGotoXY(1, 1);
       lcdPrintS(buf);
-      while (loop_for_ever) { ; } // NOLINT(bugprone-infinite-loop)
+      while (loop_for_ever) {
+         ;
+      } // NOLINT(bugprone-infinite-loop)
       return err_no;
    }
    return EOK;

@@ -4,7 +4,8 @@
  * @brief   SPSC-Ringpuffer (Single Producer / Single Consumer) als Singleton
  *          fuer den USB-CDC-Empfangspfad.
  *
- *          Producer: USB-ISR (ringbuf_write), Consumer: Main-Loop (ringbuf_get).
+ *          Producer: USB-ISR (ringbuf_write), Consumer: Main-Loop
+ * (ringbuf_get).
  *
  *          Der Ringpuffer existiert im gesamten Projekt genau einmal; Speicher,
  *          Verwaltungsdaten und Groesse (RINGBUF_SIZE) liegen als static in

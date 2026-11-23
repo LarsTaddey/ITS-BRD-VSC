@@ -2,9 +2,10 @@
  * cdc_input_if.h
  *
  * Mini-Schnittstelle zwischen USB-CDC-Middleware (usbd_cdc_if.c) und
- * Transportschicht (byte_io.c). Bewusst OHNE USB-Header: Beide Seiten includieren
- * nur dieses File -- die Transportschicht sieht keine USB-Interna (Klassen-
- * Handle, USBD_*-Typen), und die Middleware keine Applikationsdetails.
+ * Transportschicht (byte_io.c). Bewusst OHNE USB-Header: Beide Seiten
+ * includieren nur dieses File -- die Transportschicht sieht keine USB-Interna
+ * (Klassen- Handle, USBD_*-Typen), und die Middleware keine
+ * Applikationsdetails.
  *
  * Zwei Richtungen:
  *   - Hooks (Middleware ruft, byte_io.c implementiert):

@@ -27,7 +27,7 @@
    inkludiert stm32f4xx.h, das bei USE_HAL_DRIVER wieder stm32f4xx_hal.h
    laedt -- ein Modul-Header allein als erster Include fuehrt so zu einem
    Zyklus mit undefiniertem HAL_StatusTypeDef. */
-#include "stm32f4xx_hal.h"  // IWYU pragma: keep
+#include "stm32f4xx_hal.h" // IWYU pragma: keep
 #include "stm32f4xx_hal_def.h"
 #include "stm32f4xx_hal_flash_ex.h"
 #include "stm32f4xx_hal_rcc.h"
@@ -39,32 +39,38 @@ void switch_to_168_MHz(void) {
       Der Kern laeuft kurz mit 8 MHz – alles laeuft langsamer, aber stabil. */
    rcc_clk_init_struct.ClockType = RCC_CLOCKTYPE_SYSCLK;
    rcc_clk_init_struct.SYSCLKSource = RCC_SYSCLKSOURCE_HSE;
-   rcc_clk_init_struct.AHBCLKDivider = RCC_SYSCLK_DIV1; /* beim Rueckschalten wieder /1 */
+   rcc_clk_init_struct.AHBCLKDivider =
+       RCC_SYSCLK_DIV1; /* beim Rueckschalten wieder /1 */
    rcc_clk_init_struct.APB1CLKDivider = RCC_HCLK_DIV4;
    rcc_clk_init_struct.APB2CLKDivider = RCC_HCLK_DIV2;
    if (HAL_RCC_ClockConfig(&rcc_clk_init_struct, FLASH_LATENCY_5) != HAL_OK) {
-      Error_Handler(); /* Latency 5 WS ist fuer 8 MHz uebersichert, unkritisch */
+      Error_Handler(); /* Latency 5 WS ist fuer 8 MHz uebersichert, unkritisch
+                        */
    }
-   /* --- Stufe 2: PLL kann jetzt bedenkenlos aus- und neu konfiguriert werden */
+   /* --- Stufe 2: PLL kann jetzt bedenkenlos aus- und neu konfiguriert werden
+    */
    rcc_osc_init_struct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
    rcc_osc_init_struct.HSEState = RCC_HSE_ON;
    rcc_osc_init_struct.PLL.PLLState = RCC_PLL_ON;
    rcc_osc_init_struct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
    rcc_osc_init_struct.PLL.PLLM = 8; // NOLINT(readability-magic-numbers)
-   rcc_osc_init_struct.PLL.PLLN = 336;           // NOLINT(readability-magic-numbers) 336 MHz VCO
+   rcc_osc_init_struct.PLL.PLLN =
+       336; // NOLINT(readability-magic-numbers) 336 MHz VCO
    rcc_osc_init_struct.PLL.PLLP = RCC_PLLP_DIV2; /* 168 MHz     */
-   rcc_osc_init_struct.PLL.PLLQ = 7;             // NOLINT(readability-magic-numbers) 48 MHz USB 
+   rcc_osc_init_struct.PLL.PLLQ =
+       7; // NOLINT(readability-magic-numbers) 48 MHz USB
    if (HAL_RCC_OscConfig(&rcc_osc_init_struct) != HAL_OK) {
       Error_Handler();
    }
    /* --- Stufe 3: SYSCLK auf die neue PLL rueckschalten (168 MHz) */
-   rcc_clk_init_struct.ClockType =
-       (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
+   rcc_clk_init_struct.ClockType = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK |
+                                    RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
    rcc_clk_init_struct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
    rcc_clk_init_struct.AHBCLKDivider = RCC_SYSCLK_DIV1;
    rcc_clk_init_struct.APB1CLKDivider = RCC_HCLK_DIV4; /* 42 MHz  */
    rcc_clk_init_struct.APB2CLKDivider = RCC_HCLK_DIV2; /* 84 MHz  */
-   /* SystemCoreClock + SysTick werden hier automatisch nachgezogen, HAL_Delay() bleibt korrekt */
+   /* SystemCoreClock + SysTick werden hier automatisch nachgezogen, HAL_Delay()
+    * bleibt korrekt */
    if (HAL_RCC_ClockConfig(&rcc_clk_init_struct, FLASH_LATENCY_5) != HAL_OK) {
       Error_Handler();
    }

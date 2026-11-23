@@ -7,7 +7,8 @@
  *
  *          Diese Datei enthaelt alles USB-Abhaengige des Empfangspfads:
  *            - USB-Flow-Control: einzige Arm-Stelle usb_rx_arm_when_space()
- *            - Empfangs-Hook cdc_collect() (Interrupt-Kontext, Ringpuffer-Write)
+ *            - Empfangs-Hook cdc_collect() (Interrupt-Kontext,
+ * Ringpuffer-Write)
  *            - blockierende Byte-Primitive byte_io_usb_get/put/clear
  *              (fuer den Dispatcher byte_io.c)
  *            - Transport-Initialisierung byte_io_usb_init()
@@ -16,10 +17,9 @@
  *          Verwaltung, Handshake, nxt_chr/read_file/eof. Sie inkludiert nur
  *          byte_io.h -- keine USB-Header, keine Ringpuffer-Interna.
  *
- *          PROTOKOLL (Sicht der Transportschicht -- Regelwerk liegt in input.c):
- *            PC ---- 'H' --->  <--- 'R' ---  PC ---- 'G' --->
- *            PC <--- 'F' ---   (vor JEDER Datei)
- *            PC: [len:2][len Bytes] ... [len = 0]   (blind, ohne 'D')
+ *          PROTOKOLL (Sicht der Transportschicht -- Regelwerk liegt in
+ * input.c): PC ---- 'H' --->  <--- 'R' ---  PC ---- 'G' ---> PC <--- 'F' ---
+ * (vor JEDER Datei) PC: [len:2][len Bytes] ... [len = 0]   (blind, ohne 'D')
  *
  *          FLUSSKONTROLLE (aktuelles Design):
  *            Der PC sendet blind; das OUT-Endpoint wird nur wieder scharf
@@ -46,12 +46,12 @@
 
 #include "byte_io_backend.h"
 #include "cdc_input_if.h"
-#include "error.h" /* Error_Handler bei rx_overflow */
+#include "core_cm4.h" /* __disable_irq, __enable_irq, __get/set_PRIMASK */
+#include "error.h"    /* Error_Handler bei rx_overflow */
 #include "ringbuf.h"
 #include "stm32f4xx_hal.h"
 #include "usb_device.h"
 #include "usbd_def.h" /* USBD_OK */
-#include "core_cm4.h" /* __disable_irq, __enable_irq, __get/set_PRIMASK */
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -90,7 +90,7 @@ uint32_t input_get_rx_overflow_free(void) { return rx_overflow_free_last; }
 uint32_t input_get_rx_overflow_lost(void) { return rx_overflow_lost_last; }
 
 /* ========================================================================== */
-/* USB-Flow-Control: EINZIGE Arm-Stelle, atomar gegen USB-ISR                  */
+/* USB-Flow-Control: EINZIGE Arm-Stelle, atomar gegen USB-ISR */
 /* ========================================================================== */
 
 /**
@@ -123,8 +123,9 @@ uint32_t input_get_rx_overflow_lost(void) { return rx_overflow_lost_last; }
  * @retval None
  */
 void usb_rx_arm_when_space(void) {
-   uint32_t primask = __get_PRIMASK();  // NOLINT(misc-include-cleaner)
-   __disable_irq();  // NOLINT(misc-include-cleaner) /* atomar gegen USB-ISR: kein Doppel-Aufruesten */
+   uint32_t primask = __get_PRIMASK(); // NOLINT(misc-include-cleaner)
+   __disable_irq(); // NOLINT(misc-include-cleaner) /* atomar gegen USB-ISR:
+                    // kein Doppel-Aufruesten */
    if (!rx_armed && (ringbuf_free() >= CDC_MAX_PKT)) {
       rx_armed = true;
       if (!cdc_rx_arm()) {
@@ -133,7 +134,7 @@ void usb_rx_arm_when_space(void) {
          rx_armed = false;
       }
    }
-   __set_PRIMASK(primask);  // NOLINT(misc-include-cleaner)
+   __set_PRIMASK(primask); // NOLINT(misc-include-cleaner)
 }
 
 /* ========================================================================== */
@@ -169,10 +170,10 @@ void cdc_collect(uint8_t *data, uint32_t len) {
       Error_Handler();
    }
 
-   uint32_t primask = __get_PRIMASK();  // NOLINT(misc-include-cleaner)
-   __disable_irq();  // NOLINT(misc-include-cleaner)
+   uint32_t primask = __get_PRIMASK(); // NOLINT(misc-include-cleaner)
+   __disable_irq();                    // NOLINT(misc-include-cleaner)
    rx_armed = false; /* Endpoint verbraucht; Arm-Entscheidung folgt atomar */
-   __set_PRIMASK(primask);  // NOLINT(misc-include-cleaner)
+   __set_PRIMASK(primask); // NOLINT(misc-include-cleaner)
 }
 
 /* ========================================================================== */
@@ -222,20 +223,22 @@ void byte_io_usb_clear(void) {
  * @retval None
  */
 void byte_io_usb_put(uint8_t byte) {
-   static uint8_t tx_byte; /* NICHT auf dem Stack: muss den Transfer ueberleben */
+   static uint8_t
+       tx_byte; /* NICHT auf dem Stack: muss den Transfer ueberleben */
 
    tx_byte = byte;
 
    while (cdc_tx_busy()) {
    }
 
-   __disable_irq();  // NOLINT(misc-include-cleaner) /* kritische Sektion: Main-Loop vs. USB-ISR */
+   __disable_irq(); // NOLINT(misc-include-cleaner) /* kritische Sektion:
+                    // Main-Loop vs. USB-ISR */
    if (USBD_OK == cdc_transmit(&tx_byte, 1)) {
-      __enable_irq();  // NOLINT(misc-include-cleaner)
+      __enable_irq(); // NOLINT(misc-include-cleaner)
       while (cdc_tx_busy()) {
       }
    } else {
-      __enable_irq();  // NOLINT(misc-include-cleaner)
+      __enable_irq(); // NOLINT(misc-include-cleaner)
    }
 }
 
@@ -272,7 +275,7 @@ void byte_io_usb_init(void) {
    usb_device_init();
 
    /* 2. Enumerationszeit geben (Host laedt usbmodem-Treiber). */
-   HAL_Delay(250);  // NOLINT(readability-magic-numbers)
+   HAL_Delay(250); // NOLINT(readability-magic-numbers)
 
    /* 3. Arm-Zustand REALITAETSTREU setzen -- NICHT selbst aufruesten:
          USBD_CDC_Init hat das Endpoint bereits scharf geschaltet. */

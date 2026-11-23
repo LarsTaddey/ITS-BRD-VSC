@@ -9,11 +9,11 @@
  ******************************************************************************
  */
 #include "usbd_cdc_if.h"
-#include "usb_device.h" /* usbd_fs */
 #include "cdc_input_if.h"
+#include "stm32f4xx_hal_def.h" /* UNUSED (hal.h ist ueber usb_device.h schon geladen) */
+#include "usb_device.h" /* usbd_fs */
 #include "usbd_cdc.h"
 #include "usbd_def.h" /* USBD_OK, USBD_FAIL, USBD_STATE_CONFIGURED */
-#include "stm32f4xx_hal_def.h" /* UNUSED (hal.h ist ueber usb_device.h schon geladen) */
 #include <stdbool.h>
 #include <stddef.h> /* NULL */
 #include <stdint.h>
@@ -21,13 +21,19 @@
 /* --- Deklarationen --- */
 static int8_t cdc_init_fs(void);
 static int8_t cdc_deinit_fs(void);
-static int8_t cdc_control_fs(uint8_t cmd, uint8_t *pbuf, uint16_t len);  // NOLINT(readability-non-const-parameter)
-static int8_t cdc_receive_fs(uint8_t *buf, uint32_t *len);  // NOLINT(readability-non-const-parameter)
-static int8_t cdc_transmit_cplt_fs(uint8_t *buf, uint32_t *len, uint8_t epnum);  // NOLINT(readability-non-const-parameter)
+static int8_t
+cdc_control_fs(uint8_t cmd, uint8_t *pbuf,
+               uint16_t len); // NOLINT(readability-non-const-parameter)
+static int8_t
+cdc_receive_fs(uint8_t *buf,
+               uint32_t *len); // NOLINT(readability-non-const-parameter)
+static int8_t
+cdc_transmit_cplt_fs(uint8_t *buf, uint32_t *len,
+                     uint8_t epnum); // NOLINT(readability-non-const-parameter)
 
 /* Empfangs-Hook aus byte_io.c (Transportschicht): cdc_collect legt die Bytes
-   in den Ringpuffer; usb_rx_arm_when_space() enthaelt die EINZIGE Arm-Entscheidung
-   des Projekts ( Deklarationen in cdc_input_if.h ). */
+   in den Ringpuffer; usb_rx_arm_when_space() enthaelt die EINZIGE
+   Arm-Entscheidung des Projekts ( Deklarationen in cdc_input_if.h ). */
 
 /* Empfangspuffer fuer den USB-Endpoint.
    Ohne SetRxBuffer in cdc_init_fs war RxBuffer NULL und cdc_collect
@@ -43,14 +49,18 @@ static int8_t cdc_init_fs(void) {
 
 static int8_t cdc_deinit_fs(void) { return USBD_OK; }
 
-static int8_t cdc_control_fs(uint8_t cmd, uint8_t *pbuf, uint16_t len) {  // NOLINT(readability-non-const-parameter)
+static int8_t
+cdc_control_fs(uint8_t cmd, uint8_t *pbuf,
+               uint16_t len) { // NOLINT(readability-non-const-parameter)
    UNUSED(cmd);
    UNUSED(pbuf);
    UNUSED(len);
    return USBD_OK; /* Line-Coding etc. ignorieren (nur informativ bei CDC) */
 }
 
-static int8_t cdc_receive_fs(uint8_t *buf, uint32_t *len) {  // NOLINT(readability-non-const-parameter)
+static int8_t
+cdc_receive_fs(uint8_t *buf,
+               uint32_t *len) { // NOLINT(readability-non-const-parameter)
    /* RACE-FIX: Das Endpoint wird NUR NOCH ueber usb_rx_arm_when_space()
       aufgeruestet -- dort laeuft Pruefen + Setzen von rx_armed inkl.
       USBD_CDC_ReceivePacket() unter IRQ-Sperre. Main-Loop (byte_io_get) und
@@ -67,8 +77,11 @@ static int8_t cdc_receive_fs(uint8_t *buf, uint32_t *len) {  // NOLINT(readabili
 }
 
 /* Completion-Callback der Middleware (USBD_CDC_DataIn), nach jedem Tx-Transfer.
-   Ohne diesen Eintrag stand im fops-Struct NULL -> HardFault beim Terminal-Oeffnen. */
-static int8_t cdc_transmit_cplt_fs(uint8_t *buf, uint32_t *len, uint8_t epnum) {  // NOLINT(readability-non-const-parameter)
+   Ohne diesen Eintrag stand im fops-Struct NULL -> HardFault beim
+   Terminal-Oeffnen. */
+static int8_t
+cdc_transmit_cplt_fs(uint8_t *buf, uint32_t *len,
+                     uint8_t epnum) { // NOLINT(readability-non-const-parameter)
    UNUSED(buf);
    UNUSED(len);
    UNUSED(epnum);
@@ -78,11 +91,11 @@ static int8_t cdc_transmit_cplt_fs(uint8_t *buf, uint32_t *len, uint8_t epnum) {
 /* Designated Initializers: Felder explizit benannt, Reihenfolge egal
    (positional waere eine Stolperfalle, siehe PROJECT.md Abschnitt 7) */
 USBD_CDC_ItfTypeDef usbd_interface_fops_fs = {
-   .Init = cdc_init_fs,
-   .DeInit = cdc_deinit_fs,
-   .Control = cdc_control_fs,
-   .Receive = cdc_receive_fs,
-   .TransmitCplt = cdc_transmit_cplt_fs,
+    .Init = cdc_init_fs,
+    .DeInit = cdc_deinit_fs,
+    .Control = cdc_control_fs,
+    .Receive = cdc_receive_fs,
+    .TransmitCplt = cdc_transmit_cplt_fs,
 };
 
 /* static: nur der Wrapper cdc_transmit() (Schnittstelle cdc_input_if.h) ruft
@@ -119,4 +132,6 @@ bool cdc_tx_busy(void) {
    return (hcdc != NULL) && (hcdc->TxState != 0U);
 }
 
-uint8_t cdc_transmit(uint8_t *buf, uint16_t len) { return cdc_transmit_fs(buf, len); }
+uint8_t cdc_transmit(uint8_t *buf, uint16_t len) {
+   return cdc_transmit_fs(buf, len);
+}

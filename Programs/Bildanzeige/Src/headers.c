@@ -26,8 +26,10 @@ static bool hdrs_valid = false;
  * @retval EOK oder HEADER_ERR
  */
 static int check_file_hdr(const BITMAPFILEHEADER *file_hdr_p) {
-   CHECK_OR_RETURN(file_hdr_p->bfType == BMP_SIGNATURE, HEADER_ERR); // Wrong signature.
-   CHECK_OR_RETURN(file_hdr_p->bfOffBits < file_hdr_p->bfSize, HEADER_ERR); // bfOffBits points out of BMP file
+   CHECK_OR_RETURN(file_hdr_p->bfType == BMP_SIGNATURE,
+                   HEADER_ERR); // Wrong signature.
+   CHECK_OR_RETURN(file_hdr_p->bfOffBits < file_hdr_p->bfSize,
+                   HEADER_ERR); // bfOffBits points out of BMP file
    return EOK;
 }
 
@@ -39,10 +41,14 @@ static int check_file_hdr(const BITMAPFILEHEADER *file_hdr_p) {
  * @retval EOK oder HEADER_ERR
  */
 static int check_info_hdr_dims(const BITMAPINFOHEADER *info_hdr_p) {
-   CHECK_OR_RETURN(info_hdr_p->biSize == sizeof(BITMAPINFOHEADER), HEADER_ERR); // Wrong biSize
-   CHECK_OR_RETURN(info_hdr_p->biPlanes == 1, HEADER_ERR); // Wrong biPlanes - must be 1
-   CHECK_OR_RETURN(1 <= info_hdr_p->biHeight, HEADER_ERR); // biHeight must be positive
-   CHECK_OR_RETURN(1 <= info_hdr_p->biWidth, HEADER_ERR); // biWidth must be positive
+   CHECK_OR_RETURN(info_hdr_p->biSize == sizeof(BITMAPINFOHEADER),
+                   HEADER_ERR); // Wrong biSize
+   CHECK_OR_RETURN(info_hdr_p->biPlanes == 1,
+                   HEADER_ERR); // Wrong biPlanes - must be 1
+   CHECK_OR_RETURN(1 <= info_hdr_p->biHeight,
+                   HEADER_ERR); // biHeight must be positive
+   CHECK_OR_RETURN(1 <= info_hdr_p->biWidth,
+                   HEADER_ERR); // biWidth must be positive
    return EOK;
 }
 
@@ -56,11 +62,20 @@ static int check_info_hdr_dims(const BITMAPINFOHEADER *info_hdr_p) {
  * @retval EOK oder HEADER_ERR
  */
 static int check_info_hdr_format(const BITMAPINFOHEADER *info_hdr_p) {
-   CHECK_OR_RETURN((8 == info_hdr_p->biBitCount) || (24 == info_hdr_p->biBitCount), HEADER_ERR); // Wrong biBitCount, 8 or 24 expected
-   CHECK_OR_RETURN((24 != info_hdr_p->biBitCount) || (BI_RGB == info_hdr_p->biCompression), HEADER_ERR); // 24 bit format cannot be compressed
-   CHECK_OR_RETURN((BI_RLE8 == info_hdr_p->biCompression) || (BI_RGB == info_hdr_p->biCompression), HEADER_ERR); // unexpected compression format
-   CHECK_OR_RETURN(MAX_COLOR_TABLE_SIZE >= info_hdr_p->biClrUsed, HEADER_ERR); // biClrUsed out of range
-   CHECK_OR_RETURN((24 != info_hdr_p->biBitCount) || (0 == info_hdr_p->biClrUsed), HEADER_ERR); // biClrUsed must be 0 for 24 bit/pixel format
+   CHECK_OR_RETURN((8 == info_hdr_p->biBitCount) ||
+                       (24 == info_hdr_p->biBitCount),
+                   HEADER_ERR); // Wrong biBitCount, 8 or 24 expected
+   CHECK_OR_RETURN((24 != info_hdr_p->biBitCount) ||
+                       (BI_RGB == info_hdr_p->biCompression),
+                   HEADER_ERR); // 24 bit format cannot be compressed
+   CHECK_OR_RETURN((BI_RLE8 == info_hdr_p->biCompression) ||
+                       (BI_RGB == info_hdr_p->biCompression),
+                   HEADER_ERR); // unexpected compression format
+   CHECK_OR_RETURN(MAX_COLOR_TABLE_SIZE >= info_hdr_p->biClrUsed,
+                   HEADER_ERR); // biClrUsed out of range
+   CHECK_OR_RETURN((24 != info_hdr_p->biBitCount) ||
+                       (0 == info_hdr_p->biClrUsed),
+                   HEADER_ERR); // biClrUsed must be 0 for 24 bit/pixel format
    return EOK;
 }
 
@@ -80,8 +95,12 @@ static int basic_checks(void) {
 
 int read_hdrs(void) {
    hdrs_valid = false;
-   CHECK_OR_RETURN(1 == read_file((char *)&file_hdr, sizeof(BITMAPFILEHEADER), 1), READ_ERR);
-   CHECK_OR_RETURN(1 == read_file((char *)&info_hdr, sizeof(BITMAPINFOHEADER), 1), READ_ERR);
+   CHECK_OR_RETURN(
+       1 == read_file((char *)&file_hdr, sizeof(BITMAPFILEHEADER), 1),
+       READ_ERR);
+   CHECK_OR_RETURN(
+       1 == read_file((char *)&info_hdr, sizeof(BITMAPINFOHEADER), 1),
+       READ_ERR);
    int erg = basic_checks();
    hdrs_valid = EOK == erg;
    return erg;

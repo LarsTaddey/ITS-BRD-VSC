@@ -25,15 +25,13 @@
  *          erkennt ihn am Start-Kommando):
  *            PC ---- 'H' --->  <--- 'R' ---  PC ---- 'G' --->
  *            USB-CDC:        STM32 --- 'F' --->  (vor JEDER Datei)
- *                            PC: [len:2][len Bytes] ... [len = 0]  (blind, ohne 'D';
- *                                Flusskontrolle per USB-Endpoint-NAK)
- *            UART-via-USB:   STM32 --- 'S' --->  (vor JEDER Datei), dann pro Burst
- *                            STM32 --- 'D' --->  PC: [len Bytes]  (Request/Response;
- *                                UART hat keine HW-Flusskontrolle)
- *                            ABBRUCH: 'S' mitten in einer Datei (statt 'D') bricht
- *                                die Datei auf PC-Seite ab und startet die
- *                                naechste -- Restbytes + der eine in-flight Burst
- *                                werden verworfen (abort_file_uart()).
+ *                            PC: [len:2][len Bytes] ... [len = 0]  (blind, ohne
+ * 'D'; Flusskontrolle per USB-Endpoint-NAK) UART-via-USB:   STM32 --- 'S' --->
+ * (vor JEDER Datei), dann pro Burst STM32 --- 'D' --->  PC: [len Bytes]
+ * (Request/Response; UART hat keine HW-Flusskontrolle) ABBRUCH: 'S' mitten in
+ * einer Datei (statt 'D') bricht die Datei auf PC-Seite ab und startet die
+ *                                naechste -- Restbytes + der eine in-flight
+ * Burst werden verworfen (abort_file_uart()).
  *
  *          EOF-SEMANTIK: eof() ist die einzige Stelle, die den Dateiende-
  *          Zustand feststellt (no_elems_in_buf == 0 nach Prefetch des
@@ -47,10 +45,10 @@
 #include "byte_io.h"
 #include "errorhandler.h"
 #include "lcd.h"
-#include "timer.h"
-#include "transport.h" /* transport_t, TRANSPORT_USB_CDC, TRANSPORT_UART_VIA_USB */
 #include "stm32f429xx.h" /* GPIOF (CMSIS Device Header, Leaf-Header des F429) */
 #include "stm32f4xx_hal_gpio.h" /* HAL_GPIO_ReadPin, GPIO_PIN_5/6/7, GPIO_PIN_RESET */
+#include "timer.h"
+#include "transport.h" /* transport_t, TRANSPORT_USB_CDC, TRANSPORT_UART_VIA_USB */
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h> /* EOF */
@@ -58,16 +56,19 @@
 /*
  * Commands and constants for transfer protocol
  */
-#define HELLO_IN_CMD 'H'             // Hello cmd send from Python program until our
-                                     // programs answers with READY
-#define READY_OUT_CMD 'R'            // Ready cmd send to Python program
-#define GO_IN_CMD 'G'                // Send by Python program after READY; Start.
-#define START_OUT_CMD_WITHOUT_FC 'F' // USB-CDC: wird vor JEDER Datei gesendet; danach
-                                     // streamt der PC die komplette Datei blind
-                                     // (Bursts, len=0 am Ende; Flusskontrolle per USB-NAK)
-#define START_OUT_CMD 'S'            // UART-via-USB: vor JEDER Datei; der PC antwortet
-                                     // pro Burst auf 'D' (UART hat keine HW-Flusskontrolle)
-#define DATA_OUT_CMD 'D'             // UART-via-USB: naechsten Burst anfordern
+#define HELLO_IN_CMD                                                           \
+   'H'                    // Hello cmd send from Python program until our
+                          // programs answers with READY
+#define READY_OUT_CMD 'R' // Ready cmd send to Python program
+#define GO_IN_CMD 'G'     // Send by Python program after READY; Start.
+#define START_OUT_CMD_WITHOUT_FC                                               \
+   'F' // USB-CDC: wird vor JEDER Datei gesendet; danach
+       // streamt der PC die komplette Datei blind
+       // (Bursts, len=0 am Ende; Flusskontrolle per USB-NAK)
+#define START_OUT_CMD                                                          \
+   'S'                   // UART-via-USB: vor JEDER Datei; der PC antwortet
+                         // pro Burst auf 'D' (UART hat keine HW-Flusskontrolle)
+#define DATA_OUT_CMD 'D' // UART-via-USB: naechsten Burst anfordern
 
 #define BUF_SIZE 512 // Number of bytes of one burst (Protokollkonstante)
 
@@ -76,24 +77,25 @@
  * lcdGotoXY(1,y) belegt Pixel y*16..y*16+15).
  */
 enum MenuRow {
-   MENU_ROW_TITLE = 1,     /* "Uebertragung waehlen:" */
-   MENU_ROW_S7 = 3,        /* S7 (PF7) = USB-CDC */
-   MENU_ROW_S6 = 4,        /* S6 (PF6) = UART-via-USB */
-   MENU_ROW_WAIT = 6,      /* "Bitte Taster druecken ..." */
-   MENU_ROW_SELECTED = 8,  /* "Gewaehlt: ..." */
-   MENU_ROW_S5_HINT = 10   /* S5-Hinweistext */
+   MENU_ROW_TITLE = 1,    /* "Uebertragung waehlen:" */
+   MENU_ROW_S7 = 3,       /* S7 (PF7) = USB-CDC */
+   MENU_ROW_S6 = 4,       /* S6 (PF6) = UART-via-USB */
+   MENU_ROW_WAIT = 6,     /* "Bitte Taster druecken ..." */
+   MENU_ROW_SELECTED = 8, /* "Gewaehlt: ..." */
+   MENU_ROW_S5_HINT = 10  /* S5-Hinweistext */
 };
 
 /* ========================================================================== */
 /* Burst-Verwaltung (KEIN Prefetch -- USB-Flow-Control regelt das Tempo)      */
 /* ========================================================================== */
 
-static int next_char_pos = BUF_SIZE; // next unread element in buffer (BUF_SIZE :
-                                     // alle elems has been consumed)
-static int no_elems_in_buf = 0;      // number of elems in buffer; no_elems_in_buf == 0 : EOF
+static int next_char_pos = BUF_SIZE; // next unread element in buffer (BUF_SIZE
+                                     // : alle elems has been consumed)
+static int no_elems_in_buf =
+    0; // number of elems in buffer; no_elems_in_buf == 0 : EOF
 
 uint32_t ts_prev, ts_now;
-uint32_t diff[ 1024]; // NOLINT(readability-magic-numbers)
+uint32_t diff[1024]; // NOLINT(readability-magic-numbers)
 int32_t diff_pos = 0;
 
 /**
@@ -103,12 +105,16 @@ int32_t diff_pos = 0;
  */
 static void read_burst_header(void) {
    // read no of data that will be transmitted
-   no_elems_in_buf = (byte_io_get() & 0xFF) << 8;              // NOLINT(readability-magic-numbers)
-   no_elems_in_buf = no_elems_in_buf | (byte_io_get() & 0xFF); // NOLINT(readability-magic-numbers)
+   no_elems_in_buf = (byte_io_get() & 0xFF)
+                     << 8; // NOLINT(readability-magic-numbers)
+   no_elems_in_buf =
+       no_elems_in_buf |
+       (byte_io_get() & 0xFF); // NOLINT(readability-magic-numbers)
    /*
     * Protection: Burst-Laenge darf BUF_SIZE nicht ueberschreiten.
     */
-   CHECK_FATAL(no_elems_in_buf <= BUF_SIZE, INTERNAL_ERR); // Burst size to large
+   CHECK_FATAL(no_elems_in_buf <= BUF_SIZE,
+               INTERNAL_ERR); // Burst size to large
    next_char_pos = 0;
 }
 
@@ -197,7 +203,8 @@ static void start_next_byte_burst(bool open_new_file) {
          drainen -- der PC wertet das 'S' als Abbruch der aktuellen Datei und
          startet die naechste (statt eines 'D'-Roundtrips pro Rest-Burst). */
       if (uart && (0 != no_elems_in_buf)) {
-         abort_file_uart(); /* Restbytes + in-flight Burst verwerfen, kein 'D' */
+         abort_file_uart(); /* Restbytes + in-flight Burst verwerfen, kein 'D'
+                             */
       } else {
          drain_to_eof(); /* USB-CDC (blind stream) oder bereits EOF */
       }
@@ -217,8 +224,9 @@ static void refill_burst_if_exhausted(void) {
    if ((no_elems_in_buf == next_char_pos) || (BUF_SIZE == next_char_pos)) {
       ts_prev = ts_now;
       ts_now = getTimeStamp();
-      diff[diff_pos] = ((ts_now - ts_prev) / (uint32_t)(168 / 2)) / (uint32_t) 1000; // NOLINT(readability-magic-numbers)
-      diff_pos = (diff_pos + 1) % (int) (sizeof(diff) / sizeof(diff[0]));
+      diff[diff_pos] = ((ts_now - ts_prev) / (uint32_t)(168 / 2)) /
+                       (uint32_t)1000; // NOLINT(readability-magic-numbers)
+      diff_pos = (diff_pos + 1) % (int)(sizeof(diff) / sizeof(diff[0]));
 
       start_next_byte_burst(false);
    }
@@ -253,17 +261,20 @@ transport_t ask_transport(void) {
 
    transport_t transport;
    for (;;) {
-      if (HAL_GPIO_ReadPin(GPIOF, GPIO_PIN_7) == GPIO_PIN_RESET) { /* S7 gedrueckt */
+      if (HAL_GPIO_ReadPin(GPIOF, GPIO_PIN_7) ==
+          GPIO_PIN_RESET) { /* S7 gedrueckt */
          transport = TRANSPORT_USB_CDC;
          break;
       }
-      if (HAL_GPIO_ReadPin(GPIOF, GPIO_PIN_6) == GPIO_PIN_RESET) { /* S6 gedrueckt */
+      if (HAL_GPIO_ReadPin(GPIOF, GPIO_PIN_6) ==
+          GPIO_PIN_RESET) { /* S6 gedrueckt */
          transport = TRANSPORT_UART_VIA_USB;
          break;
       }
    }
    lcdGotoXY(1, MENU_ROW_SELECTED);
-   lcdPrintS((TRANSPORT_USB_CDC == transport) ? " Gewaehlt: USB-CDC      " : " Gewaehlt: UART-via-USB ");
+   lcdPrintS((TRANSPORT_USB_CDC == transport) ? " Gewaehlt: USB-CDC      "
+                                              : " Gewaehlt: UART-via-USB ");
    return transport;
 }
 
@@ -295,10 +306,13 @@ void show_s5_hint(void) {
  * @retval None
  */
 void wait_for_s_i(int btn) {
-   CHECK_FATAL((BUTTON_S5 <= btn) && (btn <= BUTTON_S7), INDEX_ERR); /* nur S5..S7 auf PF5..PF7 */
+   CHECK_FATAL((BUTTON_S5 <= btn) && (btn <= BUTTON_S7),
+               INDEX_ERR); /* nur S5..S7 auf PF5..PF7 */
    uint16_t pin = (uint16_t)(GPIO_PIN_5 << (btn - BUTTON_S5));
-   while (HAL_GPIO_ReadPin(GPIOF, pin) == GPIO_PIN_RESET) { } /* erst loslassen ... */
-   while (HAL_GPIO_ReadPin(GPIOF, pin) != GPIO_PIN_RESET) { } /* ... dann druecken */
+   while (HAL_GPIO_ReadPin(GPIOF, pin) == GPIO_PIN_RESET) {
+   } /* erst loslassen ... */
+   while (HAL_GPIO_ReadPin(GPIOF, pin) != GPIO_PIN_RESET) {
+   } /* ... dann druecken */
 }
 
 /**
@@ -314,7 +328,8 @@ void init_input(transport_t transport) {
 
    /* 2. Protokoll-Handshake */
    char chr;
-   while (HELLO_IN_CMD != (char)byte_io_get()) { }
+   while (HELLO_IN_CMD != (char)byte_io_get()) {
+   }
    byte_io_put(READY_OUT_CMD);
    do {
       chr = (char)byte_io_get();
@@ -337,9 +352,7 @@ void init_input(transport_t transport) {
  *  bei UART-via-USB wird die Datei per 'S' abgebrochen (abort_file_uart) --
  *  erst dann wird 'F' bzw. 'S' gesendet.
  */
-void open_nxt_file(void) {
-   start_next_byte_burst(true);
-}
+void open_nxt_file(void) { start_next_byte_burst(true); }
 
 /**
  * @brief  Fragt ab, ob die aktuelle Datei vollstaendig gelesen ist --

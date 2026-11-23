@@ -5,8 +5,8 @@
  *          Initialisierung des Stacks (USBD_Init, CDC-Klasse registrieren,
  *          USBD_Start).
  *
- *          Wird im Projekt ausschliesslich von byte_io_init() (Transportschicht,
- *          byte_io.c) aufgerufen.
+ *          Wird im Projekt ausschliesslich von byte_io_init()
+ * (Transportschicht, byte_io.c) aufgerufen.
  ******************************************************************************
  */
 

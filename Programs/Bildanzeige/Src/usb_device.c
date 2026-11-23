@@ -4,8 +4,8 @@
  * @brief   Startpunkt des USB-Device-Stacks (Implementierung von
  *          usb_device.h): USB-Stack einmalig hochfahren (USBD_Init, CDC-Klasse
  *          registrieren, USBD_Start). Besitzt das Geraete-Handle usbd_fs.
- *          Wird im Projekt ausschliesslich von byte_io_init() (Transportschicht,
- *          byte_io.c) aufgerufen.
+ *          Wird im Projekt ausschliesslich von byte_io_init()
+ * (Transportschicht, byte_io.c) aufgerufen.
  ******************************************************************************
  */
 #include "usb_device.h"
@@ -24,7 +24,8 @@ void usb_device_init(void) {
    if (USBD_RegisterClass(&usbd_fs, &USBD_CDC) != USBD_OK) {
       Error_Handler();
    }
-   if (USBD_CDC_RegisterInterface(&usbd_fs, &usbd_interface_fops_fs) != USBD_OK) {
+   if (USBD_CDC_RegisterInterface(&usbd_fs, &usbd_interface_fops_fs) !=
+       USBD_OK) {
       Error_Handler();
    }
    if (USBD_Start(&usbd_fs) != USBD_OK) {
