@@ -21,6 +21,8 @@ project:
         - ../../DisplayWaveshare/Inc
         - ../../ITS_BRD_LIB/Inc
         - ../../ITS_BRD_LIB/Utilities/AddFonts
+        - ../../stm32cubef4/Middlewares/ST/STM32_USB_Device_Library/Core/Inc
+        - ../../stm32cubef4/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc
 
       #debug: "on"  # Aktiviert den Debug-Modus
 
@@ -29,6 +31,7 @@ project:
         - USE_HAL_DRIVER
         - USE_STM32F4XX_NUCLEO_144
         - __MICROLIB
+        - HAL_PCD_MODULE_ENABLED
 
       define-asm:  # Definitionen für den Assembler
         - __MICROLIB
@@ -76,7 +79,7 @@ project:
             - --info summarysizes
 
   linker:
-    - script: template_ITSboard.sct
+    - script: Bildanzeige_ITSboard.sct
 
   groups:
     # Dokumentationsgruppe
@@ -115,6 +118,16 @@ project:
         - file: ../../stm32cubef4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_eth.c
 
     # Nützliche Zusatzdateien (z.B. Fonts)
+    - group: Middleware/USB
+      files:
+        - file: ../../stm32cubef4/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.c
+        - file: ../../stm32cubef4/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.c
+        - file: ../../stm32cubef4/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.c
+        - file: ../../stm32cubef4/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.c
+        - file: ../../stm32cubef4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd.c
+        - file: ../../stm32cubef4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd_ex.c
+        - file: ../../stm32cubef4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usb.c
+
     - group: Utils
       files:
         - file: ../../stm32cubef4/Utilities/Fonts/font8.c
@@ -180,6 +193,21 @@ project:
     - group: Program/User/Src
       files:
         - file: Src/main.c
+        - file: Src/bmp_display.c
+        - file: Src/read.c
+        - file: Src/input.c
+        - file: Src/byte_io.c
+        - file: Src/byte_io_usb.c
+        - file: Src/byte_io_uart.c
+        - file: Src/ringbuf.c
+        - file: Src/headers.c
+        - file: Src/fileHeader.c
+        - file: Src/errorhandler.c
+        - file: Src/usb_device.c
+        - file: Src/usb_clock_config.c
+        - file: Src/usbd_cdc_if.c
+        - file: Src/usbd_conf.c
+        - file: Src/usbd_desc.c
 
 
   components:
