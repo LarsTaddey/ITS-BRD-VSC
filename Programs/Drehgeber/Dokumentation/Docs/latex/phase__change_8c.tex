@@ -1,0 +1,106 @@
+\doxysection{Programs/\+\+Drehgeber/\+\+Src/\+phase\+\_\+change.c File Reference}
+\hypertarget{phase__change_8c}{}\label{phase__change_8c}\index{Programs/Drehgeber/Src/phase\_change.c@{Programs/Drehgeber/Src/phase\_change.c}}
+
+
+Implements rotation phase transition detection and tracking.  
+
+
+{\ttfamily \+\#include "{}phase\+\_\+change.\+h"{}}\newline
+{\ttfamily \+\#include "{}data\+\_\+types.\+h"{}}\newline
+{\ttfamily \+\#include $<$stdint.\+h$>$}\newline
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84}{Phase}} \{ \doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84a8825a1a26ae9bf551b490741d7ae280a}{PHASE\+\_\+A}} = 0
+, \doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84ac9590e77e32637ec7e053fe2690876bf}{PHASE\+\_\+B}} = 2
+, \doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84aa40453ff9dcc9108a8f76456fd68c464}{PHASE\+\_\+C}} = 3
+, \doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84a424cfb90ef8bea9f26fb8302800a27e7}{PHASE\+\_\+D}} = 1
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\+\_\+t \doxymbox{\hyperlink{phase__change_8c_a27745b3d2dc436a04430f2d6337836bd}{phase\+\_\+change}} (\doxymbox{\hyperlink{structPhaseData}{Phase\+Data}} \texorpdfstring{$\ast$}{*}previous\+\_\+phase, \doxymbox{\hyperlink{structPhaseData}{Phase\+Data}} \texorpdfstring{$\ast$}{*}current\+\_\+phase)
+\begin{DoxyCompactList}\small\item\em Determines the direction of phase progression and updates the phase counter and detected direction accordingly Compares the previous and current phases to identify forward movement, backward movement, or no change. Returns INVALID\+\_\+\+TRANSITION for invalid phase transitions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implements rotation phase transition detection and tracking. 
+
+\begin{DoxyAuthor}{Author}
+Len Peschko (2840024), Lars Taddey (2880138) -\/ HAW Hamburg 
+\end{DoxyAuthor}
+
+
+Definition in file \doxymbox{\hyperlink{phase__change_8c_source}{phase\+\_\+change.\+c}}.
+
+
+
+\label{phase__change_8c_doc-enum-members}
+\Hypertarget{phase__change_8c_doc-enum-members}
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84}\index{phase\_change.c@{phase\_change.c}!Phase@{Phase}}
+\index{Phase@{Phase}!phase\_change.c@{phase\_change.c}}
+\doxysubsubsection{\texorpdfstring{Phase}{Phase}}
+{\footnotesize\ttfamily \label{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84} 
+enum \doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84}{Phase}}}
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PHASE\_A@{PHASE\_A}!phase\_change.c@{phase\_change.c}}
+\index{phase\_change.c@{phase\_change.c}!PHASE\_A@{PHASE\_A}}
+}\Hypertarget{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84a8825a1a26ae9bf551b490741d7ae280a}\label{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84a8825a1a26ae9bf551b490741d7ae280a} 
+PHASE\+\_\+A&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PHASE\_B@{PHASE\_B}!phase\_change.c@{phase\_change.c}}
+\index{phase\_change.c@{phase\_change.c}!PHASE\_B@{PHASE\_B}}
+}\Hypertarget{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84ac9590e77e32637ec7e053fe2690876bf}\label{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84ac9590e77e32637ec7e053fe2690876bf} 
+PHASE\+\_\+B&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PHASE\_C@{PHASE\_C}!phase\_change.c@{phase\_change.c}}
+\index{phase\_change.c@{phase\_change.c}!PHASE\_C@{PHASE\_C}}
+}\Hypertarget{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84aa40453ff9dcc9108a8f76456fd68c464}\label{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84aa40453ff9dcc9108a8f76456fd68c464} 
+PHASE\+\_\+C&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PHASE\_D@{PHASE\_D}!phase\_change.c@{phase\_change.c}}
+\index{phase\_change.c@{phase\_change.c}!PHASE\_D@{PHASE\_D}}
+}\Hypertarget{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84a424cfb90ef8bea9f26fb8302800a27e7}\label{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84a424cfb90ef8bea9f26fb8302800a27e7} 
+PHASE\+\_\+D&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \doxymbox{\hyperlink{phase__change_8c_source_l00011}{11}} of file \doxymbox{\hyperlink{phase__change_8c_source}{phase\+\_\+change.\+c}}.
+
+
+
+\label{phase__change_8c_doc-func-members}
+\Hypertarget{phase__change_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{phase__change_8c_a27745b3d2dc436a04430f2d6337836bd}\index{phase\_change.c@{phase\_change.c}!phase\_change@{phase\_change}}
+\index{phase\_change@{phase\_change}!phase\_change.c@{phase\_change.c}}
+\doxysubsubsection{\texorpdfstring{phase\_change()}{phase\_change()}}
+{\footnotesize\ttfamily \label{phase__change_8c_a27745b3d2dc436a04430f2d6337836bd} 
+int32\+\_\+t phase\+\_\+change (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{structPhaseData}{Phase\+Data}} \texorpdfstring{$\ast$}{*}}]{previous\+\_\+phase}{, }\item[{\doxymbox{\hyperlink{structPhaseData}{Phase\+Data}} \texorpdfstring{$\ast$}{*}}]{current\+\_\+phase}{}\end{DoxyParamCaption})}
+
+
+
+Determines the direction of phase progression and updates the phase counter and detected direction accordingly Compares the previous and current phases to identify forward movement, backward movement, or no change. Returns INVALID\+\_\+\+TRANSITION for invalid phase transitions. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em previous\+\_\+phase} & Pointer to the previous phase data. Updated after a valid transition. \\
+\hline
+{\em current\+\_\+phase} & Pointer to the current phase data.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+uint32\+\_\+t The rotation direction, or an invalid transition value if the transition is not valid. 
+\end{DoxyReturn}
+
+
+Definition at line \doxymbox{\hyperlink{phase__change_8c_source_l00018}{18}} of file \doxymbox{\hyperlink{phase__change_8c_source}{phase\+\_\+change.\+c}}.
+

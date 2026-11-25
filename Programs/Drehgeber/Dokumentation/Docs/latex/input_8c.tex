@@ -1,0 +1,105 @@
+\doxysection{Programs/\+\+Drehgeber/\+\+Src/\+input.c File Reference}
+\hypertarget{input_8c}{}\label{input_8c}\index{Programs/Drehgeber/Src/input.c@{Programs/Drehgeber/Src/input.c}}
+
+
+Implements the functions for reading phase-\/pin input and button events.  
+
+
+{\ttfamily \+\#include "{}input.\+h"{}}\newline
+{\ttfamily \+\#include "{}stm32f429xx.\+h"{}}\newline
+{\ttfamily \+\#include "{}timer.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{input_8c_a473da93ae0643a006a8c75fe5ec989ce}{PHASE\+\_\+\+INPUT\+\_\+\+MASK}}~0x03U
+\item 
+\+\#define \doxymbox{\hyperlink{input_8c_ad87bd41b3116dba9e27c26862533253c}{BUTTON\+\_\+\+CLEAR\+\_\+\+MASK}}~0x40U
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\+\_\+t \doxymbox{\hyperlink{input_8c_add1b3b8ad2df5c84a40abdccf1984ab8}{read\+\_\+pins\+\_\+and\+\_\+time}} (\doxymbox{\hyperlink{structPhaseData}{Phase\+Data}} \texorpdfstring{$\ast$}{*}phase\+\_\+data)
+\begin{DoxyCompactList}\small\item\em Reads the board\textquotesingle{}s IN0 and IN1 input pins and stores their values and the current timestamp in a \doxylink{structPhaseData}{Phase\+Data} structure. \end{DoxyCompactList}\item 
+bool \doxymbox{\hyperlink{input_8c_a1483b2255c73a16c6351067fd0ad92dd}{clear\+\_\+button\+\_\+pressed}} ()
+\begin{DoxyCompactList}\small\item\em Reads the S6 button input and determines whether the button is pressed. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implements the functions for reading phase-\/pin input and button events. 
+
+\begin{DoxyAuthor}{Author}
+Len Peschko (2840024), Lars Taddey (2880138) -\/ HAW Hamburg 
+\end{DoxyAuthor}
+
+
+Definition in file \doxymbox{\hyperlink{input_8c_source}{input.\+c}}.
+
+
+
+\label{input_8c_doc-define-members}
+\Hypertarget{input_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{input_8c_ad87bd41b3116dba9e27c26862533253c}\index{input.c@{input.c}!BUTTON\_CLEAR\_MASK@{BUTTON\_CLEAR\_MASK}}
+\index{BUTTON\_CLEAR\_MASK@{BUTTON\_CLEAR\_MASK}!input.c@{input.c}}
+\doxysubsubsection{\texorpdfstring{BUTTON\_CLEAR\_MASK}{BUTTON\_CLEAR\_MASK}}
+{\footnotesize\ttfamily \label{input_8c_ad87bd41b3116dba9e27c26862533253c} 
+\+\#define BUTTON\+\_\+\+CLEAR\+\_\+\+MASK~0x40U}
+
+
+
+Definition at line \doxymbox{\hyperlink{input_8c_source_l00013}{13}} of file \doxymbox{\hyperlink{input_8c_source}{input.\+c}}.
+
+\Hypertarget{input_8c_a473da93ae0643a006a8c75fe5ec989ce}\index{input.c@{input.c}!PHASE\_INPUT\_MASK@{PHASE\_INPUT\_MASK}}
+\index{PHASE\_INPUT\_MASK@{PHASE\_INPUT\_MASK}!input.c@{input.c}}
+\doxysubsubsection{\texorpdfstring{PHASE\_INPUT\_MASK}{PHASE\_INPUT\_MASK}}
+{\footnotesize\ttfamily \label{input_8c_a473da93ae0643a006a8c75fe5ec989ce} 
+\+\#define PHASE\+\_\+\+INPUT\+\_\+\+MASK~0x03U}
+
+
+
+Definition at line \doxymbox{\hyperlink{input_8c_source_l00012}{12}} of file \doxymbox{\hyperlink{input_8c_source}{input.\+c}}.
+
+
+
+\label{input_8c_doc-func-members}
+\Hypertarget{input_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{input_8c_a1483b2255c73a16c6351067fd0ad92dd}\index{input.c@{input.c}!clear\_button\_pressed@{clear\_button\_pressed}}
+\index{clear\_button\_pressed@{clear\_button\_pressed}!input.c@{input.c}}
+\doxysubsubsection{\texorpdfstring{clear\_button\_pressed()}{clear\_button\_pressed()}}
+{\footnotesize\ttfamily \label{input_8c_a1483b2255c73a16c6351067fd0ad92dd} 
+bool clear\+\_\+button\+\_\+pressed (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Reads the S6 button input and determines whether the button is pressed. 
+
+\begin{DoxyReturn}{Returns}
+true if button was pressed, else false 
+\end{DoxyReturn}
+
+
+Definition at line \doxymbox{\hyperlink{input_8c_source_l00026}{26}} of file \doxymbox{\hyperlink{input_8c_source}{input.\+c}}.
+
+\Hypertarget{input_8c_add1b3b8ad2df5c84a40abdccf1984ab8}\index{input.c@{input.c}!read\_pins\_and\_time@{read\_pins\_and\_time}}
+\index{read\_pins\_and\_time@{read\_pins\_and\_time}!input.c@{input.c}}
+\doxysubsubsection{\texorpdfstring{read\_pins\_and\_time()}{read\_pins\_and\_time()}}
+{\footnotesize\ttfamily \label{input_8c_add1b3b8ad2df5c84a40abdccf1984ab8} 
+int32\+\_\+t read\+\_\+pins\+\_\+and\+\_\+time (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{structPhaseData}{Phase\+Data}} \texorpdfstring{$\ast$}{*}}]{phase\+\_\+data}{}\end{DoxyParamCaption})}
+
+
+
+Reads the board\textquotesingle{}s IN0 and IN1 input pins and stores their values and the current timestamp in a \doxylink{structPhaseData}{Phase\+Data} structure. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em phase\+\_\+data} & Pointer to the \doxylink{structPhaseData}{Phase\+Data} structure in which to store the input pin values and timestamp. timestamp \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int32\+\_\+t 0 if the inputs are read successfully, or -\/1 if an error occurs. 
+\end{DoxyReturn}
+
+
+Definition at line \doxymbox{\hyperlink{input_8c_source_l00015}{15}} of file \doxymbox{\hyperlink{input_8c_source}{input.\+c}}.
+

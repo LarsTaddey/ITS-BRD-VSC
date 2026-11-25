@@ -1,6 +1,8 @@
 /**
  * @file input.c
- * @brief Implements the functions for reading input and clear button events.
+ * @brief Implements the functions for reading phase-pin input and button
+ * events.
+ * @author Len Peschko (2840024), Lars Taddey (2880138) - HAW Hamburg
  */
 
 #include "input.h"
@@ -21,13 +23,4 @@ int32_t read_pins_and_time(PhaseData *phase_data) {
    return 0;
 }
 
-bool clear_button_pressed() {
-   // For "on release" behavior
-   // static bool previous_state = true;
-   // bool current_state = GPIOF->IDR & BUTTON_CLEAR_MASK;
-   // bool button_released = (previous_state == false && current_state == true);
-   // previous_state = current_state;
-
-   // "pressed" behavior
-   return GPIOF->IDR & BUTTON_CLEAR_MASK ? 0 : 1;
-}
+bool clear_button_pressed() { return GPIOF->IDR & BUTTON_CLEAR_MASK ? 0 : 1; }

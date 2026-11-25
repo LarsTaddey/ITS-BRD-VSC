@@ -1,0 +1,125 @@
+\doxysection{Programs/\+\+Drehgeber/\+\+Src/\+angle\+\_\+calculation.c File Reference}
+\hypertarget{angle__calculation_8c}{}\label{angle__calculation_8c}\index{Programs/Drehgeber/Src/angle\_calculation.c@{Programs/Drehgeber/Src/angle\_calculation.c}}
+
+
+Implements angle and angular speed calculations based on phase data.  
+
+
+{\ttfamily \+\#include "{}angle\+\_\+calculation.\+h"{}}\newline
+{\ttfamily \+\#include "{}data\+\_\+types.\+h"{}}\newline
+{\ttfamily \+\#include "{}timer.\+h"{}}\newline
+{\ttfamily \+\#include $<$stdint.\+h$>$}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{angle__calculation_8c_af18cd7007c9b643b65b48b6a44c466e6}{SLOT\+\_\+\+COUNT}}~1200.\+0
+\item 
+\+\#define \doxymbox{\hyperlink{angle__calculation_8c_aca0657f5ebee40263d4b09cf6c06e4b5}{DEGREE\+\_\+\+PER\+\_\+\+PHASE}}~(360.\+0 /\+ \doxymbox{\hyperlink{angle__calculation_8c_af18cd7007c9b643b65b48b6a44c466e6}{SLOT\+\_\+\+COUNT}})
+\item 
+\+\#define \doxymbox{\hyperlink{angle__calculation_8c_a150e4f9c8426a49d5153393b6612ef9e}{TIMER\+\_\+\+FREQUENCY}}~(TICKS\+\_\+\+PER\+\_\+\+US \texorpdfstring{$\ast$}{*} 1000000.\+0)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+double \doxymbox{\hyperlink{angle__calculation_8c_a21255d241854c23b24595e73d4357302}{calculate\+\_\+angle}} (\doxymbox{\hyperlink{structPhaseData}{Phase\+Data}} \texorpdfstring{$\ast$}{*}current\+\_\+phase)
+\begin{DoxyCompactList}\small\item\em Calculates the angle corresponding to the current phase. \end{DoxyCompactList}\item 
+double \doxymbox{\hyperlink{angle__calculation_8c_ad3b2473c66302ad946fa462716717592}{calculate\+\_\+angular\+\_\+speed}} (\doxymbox{\hyperlink{structPhaseData}{Phase\+Data}} \texorpdfstring{$\ast$}{*}reference\+\_\+phase, \doxymbox{\hyperlink{structPhaseData}{Phase\+Data}} \texorpdfstring{$\ast$}{*}current\+\_\+phase)
+\begin{DoxyCompactList}\small\item\em Calculates the angular speed based on the change in phase and time. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implements angle and angular speed calculations based on phase data. 
+
+\begin{DoxyAuthor}{Author}
+Len Peschko (2840024), Lars Taddey (2880138) -\/ HAW Hamburg 
+\end{DoxyAuthor}
+
+
+Definition in file \doxymbox{\hyperlink{angle__calculation_8c_source}{angle\+\_\+calculation.\+c}}.
+
+
+
+\label{angle__calculation_8c_doc-define-members}
+\Hypertarget{angle__calculation_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{angle__calculation_8c_aca0657f5ebee40263d4b09cf6c06e4b5}\index{angle\_calculation.c@{angle\_calculation.c}!DEGREE\_PER\_PHASE@{DEGREE\_PER\_PHASE}}
+\index{DEGREE\_PER\_PHASE@{DEGREE\_PER\_PHASE}!angle\_calculation.c@{angle\_calculation.c}}
+\doxysubsubsection{\texorpdfstring{DEGREE\_PER\_PHASE}{DEGREE\_PER\_PHASE}}
+{\footnotesize\ttfamily \label{angle__calculation_8c_aca0657f5ebee40263d4b09cf6c06e4b5} 
+\+\#define DEGREE\+\_\+\+PER\+\_\+\+PHASE~(360.\+0 /\+ \doxymbox{\hyperlink{angle__calculation_8c_af18cd7007c9b643b65b48b6a44c466e6}{SLOT\+\_\+\+COUNT}})}
+
+
+
+Definition at line \doxymbox{\hyperlink{angle__calculation_8c_source_l00013}{13}} of file \doxymbox{\hyperlink{angle__calculation_8c_source}{angle\+\_\+calculation.\+c}}.
+
+\Hypertarget{angle__calculation_8c_af18cd7007c9b643b65b48b6a44c466e6}\index{angle\_calculation.c@{angle\_calculation.c}!SLOT\_COUNT@{SLOT\_COUNT}}
+\index{SLOT\_COUNT@{SLOT\_COUNT}!angle\_calculation.c@{angle\_calculation.c}}
+\doxysubsubsection{\texorpdfstring{SLOT\_COUNT}{SLOT\_COUNT}}
+{\footnotesize\ttfamily \label{angle__calculation_8c_af18cd7007c9b643b65b48b6a44c466e6} 
+\+\#define SLOT\+\_\+\+COUNT~1200.\+0}
+
+
+
+Definition at line \doxymbox{\hyperlink{angle__calculation_8c_source_l00012}{12}} of file \doxymbox{\hyperlink{angle__calculation_8c_source}{angle\+\_\+calculation.\+c}}.
+
+\Hypertarget{angle__calculation_8c_a150e4f9c8426a49d5153393b6612ef9e}\index{angle\_calculation.c@{angle\_calculation.c}!TIMER\_FREQUENCY@{TIMER\_FREQUENCY}}
+\index{TIMER\_FREQUENCY@{TIMER\_FREQUENCY}!angle\_calculation.c@{angle\_calculation.c}}
+\doxysubsubsection{\texorpdfstring{TIMER\_FREQUENCY}{TIMER\_FREQUENCY}}
+{\footnotesize\ttfamily \label{angle__calculation_8c_a150e4f9c8426a49d5153393b6612ef9e} 
+\+\#define TIMER\+\_\+\+FREQUENCY~(TICKS\+\_\+\+PER\+\_\+\+US \texorpdfstring{$\ast$}{*} 1000000.\+0)}
+
+
+
+Definition at line \doxymbox{\hyperlink{angle__calculation_8c_source_l00015}{15}} of file \doxymbox{\hyperlink{angle__calculation_8c_source}{angle\+\_\+calculation.\+c}}.
+
+
+
+\label{angle__calculation_8c_doc-func-members}
+\Hypertarget{angle__calculation_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{angle__calculation_8c_a21255d241854c23b24595e73d4357302}\index{angle\_calculation.c@{angle\_calculation.c}!calculate\_angle@{calculate\_angle}}
+\index{calculate\_angle@{calculate\_angle}!angle\_calculation.c@{angle\_calculation.c}}
+\doxysubsubsection{\texorpdfstring{calculate\_angle()}{calculate\_angle()}}
+{\footnotesize\ttfamily \label{angle__calculation_8c_a21255d241854c23b24595e73d4357302} 
+double calculate\+\_\+angle (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{structPhaseData}{Phase\+Data}} \texorpdfstring{$\ast$}{*}}]{current\+\_\+phase}{}\end{DoxyParamCaption})}
+
+
+
+Calculates the angle corresponding to the current phase. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em current\+\_\+phase} & Pointer to the current phase data \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double Angle in degrees 
+\end{DoxyReturn}
+
+
+Definition at line \doxymbox{\hyperlink{angle__calculation_8c_source_l00017}{17}} of file \doxymbox{\hyperlink{angle__calculation_8c_source}{angle\+\_\+calculation.\+c}}.
+
+\Hypertarget{angle__calculation_8c_ad3b2473c66302ad946fa462716717592}\index{angle\_calculation.c@{angle\_calculation.c}!calculate\_angular\_speed@{calculate\_angular\_speed}}
+\index{calculate\_angular\_speed@{calculate\_angular\_speed}!angle\_calculation.c@{angle\_calculation.c}}
+\doxysubsubsection{\texorpdfstring{calculate\_angular\_speed()}{calculate\_angular\_speed()}}
+{\footnotesize\ttfamily \label{angle__calculation_8c_ad3b2473c66302ad946fa462716717592} 
+double calculate\+\_\+angular\+\_\+speed (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{structPhaseData}{Phase\+Data}} \texorpdfstring{$\ast$}{*}}]{reference\+\_\+phase}{, }\item[{\doxymbox{\hyperlink{structPhaseData}{Phase\+Data}} \texorpdfstring{$\ast$}{*}}]{current\+\_\+phase}{}\end{DoxyParamCaption})}
+
+
+
+Calculates the angular speed based on the change in phase and time. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em reference\+\_\+phase} & Pointer to the phase data from the reference\+\_\+phase for calculation \\
+\hline
+{\em current\+\_\+phase} & Pointer to the phase data from the current measurement \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double Angular speed in degrees per second 
+\end{DoxyReturn}
+
+
+Definition at line \doxymbox{\hyperlink{angle__calculation_8c_source_l00021}{21}} of file \doxymbox{\hyperlink{angle__calculation_8c_source}{angle\+\_\+calculation.\+c}}.
+

@@ -1,11 +1,13 @@
 /**
 ******************************************************************************
 * @file    main.c
-* @author Len Peschko (2840024), Lars Taddey (2880138) - HAW Hamburg
 * @brief Main application entry point. Implements the concept of a rotary
 * encoder and initializes the hardware and application modules, then manages the
 * finite state machine, the input, angle and angular speed calculation,
 * and output.
+* @author Len Peschko (2840024), Lars Taddey (2880138) - HAW Hamburg
+* @version Aufgabe_2.2_GSP
+* @date 25.11.2026
 ******************************************************************************
 */
 /* Includes ------------------------------------------------------------------*/
@@ -23,9 +25,9 @@
 #define REFRESH_DELAY ((300 * 1000) * TICKS_PER_US)
 
 int main(void) {
-   PhaseData phase_last;
-   PhaseData phase_now;
-   PhaseData phase_buffer;
+   PhaseData previous_phase;
+   PhaseData current_phase;
+   PhaseData reference_phase;
    AngleData angle_data;
    int32_t direction;
    SystemState state;
@@ -46,44 +48,45 @@ int main(void) {
       case STATE_INIT:
 
          set_default_output();
-         phase_last.phase_counter = 0;
-         phase_last.timestamp = 0;
-         phase_now = phase_last;
-         phase_buffer = phase_last;
-         read_pins_and_time(&phase_last);
-         state = STATE_NORMAL;
+         previous_phase.phase_counter = 0;
+         previous_phase.timestamp = 0;
+         current_phase = previous_phase;
+         reference_phase = previous_phase;
+         read_pins_and_time(&previous_phase);
+         state = STATE_RUN;
          break;
 
       // Read pins and check if a phase change occured, then calculate angle and
       // angle speed
-      case STATE_NORMAL:
+      case STATE_RUN:
 
-         read_pins_and_time(&phase_now);
-         direction = phase_change(&phase_last, &phase_now);
+         read_pins_and_time(&current_phase);
+         direction = phase_change(&previous_phase, &current_phase);
 
-         if ((phase_now.timestamp - phase_buffer.timestamp) > REFRESH_DELAY) {
-            angle_data.angle = calculate_angle(phase_now);
+         if ((current_phase.timestamp - reference_phase.timestamp) >
+             REFRESH_DELAY) {
+            angle_data.angle = calculate_angle(&current_phase);
             angle_data.angle_speed =
-                calculate_angular_speed(phase_buffer, phase_now);
+                calculate_angular_speed(&reference_phase, &current_phase);
 
-            phase_buffer = phase_now;
+            reference_phase = current_phase;
          }
 
-         phase_last = phase_now;
+         previous_phase = current_phase;
 
-         output_counter_leds(phase_now);
-         output_display(angle_data);
+         set_counter_leds(current_phase.phase_counter);
+         output_data_to_lcd(&angle_data);
 
          if (direction == DIRECTION_FORWARD) {
-            output_backward_led(false);
-            output_forward_led(true);
+            turn_off_backward_led();
+            turn_on_forward_led();
          }
          if (direction == DIRECTION_BACKWARD) {
-            output_forward_led(false);
-            output_backward_led(true);
+            turn_off_forward_led();
+            turn_on_backward_led();
          }
          if (direction == INVALID_TRANSITION) {
-            output_error_led(true);
+            turn_on_error_led();
             state = STATE_ERROR;
          }
          break;

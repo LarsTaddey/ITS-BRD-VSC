@@ -1,0 +1,112 @@
+\doxysection{Programs/\+\+Drehgeber/\+\+Inc/\+data\+\_\+types.h File Reference}
+\hypertarget{data__types_8h}{}\label{data__types_8h}\index{Programs/Drehgeber/Inc/data\_types.h@{Programs/Drehgeber/Inc/data\_types.h}}
+
+
+Defines shared data types used throughout the application, including the system state, encoder phase data, angle and angular speed data and rotation direction.  
+
+
+{\ttfamily \+\#include $<$stdint.\+h$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{structPhaseData}{Phase\+Data}}
+\item 
+struct \doxymbox{\hyperlink{structAngleData}{Angle\+Data}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \doxymbox{\hyperlink{data__types_8h_aa51313be2faacb739a18fdeecefbac75}{System\+State}} \{ \doxymbox{\hyperlink{data__types_8h_aa51313be2faacb739a18fdeecefbac75a98d2a2153b4ae0445fa0b114d65b94d9}{STATE\+\_\+\+INIT}}
+, \doxymbox{\hyperlink{data__types_8h_aa51313be2faacb739a18fdeecefbac75ae583c55c9f9a3aa9888e4ed771d6a9b6}{STATE\+\_\+\+NORMAL}}
+, \doxymbox{\hyperlink{data__types_8h_aa51313be2faacb739a18fdeecefbac75ad55c0bfe3a7d3ae983e81a98e3384d6c}{STATE\+\_\+\+ERROR}}
+ \}
+\item 
+enum \doxymbox{\hyperlink{data__types_8h_a224b9163917ac32fc95a60d8c1eec3aa}{Direction}} \{ \doxymbox{\hyperlink{data__types_8h_a224b9163917ac32fc95a60d8c1eec3aaadbadcbdea8b3c8deab0b1f0c30f55d0c}{DIRECTION\+\_\+\+FORWARD}} = 1
+, \doxymbox{\hyperlink{data__types_8h_a224b9163917ac32fc95a60d8c1eec3aaacdda804a39b418b888aa8dfcdc7f01b9}{DIRECTION\+\_\+\+BACKWARD}} = -\/1
+, \doxymbox{\hyperlink{data__types_8h_a224b9163917ac32fc95a60d8c1eec3aaa7fb0c1cca10ff57ae7aa3878ba530fbd}{NO\+\_\+\+CHANGE}} = 0
+, \doxymbox{\hyperlink{data__types_8h_a224b9163917ac32fc95a60d8c1eec3aaace48d6f464b692511f0b33813c104c03}{INVALID\+\_\+\+TRANSITION}} = -\/2
+ \}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Defines shared data types used throughout the application, including the system state, encoder phase data, angle and angular speed data and rotation direction. 
+
+\begin{DoxyAuthor}{Author}
+Len Peschko (2840024), Lars Taddey (2880138) -\/ HAW Hamburg 
+\end{DoxyAuthor}
+
+
+Definition in file \doxymbox{\hyperlink{data__types_8h_source}{data\+\_\+types.\+h}}.
+
+
+
+\label{data__types_8h_doc-enum-members}
+\Hypertarget{data__types_8h_doc-enum-members}
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{data__types_8h_a224b9163917ac32fc95a60d8c1eec3aa}\index{data\_types.h@{data\_types.h}!Direction@{Direction}}
+\index{Direction@{Direction}!data\_types.h@{data\_types.h}}
+\doxysubsubsection{\texorpdfstring{Direction}{Direction}}
+{\footnotesize\ttfamily \label{data__types_8h_a224b9163917ac32fc95a60d8c1eec3aa} 
+enum \doxymbox{\hyperlink{data__types_8h_a224b9163917ac32fc95a60d8c1eec3aa}{Direction}}}
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DIRECTION\_FORWARD@{DIRECTION\_FORWARD}!data\_types.h@{data\_types.h}}
+\index{data\_types.h@{data\_types.h}!DIRECTION\_FORWARD@{DIRECTION\_FORWARD}}
+}\Hypertarget{data__types_8h_a224b9163917ac32fc95a60d8c1eec3aaadbadcbdea8b3c8deab0b1f0c30f55d0c}\label{data__types_8h_a224b9163917ac32fc95a60d8c1eec3aaadbadcbdea8b3c8deab0b1f0c30f55d0c} 
+DIRECTION\+\_\+\+FORWARD&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DIRECTION\_BACKWARD@{DIRECTION\_BACKWARD}!data\_types.h@{data\_types.h}}
+\index{data\_types.h@{data\_types.h}!DIRECTION\_BACKWARD@{DIRECTION\_BACKWARD}}
+}\Hypertarget{data__types_8h_a224b9163917ac32fc95a60d8c1eec3aaacdda804a39b418b888aa8dfcdc7f01b9}\label{data__types_8h_a224b9163917ac32fc95a60d8c1eec3aaacdda804a39b418b888aa8dfcdc7f01b9} 
+DIRECTION\+\_\+\+BACKWARD&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NO\_CHANGE@{NO\_CHANGE}!data\_types.h@{data\_types.h}}
+\index{data\_types.h@{data\_types.h}!NO\_CHANGE@{NO\_CHANGE}}
+}\Hypertarget{data__types_8h_a224b9163917ac32fc95a60d8c1eec3aaa7fb0c1cca10ff57ae7aa3878ba530fbd}\label{data__types_8h_a224b9163917ac32fc95a60d8c1eec3aaa7fb0c1cca10ff57ae7aa3878ba530fbd} 
+NO\+\_\+\+CHANGE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{INVALID\_TRANSITION@{INVALID\_TRANSITION}!data\_types.h@{data\_types.h}}
+\index{data\_types.h@{data\_types.h}!INVALID\_TRANSITION@{INVALID\_TRANSITION}}
+}\Hypertarget{data__types_8h_a224b9163917ac32fc95a60d8c1eec3aaace48d6f464b692511f0b33813c104c03}\label{data__types_8h_a224b9163917ac32fc95a60d8c1eec3aaace48d6f464b692511f0b33813c104c03} 
+INVALID\+\_\+\+TRANSITION&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \doxymbox{\hyperlink{data__types_8h_source_l00031}{31}} of file \doxymbox{\hyperlink{data__types_8h_source}{data\+\_\+types.\+h}}.
+
+\Hypertarget{data__types_8h_aa51313be2faacb739a18fdeecefbac75}\index{data\_types.h@{data\_types.h}!SystemState@{SystemState}}
+\index{SystemState@{SystemState}!data\_types.h@{data\_types.h}}
+\doxysubsubsection{\texorpdfstring{SystemState}{SystemState}}
+{\footnotesize\ttfamily \label{data__types_8h_aa51313be2faacb739a18fdeecefbac75} 
+enum \doxymbox{\hyperlink{data__types_8h_aa51313be2faacb739a18fdeecefbac75}{System\+State}}}
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{STATE\_INIT@{STATE\_INIT}!data\_types.h@{data\_types.h}}
+\index{data\_types.h@{data\_types.h}!STATE\_INIT@{STATE\_INIT}}
+}\Hypertarget{data__types_8h_aa51313be2faacb739a18fdeecefbac75a98d2a2153b4ae0445fa0b114d65b94d9}\label{data__types_8h_aa51313be2faacb739a18fdeecefbac75a98d2a2153b4ae0445fa0b114d65b94d9} 
+STATE\+\_\+\+INIT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{STATE\_NORMAL@{STATE\_NORMAL}!data\_types.h@{data\_types.h}}
+\index{data\_types.h@{data\_types.h}!STATE\_NORMAL@{STATE\_NORMAL}}
+}\Hypertarget{data__types_8h_aa51313be2faacb739a18fdeecefbac75ae583c55c9f9a3aa9888e4ed771d6a9b6}\label{data__types_8h_aa51313be2faacb739a18fdeecefbac75ae583c55c9f9a3aa9888e4ed771d6a9b6} 
+STATE\+\_\+\+NORMAL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{STATE\_ERROR@{STATE\_ERROR}!data\_types.h@{data\_types.h}}
+\index{data\_types.h@{data\_types.h}!STATE\_ERROR@{STATE\_ERROR}}
+}\Hypertarget{data__types_8h_aa51313be2faacb739a18fdeecefbac75ad55c0bfe3a7d3ae983e81a98e3384d6c}\label{data__types_8h_aa51313be2faacb739a18fdeecefbac75ad55c0bfe3a7d3ae983e81a98e3384d6c} 
+STATE\+\_\+\+ERROR&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \doxymbox{\hyperlink{data__types_8h_source_l00014}{14}} of file \doxymbox{\hyperlink{data__types_8h_source}{data\+\_\+types.\+h}}.
+

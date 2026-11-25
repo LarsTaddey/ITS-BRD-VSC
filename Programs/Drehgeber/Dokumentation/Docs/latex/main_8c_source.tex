@@ -1,0 +1,103 @@
+\doxysection{main.\+c}
+\hypertarget{main_8c_source}{}\label{main_8c_source}\index{Programs/Drehgeber/Src/main.c@{Programs/Drehgeber/Src/main.c}}
+\doxymbox{\hyperlink{main_8c}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00013}00013\ \textcolor{comment}{/*\ Includes\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00015}00015\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{angle__calculation_8h}{angle\_calculation.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00016}00016\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{data__types_8h}{data\_types.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00017}00017\ \textcolor{preprocessor}{\#include\ "{}init.h"{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00018}00018\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{input_8h}{input.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00019}00019\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{output_8h}{output.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00020}00020\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{phase__change_8h}{phase\_change.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00021}00021\ \textcolor{preprocessor}{\#include\ "{}timer.h"{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00022}00022\ \textcolor{preprocessor}{\#include\ <complex.h>}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00025}\doxymbox{\hyperlink{main_8c_ac32f584bec0e5ebbb4c84b62a466d4b5}{00025}}\ \textcolor{preprocessor}{\#define\ REFRESH\_DELAY\ ((300\ *\ 1000)\ *\ TICKS\_PER\_US)}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00027}\doxymbox{\hyperlink{main_8c_a840291bc02cba5474a4cb46a9b9566fe}{00027}}\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{main_8c_a840291bc02cba5474a4cb46a9b9566fe}{main}}(\textcolor{keywordtype}{void})\ \{}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00028}00028\ \ \ \ \doxymbox{\hyperlink{structPhaseData}{PhaseData}}\ previous\_phase;}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00029}00029\ \ \ \ \doxymbox{\hyperlink{structPhaseData}{PhaseData}}\ current\_phase;}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00030}00030\ \ \ \ \doxymbox{\hyperlink{structPhaseData}{PhaseData}}\ reference\_phase;}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00031}00031\ \ \ \ \doxymbox{\hyperlink{structAngleData}{AngleData}}\ angle\_data;}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00032}00032\ \ \ \ int32\_t\ direction;}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00033}00033\ \ \ \ \doxymbox{\hyperlink{data__types_8h_aa51313be2faacb739a18fdeecefbac75}{SystemState}}\ state;}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00035}00035\ \ \ \ \textcolor{comment}{//\ Initialization\ on\ start}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00036}00036\ \ \ \ initITSboard();}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00037}00037\ \ \ \ initTimer();}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00038}00038\ \ \ \ \doxymbox{\hyperlink{output_8h_a69ec6f2da59d837b761d7cac40f26309}{output\_init}}();}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00039}00039\ \ \ \ state\ =\ \doxymbox{\hyperlink{data__types_8h_aa51313be2faacb739a18fdeecefbac75a98d2a2153b4ae0445fa0b114d65b94d9}{STATE\_INIT}};}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00041}00041\ \ \ \ \textcolor{keywordflow}{while}\ (1)\ \{}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00042}00042\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\doxymbox{\hyperlink{input_8h_a3a92c85d17326a6cc35e141b4e07d6d4}{clear\_button\_pressed}}())\ \{}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00043}00043\ \ \ \ \ \ \ \ \ \ state\ =\ \doxymbox{\hyperlink{data__types_8h_aa51313be2faacb739a18fdeecefbac75a98d2a2153b4ae0445fa0b114d65b94d9}{STATE\_INIT}};}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00044}00044\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00045}00045\ \ \ \ \ \ \ \textcolor{comment}{//\ FSM\ with\ three\ states}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00046}00046\ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (state)\ \{}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00047}00047\ \ \ \ \ \ \ \textcolor{comment}{//\ Define\ variables\ and\ set\ default\ output}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00048}00048\ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \doxymbox{\hyperlink{data__types_8h_aa51313be2faacb739a18fdeecefbac75a98d2a2153b4ae0445fa0b114d65b94d9}{STATE\_INIT}}:}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{output_8h_a502ae22f2bc1b10331fff6ee6ae2b1a1}{set\_default\_output}}();}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00051}00051\ \ \ \ \ \ \ \ \ \ previous\_phase.\doxymbox{\hyperlink{structPhaseData_add1a608ded1a10430a4e268afef0cf65}{phase\_counter}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00052}00052\ \ \ \ \ \ \ \ \ \ previous\_phase.\doxymbox{\hyperlink{structPhaseData_aaf633fcbeec757199479867ede292a35}{timestamp}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00053}00053\ \ \ \ \ \ \ \ \ \ current\_phase\ =\ previous\_phase;}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00054}00054\ \ \ \ \ \ \ \ \ \ reference\_phase\ =\ previous\_phase;}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{input_8h_add1b3b8ad2df5c84a40abdccf1984ab8}{read\_pins\_and\_time}}(\&previous\_phase);}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00056}00056\ \ \ \ \ \ \ \ \ \ state\ =\ \doxymbox{\hyperlink{data__types_8h_aa51313be2faacb739a18fdeecefbac75ae583c55c9f9a3aa9888e4ed771d6a9b6}{STATE\_NORMAL}};}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00059}00059\ \ \ \ \ \ \ \textcolor{comment}{//\ Read\ pins\ and\ check\ if\ a\ phase\ change\ occured,\ then\ calculate\ angle\ and}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00060}00060\ \ \ \ \ \ \ \textcolor{comment}{//\ angle\ speed}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00061}00061\ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \doxymbox{\hyperlink{data__types_8h_aa51313be2faacb739a18fdeecefbac75ae583c55c9f9a3aa9888e4ed771d6a9b6}{STATE\_NORMAL}}:}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{input_8h_add1b3b8ad2df5c84a40abdccf1984ab8}{read\_pins\_and\_time}}(\&current\_phase);}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00064}00064\ \ \ \ \ \ \ \ \ \ direction\ =\ \doxymbox{\hyperlink{phase__change_8h_a27745b3d2dc436a04430f2d6337836bd}{phase\_change}}(\&previous\_phase,\ \&current\_phase);}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((current\_phase.\doxymbox{\hyperlink{structPhaseData_aaf633fcbeec757199479867ede292a35}{timestamp}}\ -\/\ reference\_phase.\doxymbox{\hyperlink{structPhaseData_aaf633fcbeec757199479867ede292a35}{timestamp}})\ >}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{main_8c_ac32f584bec0e5ebbb4c84b62a466d4b5}{REFRESH\_DELAY}})\ \{}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ angle\_data.\doxymbox{\hyperlink{structAngleData_abcfe7a90520847c7a9626ae89fcd7f22}{angle}}\ =\ \doxymbox{\hyperlink{angle__calculation_8h_a21255d241854c23b24595e73d4357302}{calculate\_angle}}(\&current\_phase);}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ angle\_data.\doxymbox{\hyperlink{structAngleData_a10dac67c5b37ee5de2b423b31b639e9f}{angle\_speed}}\ =}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{angle__calculation_8h_ad3b2473c66302ad946fa462716717592}{calculate\_angular\_speed}}(\&reference\_phase,\ \&current\_phase);}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ reference\_phase\ =\ current\_phase;}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00075}00075\ \ \ \ \ \ \ \ \ \ previous\_phase\ =\ current\_phase;}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{output_8h_ad5610074c177787a0bc740bb89cdd540}{set\_counter\_leds}}(current\_phase.\doxymbox{\hyperlink{structPhaseData_add1a608ded1a10430a4e268afef0cf65}{phase\_counter}});}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{output_8h_a20ff8f13500f1a64f0712a2ae8f0615b}{output\_data\_to\_lcd}}(\&angle\_data);}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (direction\ ==\ \doxymbox{\hyperlink{data__types_8h_a224b9163917ac32fc95a60d8c1eec3aaadbadcbdea8b3c8deab0b1f0c30f55d0c}{DIRECTION\_FORWARD}})\ \{}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{output_8h_a83c8116ea50c4fc0c076f82bec42c5d4}{turn\_off\_backward\_led}}();}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{output_8h_a3fb053b55cb96ea1a41783a09599d48d}{turn\_on\_forward\_led}}();}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (direction\ ==\ \doxymbox{\hyperlink{data__types_8h_a224b9163917ac32fc95a60d8c1eec3aaacdda804a39b418b888aa8dfcdc7f01b9}{DIRECTION\_BACKWARD}})\ \{}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{output_8h_ac6355b92d86311d6d41bb5b0a98fd6c0}{turn\_off\_forward\_led}}();}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{output_8h_a0fc74127a5c709654f9a1b72ad1f1024}{turn\_on\_backward\_led}}();}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (direction\ ==\ \doxymbox{\hyperlink{data__types_8h_a224b9163917ac32fc95a60d8c1eec3aaace48d6f464b692511f0b33813c104c03}{INVALID\_TRANSITION}})\ \{}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{output_8h_a328e560b8fd47cff656e438ad7698a0e}{turn\_on\_error\_led}}();}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ state\ =\ \doxymbox{\hyperlink{data__types_8h_aa51313be2faacb739a18fdeecefbac75ad55c0bfe3a7d3ae983e81a98e3384d6c}{STATE\_ERROR}};}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00094}00094\ \ \ \ \ \ \ \textcolor{comment}{//\ Waits\ for\ clear\_button\ to\ be\ pressed\ and\ then\ resets\ the\ state}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00095}00095\ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \doxymbox{\hyperlink{data__types_8h_aa51313be2faacb739a18fdeecefbac75ad55c0bfe3a7d3ae983e81a98e3384d6c}{STATE\_ERROR}}:}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\doxymbox{\hyperlink{input_8h_a3a92c85d17326a6cc35e141b4e07d6d4}{clear\_button\_pressed}}())\ \{}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ state\ =\ \doxymbox{\hyperlink{data__types_8h_aa51313be2faacb739a18fdeecefbac75a98d2a2153b4ae0445fa0b114d65b94d9}{STATE\_INIT}};}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00101}00101\ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00102}00102\ \ \ \ \ \ \ \ \ \ state\ =\ \doxymbox{\hyperlink{data__types_8h_aa51313be2faacb739a18fdeecefbac75a98d2a2153b4ae0445fa0b114d65b94d9}{STATE\_INIT}};}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00104}00104\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00105}00105\ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00106}00106\ \}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00108}00108\ \textcolor{comment}{//\ EOF}}
+
+\end{DoxyCode}

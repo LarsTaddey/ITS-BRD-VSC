@@ -1,0 +1,74 @@
+\doxysection{Programs/\+\+Drehgeber/\+\+Src/\+main.c File Reference}
+\hypertarget{main_8c}{}\label{main_8c}\index{Programs/Drehgeber/Src/main.c@{Programs/Drehgeber/Src/main.c}}
+
+
+Main application entry point. Implements the concept of a rotary encoder and initializes the hardware and application modules, then manages the finite state machine, the input, angle and angular speed calculation, and output.  
+
+
+{\ttfamily \+\#include "{}angle\+\_\+calculation.\+h"{}}\newline
+{\ttfamily \+\#include "{}data\+\_\+types.\+h"{}}\newline
+{\ttfamily \+\#include "{}init.\+h"{}}\newline
+{\ttfamily \+\#include "{}input.\+h"{}}\newline
+{\ttfamily \+\#include "{}output.\+h"{}}\newline
+{\ttfamily \+\#include "{}phase\+\_\+change.\+h"{}}\newline
+{\ttfamily \+\#include "{}timer.\+h"{}}\newline
+{\ttfamily \+\#include $<$complex.\+h$>$}\newline
+{\ttfamily \+\#include $<$stdint.\+h$>$}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{main_8c_ac32f584bec0e5ebbb4c84b62a466d4b5}{REFRESH\+\_\+\+DELAY}}~((300 \texorpdfstring{$\ast$}{*} 1000) \texorpdfstring{$\ast$}{*} TICKS\+\_\+\+PER\+\_\+\+US)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \doxymbox{\hyperlink{main_8c_a840291bc02cba5474a4cb46a9b9566fe}{main}} (void)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Main application entry point. Implements the concept of a rotary encoder and initializes the hardware and application modules, then manages the finite state machine, the input, angle and angular speed calculation, and output. 
+
+\begin{DoxyAuthor}{Author}
+Len Peschko (2840024), Lars Taddey (2880138) -\/ HAW Hamburg 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+Aufgabe\+\_\+2.\+2\+\_\+\+GSP 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+25.\+11.\+2026 
+\end{DoxyDate}
+
+
+Definition in file \doxymbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+
+
+\label{main_8c_doc-define-members}
+\Hypertarget{main_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{main_8c_ac32f584bec0e5ebbb4c84b62a466d4b5}\index{main.c@{main.c}!REFRESH\_DELAY@{REFRESH\_DELAY}}
+\index{REFRESH\_DELAY@{REFRESH\_DELAY}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{REFRESH\_DELAY}{REFRESH\_DELAY}}
+{\footnotesize\ttfamily \label{main_8c_ac32f584bec0e5ebbb4c84b62a466d4b5} 
+\+\#define REFRESH\+\_\+\+DELAY~((300 \texorpdfstring{$\ast$}{*} 1000) \texorpdfstring{$\ast$}{*} TICKS\+\_\+\+PER\+\_\+\+US)}
+
+
+
+Definition at line \doxymbox{\hyperlink{main_8c_source_l00025}{25}} of file \doxymbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+
+
+\label{main_8c_doc-func-members}
+\Hypertarget{main_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{main_8c_a840291bc02cba5474a4cb46a9b9566fe}\index{main.c@{main.c}!main@{main}}
+\index{main@{main}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily \label{main_8c_a840291bc02cba5474a4cb46a9b9566fe} 
+int main (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \doxymbox{\hyperlink{main_8c_source_l00027}{27}} of file \doxymbox{\hyperlink{main_8c_source}{main.\+c}}.
+

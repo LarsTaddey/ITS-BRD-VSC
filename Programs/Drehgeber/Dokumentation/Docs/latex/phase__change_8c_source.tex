@@ -1,0 +1,56 @@
+\doxysection{phase\+\_\+change.\+c}
+\hypertarget{phase__change_8c_source}{}\label{phase__change_8c_source}\index{Programs/Drehgeber/Src/phase\_change.c@{Programs/Drehgeber/Src/phase\_change.c}}
+\doxymbox{\hyperlink{phase__change_8c}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00007}00007\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{phase__change_8h}{phase\_change.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00008}00008\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{data__types_8h}{data\_types.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00009}00009\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00011}\doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84}{00011}}\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00012}\doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84a8825a1a26ae9bf551b490741d7ae280a}{00012}}\ \ \ \ \doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84a8825a1a26ae9bf551b490741d7ae280a}{PHASE\_A}}\ =\ 0,\ \textcolor{comment}{//\ 00}}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00013}\doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84ac9590e77e32637ec7e053fe2690876bf}{00013}}\ \ \ \ \doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84ac9590e77e32637ec7e053fe2690876bf}{PHASE\_B}}\ =\ 2,\ \textcolor{comment}{//\ 10}}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00014}\doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84aa40453ff9dcc9108a8f76456fd68c464}{00014}}\ \ \ \ \doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84aa40453ff9dcc9108a8f76456fd68c464}{PHASE\_C}}\ =\ 3,\ \textcolor{comment}{//\ 11}}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00015}\doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84a424cfb90ef8bea9f26fb8302800a27e7}{00015}}\ \ \ \ \doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84a424cfb90ef8bea9f26fb8302800a27e7}{PHASE\_D}}\ =\ 1,\ \textcolor{comment}{//\ 01}}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00016}00016\ \}\ \doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84}{Phase}};}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00018}\doxymbox{\hyperlink{phase__change_8h_a27745b3d2dc436a04430f2d6337836bd}{00018}}\ int32\_t\ \doxymbox{\hyperlink{phase__change_8h_a27745b3d2dc436a04430f2d6337836bd}{phase\_change}}(\doxymbox{\hyperlink{structPhaseData}{PhaseData}}\ *previous\_phase,\ \doxymbox{\hyperlink{structPhaseData}{PhaseData}}\ *current\_phase)\ \{}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00019}00019\ \ \ \ int32\_t\ direction;}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00021}00021\ \ \ \ \textcolor{keywordflow}{switch}\ ((uint8\_t)(previous\_phase-\/>\doxymbox{\hyperlink{structPhaseData_a408da633c5586f4966849e1b70256377}{phase}}\ <<\ 2U)\ |\ current\_phase-\/>\doxymbox{\hyperlink{structPhaseData_a408da633c5586f4966849e1b70256377}{phase}})\ \{}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00022}00022\ \ \ \ \textcolor{comment}{//\ No\ phase\ change}}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00023}00023\ \ \ \ \textcolor{keywordflow}{case}\ ((uint32\_t)\doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84a8825a1a26ae9bf551b490741d7ae280a}{PHASE\_A}}\ <<\ 2U)\ |\ (uint32\_t)\doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84a8825a1a26ae9bf551b490741d7ae280a}{PHASE\_A}}:}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00024}00024\ \ \ \ \textcolor{keywordflow}{case}\ ((uint32\_t)\doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84ac9590e77e32637ec7e053fe2690876bf}{PHASE\_B}}\ <<\ 2U)\ |\ (uint32\_t)\doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84ac9590e77e32637ec7e053fe2690876bf}{PHASE\_B}}:}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00025}00025\ \ \ \ \textcolor{keywordflow}{case}\ ((uint32\_t)\doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84aa40453ff9dcc9108a8f76456fd68c464}{PHASE\_C}}\ <<\ 2U)\ |\ (uint32\_t)\doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84aa40453ff9dcc9108a8f76456fd68c464}{PHASE\_C}}:}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00026}00026\ \ \ \ \textcolor{keywordflow}{case}\ ((uint32\_t)\doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84a424cfb90ef8bea9f26fb8302800a27e7}{PHASE\_D}}\ <<\ 2U)\ |\ (uint32\_t)\doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84a424cfb90ef8bea9f26fb8302800a27e7}{PHASE\_D}}:}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00027}00027\ \ \ \ \ \ \ direction\ =\ \doxymbox{\hyperlink{data__types_8h_a224b9163917ac32fc95a60d8c1eec3aaa7fb0c1cca10ff57ae7aa3878ba530fbd}{NO\_CHANGE}};}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00028}00028\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00030}00030\ \ \ \ \textcolor{comment}{//\ Forward}}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00031}00031\ \ \ \ \textcolor{keywordflow}{case}\ ((uint32\_t)\doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84a8825a1a26ae9bf551b490741d7ae280a}{PHASE\_A}}\ <<\ 2U)\ |\ (uint32\_t)\doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84ac9590e77e32637ec7e053fe2690876bf}{PHASE\_B}}:}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00032}00032\ \ \ \ \textcolor{keywordflow}{case}\ ((uint32\_t)\doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84ac9590e77e32637ec7e053fe2690876bf}{PHASE\_B}}\ <<\ 2U)\ |\ (uint32\_t)\doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84aa40453ff9dcc9108a8f76456fd68c464}{PHASE\_C}}:}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00033}00033\ \ \ \ \textcolor{keywordflow}{case}\ ((uint32\_t)\doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84aa40453ff9dcc9108a8f76456fd68c464}{PHASE\_C}}\ <<\ 2U)\ |\ (uint32\_t)\doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84a424cfb90ef8bea9f26fb8302800a27e7}{PHASE\_D}}:}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00034}00034\ \ \ \ \textcolor{keywordflow}{case}\ ((uint32\_t)\doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84a424cfb90ef8bea9f26fb8302800a27e7}{PHASE\_D}}\ <<\ 2U)\ |\ (uint32\_t)\doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84a8825a1a26ae9bf551b490741d7ae280a}{PHASE\_A}}:}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00035}00035\ \ \ \ \ \ \ current\_phase-\/>\doxymbox{\hyperlink{structPhaseData_add1a608ded1a10430a4e268afef0cf65}{phase\_counter}}++;}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00036}00036\ \ \ \ \ \ \ direction\ =\ \doxymbox{\hyperlink{data__types_8h_a224b9163917ac32fc95a60d8c1eec3aaadbadcbdea8b3c8deab0b1f0c30f55d0c}{DIRECTION\_FORWARD}};}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00037}00037\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00039}00039\ \ \ \ \textcolor{comment}{//\ Backwards}}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00040}00040\ \ \ \ \textcolor{keywordflow}{case}\ ((uint32\_t)\doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84a8825a1a26ae9bf551b490741d7ae280a}{PHASE\_A}}\ <<\ 2U)\ |\ (uint32\_t)\doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84a424cfb90ef8bea9f26fb8302800a27e7}{PHASE\_D}}:}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00041}00041\ \ \ \ \textcolor{keywordflow}{case}\ ((uint32\_t)\doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84a424cfb90ef8bea9f26fb8302800a27e7}{PHASE\_D}}\ <<\ 2U)\ |\ (uint32\_t)\doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84aa40453ff9dcc9108a8f76456fd68c464}{PHASE\_C}}:}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00042}00042\ \ \ \ \textcolor{keywordflow}{case}\ ((uint32\_t)\doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84aa40453ff9dcc9108a8f76456fd68c464}{PHASE\_C}}\ <<\ 2U)\ |\ (uint32\_t)\doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84ac9590e77e32637ec7e053fe2690876bf}{PHASE\_B}}:}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00043}00043\ \ \ \ \textcolor{keywordflow}{case}\ ((uint32\_t)\doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84ac9590e77e32637ec7e053fe2690876bf}{PHASE\_B}}\ <<\ 2U)\ |\ (uint32\_t)\doxymbox{\hyperlink{phase__change_8c_ae1c5184dc404edf057ed537bcfddef84a8825a1a26ae9bf551b490741d7ae280a}{PHASE\_A}}:}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00045}00045\ \ \ \ \ \ \ current\_phase-\/>\doxymbox{\hyperlink{structPhaseData_add1a608ded1a10430a4e268afef0cf65}{phase\_counter}}-\/-\/;}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00046}00046\ \ \ \ \ \ \ direction\ =\ \doxymbox{\hyperlink{data__types_8h_a224b9163917ac32fc95a60d8c1eec3aaacdda804a39b418b888aa8dfcdc7f01b9}{DIRECTION\_BACKWARD}};}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00047}00047\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00049}00049\ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00050}00050\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{data__types_8h_a224b9163917ac32fc95a60d8c1eec3aaace48d6f464b692511f0b33813c104c03}{INVALID\_TRANSITION}};}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00051}00051\ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00053}00053\ \ \ \ \textcolor{keywordflow}{return}\ direction;}
+\DoxyCodeLine{\Hypertarget{phase__change_8c_source_l00054}00054\ \}}
+
+\end{DoxyCode}

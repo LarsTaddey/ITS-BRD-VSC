@@ -1,0 +1,216 @@
+\doxysection{Programs/\+\+Drehgeber/\+\+Inc/\+output.h File Reference}
+\hypertarget{output_8h}{}\label{output_8h}\index{Programs/Drehgeber/Inc/output.h@{Programs/Drehgeber/Inc/output.h}}
+
+
+Declares functions for controlling LEDs and LCD output.  
+
+
+{\ttfamily \+\#include "{}data\+\_\+types.\+h"{}}\newline
+{\ttfamily \+\#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \+\#include $<$stdint.\+h$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{output_8h_a69ec6f2da59d837b761d7cac40f26309}{output\+\_\+init}} (void)
+\begin{DoxyCompactList}\small\item\em Initializes the LCD display and prints default labels. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{output_8h_a502ae22f2bc1b10331fff6ee6ae2b1a1}{set\+\_\+default\+\_\+output}} (void)
+\begin{DoxyCompactList}\small\item\em Sets the default output configuration for the board. Turn off all LEDs and reset the values on the display. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{output_8h_ad5610074c177787a0bc740bb89cdd540}{set\+\_\+counter\+\_\+leds}} (int32\+\_\+t phase\+\_\+counter)
+\begin{DoxyCompactList}\small\item\em Displays the counter\textquotesingle{}s binary value using LEDs 0-\/7. An turned on LED represents a binary 1, while a turned off LED represents 0. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{output_8h_a3fb053b55cb96ea1a41783a09599d48d}{turn\+\_\+on\+\_\+forward\+\_\+led}} ()
+\begin{DoxyCompactList}\small\item\em Turns on the LED indicating the forward direction. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{output_8h_ac6355b92d86311d6d41bb5b0a98fd6c0}{turn\+\_\+off\+\_\+forward\+\_\+led}} ()
+\begin{DoxyCompactList}\small\item\em Turns off the LED indicating the forward direction. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{output_8h_a0fc74127a5c709654f9a1b72ad1f1024}{turn\+\_\+on\+\_\+backward\+\_\+led}} ()
+\begin{DoxyCompactList}\small\item\em Turns on the LED indicating the backward direction. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{output_8h_a83c8116ea50c4fc0c076f82bec42c5d4}{turn\+\_\+off\+\_\+backward\+\_\+led}} ()
+\begin{DoxyCompactList}\small\item\em Turns off the LED indicating the backward direction. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{output_8h_a328e560b8fd47cff656e438ad7698a0e}{turn\+\_\+on\+\_\+error\+\_\+led}} ()
+\begin{DoxyCompactList}\small\item\em Turns on the LED indicating the error status. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{output_8h_a89715f17e0c2e88430ebf8335a99b611}{turn\+\_\+off\+\_\+error\+\_\+led}} ()
+\begin{DoxyCompactList}\small\item\em Turns off the LED indicating the error status. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{output_8h_a22ed2fe4ca476c49247d839616478c11}{turn\+\_\+off\+\_\+counter\+\_\+leds}} ()
+\begin{DoxyCompactList}\small\item\em Turns off all counter LEDs. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{output_8h_a20ff8f13500f1a64f0712a2ae8f0615b}{output\+\_\+data\+\_\+to\+\_\+lcd}} (const \doxymbox{\hyperlink{structAngleData}{Angle\+Data}} \texorpdfstring{$\ast$}{*}angle\+\_\+data)
+\begin{DoxyCompactList}\small\item\em Display the calculated angle and angular speed. Updates the display only when either value differs from the previously displayed value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Declares functions for controlling LEDs and LCD output. 
+
+\begin{DoxyAuthor}{Author}
+Len Peschko (2840024), Lars Taddey (2880138) -\/ HAW Hamburg 
+\end{DoxyAuthor}
+
+
+Definition in file \doxymbox{\hyperlink{output_8h_source}{output.\+h}}.
+
+
+
+\label{output_8h_doc-func-members}
+\Hypertarget{output_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{output_8h_a20ff8f13500f1a64f0712a2ae8f0615b}\index{output.h@{output.h}!output\_data\_to\_lcd@{output\_data\_to\_lcd}}
+\index{output\_data\_to\_lcd@{output\_data\_to\_lcd}!output.h@{output.h}}
+\doxysubsubsection{\texorpdfstring{output\_data\_to\_lcd()}{output\_data\_to\_lcd()}}
+{\footnotesize\ttfamily \label{output_8h_a20ff8f13500f1a64f0712a2ae8f0615b} 
+void output\+\_\+data\+\_\+to\+\_\+lcd (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{structAngleData}{Angle\+Data}} \texorpdfstring{$\ast$}{*}}]{angle\+\_\+data}{}\end{DoxyParamCaption})}
+
+
+
+Display the calculated angle and angular speed. Updates the display only when either value differs from the previously displayed value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em angle\+\_\+data} & Pointer to the angle and angular speed data to display. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00125}{125}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8h_a69ec6f2da59d837b761d7cac40f26309}\index{output.h@{output.h}!output\_init@{output\_init}}
+\index{output\_init@{output\_init}!output.h@{output.h}}
+\doxysubsubsection{\texorpdfstring{output\_init()}{output\_init()}}
+{\footnotesize\ttfamily \label{output_8h_a69ec6f2da59d837b761d7cac40f26309} 
+void output\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Initializes the LCD display and prints default labels. 
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00075}{75}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8h_ad5610074c177787a0bc740bb89cdd540}\index{output.h@{output.h}!set\_counter\_leds@{set\_counter\_leds}}
+\index{set\_counter\_leds@{set\_counter\_leds}!output.h@{output.h}}
+\doxysubsubsection{\texorpdfstring{set\_counter\_leds()}{set\_counter\_leds()}}
+{\footnotesize\ttfamily \label{output_8h_ad5610074c177787a0bc740bb89cdd540} 
+void set\+\_\+counter\+\_\+leds (\begin{DoxyParamCaption}\item[{int32\+\_\+t}]{phase\+\_\+counter}{}\end{DoxyParamCaption})}
+
+
+
+Displays the counter\textquotesingle{}s binary value using LEDs 0-\/7. An turned on LED represents a binary 1, while a turned off LED represents 0. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em phase\+\_\+counter} & Current counter value to display in binary \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00110}{110}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8h_a502ae22f2bc1b10331fff6ee6ae2b1a1}\index{output.h@{output.h}!set\_default\_output@{set\_default\_output}}
+\index{set\_default\_output@{set\_default\_output}!output.h@{output.h}}
+\doxysubsubsection{\texorpdfstring{set\_default\_output()}{set\_default\_output()}}
+{\footnotesize\ttfamily \label{output_8h_a502ae22f2bc1b10331fff6ee6ae2b1a1} 
+void set\+\_\+default\+\_\+output (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Sets the default output configuration for the board. Turn off all LEDs and reset the values on the display. 
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00081}{81}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8h_a83c8116ea50c4fc0c076f82bec42c5d4}\index{output.h@{output.h}!turn\_off\_backward\_led@{turn\_off\_backward\_led}}
+\index{turn\_off\_backward\_led@{turn\_off\_backward\_led}!output.h@{output.h}}
+\doxysubsubsection{\texorpdfstring{turn\_off\_backward\_led()}{turn\_off\_backward\_led()}}
+{\footnotesize\ttfamily \label{output_8h_a83c8116ea50c4fc0c076f82bec42c5d4} 
+void turn\+\_\+off\+\_\+backward\+\_\+led (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Turns off the LED indicating the backward direction. 
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00102}{102}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8h_a22ed2fe4ca476c49247d839616478c11}\index{output.h@{output.h}!turn\_off\_counter\_leds@{turn\_off\_counter\_leds}}
+\index{turn\_off\_counter\_leds@{turn\_off\_counter\_leds}!output.h@{output.h}}
+\doxysubsubsection{\texorpdfstring{turn\_off\_counter\_leds()}{turn\_off\_counter\_leds()}}
+{\footnotesize\ttfamily \label{output_8h_a22ed2fe4ca476c49247d839616478c11} 
+void turn\+\_\+off\+\_\+counter\+\_\+leds (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Turns off all counter LEDs. 
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00115}{115}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8h_a89715f17e0c2e88430ebf8335a99b611}\index{output.h@{output.h}!turn\_off\_error\_led@{turn\_off\_error\_led}}
+\index{turn\_off\_error\_led@{turn\_off\_error\_led}!output.h@{output.h}}
+\doxysubsubsection{\texorpdfstring{turn\_off\_error\_led()}{turn\_off\_error\_led()}}
+{\footnotesize\ttfamily \label{output_8h_a89715f17e0c2e88430ebf8335a99b611} 
+void turn\+\_\+off\+\_\+error\+\_\+led (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Turns off the LED indicating the error status. 
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00108}{108}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8h_ac6355b92d86311d6d41bb5b0a98fd6c0}\index{output.h@{output.h}!turn\_off\_forward\_led@{turn\_off\_forward\_led}}
+\index{turn\_off\_forward\_led@{turn\_off\_forward\_led}!output.h@{output.h}}
+\doxysubsubsection{\texorpdfstring{turn\_off\_forward\_led()}{turn\_off\_forward\_led()}}
+{\footnotesize\ttfamily \label{output_8h_ac6355b92d86311d6d41bb5b0a98fd6c0} 
+void turn\+\_\+off\+\_\+forward\+\_\+led (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Turns off the LED indicating the forward direction. 
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00096}{96}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8h_a0fc74127a5c709654f9a1b72ad1f1024}\index{output.h@{output.h}!turn\_on\_backward\_led@{turn\_on\_backward\_led}}
+\index{turn\_on\_backward\_led@{turn\_on\_backward\_led}!output.h@{output.h}}
+\doxysubsubsection{\texorpdfstring{turn\_on\_backward\_led()}{turn\_on\_backward\_led()}}
+{\footnotesize\ttfamily \label{output_8h_a0fc74127a5c709654f9a1b72ad1f1024} 
+void turn\+\_\+on\+\_\+backward\+\_\+led (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Turns on the LED indicating the backward direction. 
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00100}{100}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8h_a328e560b8fd47cff656e438ad7698a0e}\index{output.h@{output.h}!turn\_on\_error\_led@{turn\_on\_error\_led}}
+\index{turn\_on\_error\_led@{turn\_on\_error\_led}!output.h@{output.h}}
+\doxysubsubsection{\texorpdfstring{turn\_on\_error\_led()}{turn\_on\_error\_led()}}
+{\footnotesize\ttfamily \label{output_8h_a328e560b8fd47cff656e438ad7698a0e} 
+void turn\+\_\+on\+\_\+error\+\_\+led (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Turns on the LED indicating the error status. 
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00106}{106}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8h_a3fb053b55cb96ea1a41783a09599d48d}\index{output.h@{output.h}!turn\_on\_forward\_led@{turn\_on\_forward\_led}}
+\index{turn\_on\_forward\_led@{turn\_on\_forward\_led}!output.h@{output.h}}
+\doxysubsubsection{\texorpdfstring{turn\_on\_forward\_led()}{turn\_on\_forward\_led()}}
+{\footnotesize\ttfamily \label{output_8h_a3fb053b55cb96ea1a41783a09599d48d} 
+void turn\+\_\+on\+\_\+forward\+\_\+led (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Turns on the LED indicating the forward direction. 
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00094}{94}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+

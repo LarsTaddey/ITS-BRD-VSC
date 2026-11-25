@@ -1,0 +1,482 @@
+\doxysection{Programs/\+\+Drehgeber/\+\+Src/\+output.c File Reference}
+\hypertarget{output_8c}{}\label{output_8c}\index{Programs/Drehgeber/Src/output.c@{Programs/Drehgeber/Src/output.c}}
+
+
+Implements output to LEDs and the LCD display.  
+
+
+{\ttfamily \+\#include "{}output.\+h"{}}\newline
+{\ttfamily \+\#include "{}LCD\+\_\+\+GUI.\+h"{}}\newline
+{\ttfamily \+\#include "{}data\+\_\+types.\+h"{}}\newline
+{\ttfamily \+\#include "{}lcd.\+h"{}}\newline
+{\ttfamily \+\#include "{}stm32f429xx.\+h"{}}\newline
+{\ttfamily \+\#include $<$stdint.\+h$>$}\newline
+{\ttfamily \+\#include $<$stdio.\+h$>$}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\+\#define \doxymbox{\hyperlink{output_8c_a6de24c3d90af222b9f7b053f3e775192}{FORWARD\+\_\+\+LED\+\_\+\+MASK}}~0x80U
+\item 
+\+\#define \doxymbox{\hyperlink{output_8c_ae72301650d933292967931380e75134a}{BACKWARD\+\_\+\+LED\+\_\+\+MASK}}~0x40U
+\item 
+\+\#define \doxymbox{\hyperlink{output_8c_a85bf9a540c082ce6b71304ae62cd81cc}{ERROR\+\_\+\+LED\+\_\+\+MASK}}~0x20U
+\item 
+\+\#define \doxymbox{\hyperlink{output_8c_acb62e7709d3d2bf169556f0ec971adfe}{COUNTER\+\_\+\+LED\+\_\+\+MASK}}~0x\+FFU
+\item 
+\+\#define \doxymbox{\hyperlink{output_8c_a3e0f0f7036c10906f10935a1e3e76a72}{MONITOR\+\_\+\+GPIOE\+\_\+\+MASK}}~0x01U
+\item 
+\+\#define \doxymbox{\hyperlink{output_8c_a2d80ecfaeb558cb0c3cef79f7c691eb0}{GPIO\+\_\+\+CLEAR\+\_\+\+MASK}}~16U
+\item 
+\+\#define \doxymbox{\hyperlink{output_8c_a3c281a921353b403eb54a516b3a6f4c2}{TXT\+\_\+\+BUFFER}}~32U
+\item 
+\+\#define \doxymbox{\hyperlink{output_8c_abe7fb3fa5b7763a8148bce17066674c9}{TXT\+\_\+\+LCD\+\_\+\+LENGTH}}~10U
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \doxymbox{\hyperlink{output_8c_a619d4426a440d830b601b7fe003e1765}{print\+\_\+values}} (uint8\+\_\+t x\+\_\+coordinate, uint8\+\_\+t y\+\_\+coordinate, double value, char \texorpdfstring{$\ast$}{*}previous\+\_\+value, int index)
+\begin{DoxyCompactList}\small\item\em Updates a single character on the LCD display if its value has changed. Formats the specified value as a right-\/aligned, ten-\/character string with one decimal place. Compares the character at the specified index with the previously displayed character and updates the LCD only if a change is detected. \end{DoxyCompactList}\item 
+static void \doxymbox{\hyperlink{output_8c_a83a3a93ef878c29c6433229aa91c1da9}{print\+\_\+label}} (uint8\+\_\+t x\+\_\+coordinate, uint8\+\_\+t y\+\_\+coordinate, char label\+[$\,$]\+)
+\begin{DoxyCompactList}\small\item\em Displays a label on the LCD at the specified coordinates. Positions the LCD cursor at the given coordinates and prints the provided label. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{output_8c_a8aff2e47a9b5548cc175d2963113f105}{output\+\_\+init}} ()
+\begin{DoxyCompactList}\small\item\em Initializes the LCD display and prints default labels. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{output_8c_a9fe9c33ff6488807316c3a0bd5085ef5}{set\+\_\+default\+\_\+output}} ()
+\begin{DoxyCompactList}\small\item\em Sets the default output configuration for the board. Turn off all LEDs and reset the values on the display. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{output_8c_a3fb053b55cb96ea1a41783a09599d48d}{turn\+\_\+on\+\_\+forward\+\_\+led}} ()
+\begin{DoxyCompactList}\small\item\em Turns on the LED indicating the forward direction. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{output_8c_ac6355b92d86311d6d41bb5b0a98fd6c0}{turn\+\_\+off\+\_\+forward\+\_\+led}} ()
+\begin{DoxyCompactList}\small\item\em Turns off the LED indicating the forward direction. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{output_8c_a0fc74127a5c709654f9a1b72ad1f1024}{turn\+\_\+on\+\_\+backward\+\_\+led}} ()
+\begin{DoxyCompactList}\small\item\em Turns on the LED indicating the backward direction. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{output_8c_a83c8116ea50c4fc0c076f82bec42c5d4}{turn\+\_\+off\+\_\+backward\+\_\+led}} ()
+\begin{DoxyCompactList}\small\item\em Turns off the LED indicating the backward direction. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{output_8c_a328e560b8fd47cff656e438ad7698a0e}{turn\+\_\+on\+\_\+error\+\_\+led}} ()
+\begin{DoxyCompactList}\small\item\em Turns on the LED indicating the error status. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{output_8c_a89715f17e0c2e88430ebf8335a99b611}{turn\+\_\+off\+\_\+error\+\_\+led}} ()
+\begin{DoxyCompactList}\small\item\em Turns off the LED indicating the error status. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{output_8c_ad5610074c177787a0bc740bb89cdd540}{set\+\_\+counter\+\_\+leds}} (int32\+\_\+t phase\+\_\+counter)
+\begin{DoxyCompactList}\small\item\em Displays the counter\textquotesingle{}s binary value using LEDs 0-\/7. An turned on LED represents a binary 1, while a turned off LED represents 0. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{output_8c_a22ed2fe4ca476c49247d839616478c11}{turn\+\_\+off\+\_\+counter\+\_\+leds}} ()
+\begin{DoxyCompactList}\small\item\em Turns off all counter LEDs. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{output_8c_a02262ccc7bbfe748d7e14ac8d8ee5e44}{set\+\_\+monitor\+\_\+pin\+\_\+high}} ()
+\item 
+void \doxymbox{\hyperlink{output_8c_a652a33fd53a1598f71f9e95783c1e6a2}{set\+\_\+monitor\+\_\+pin\+\_\+low}} ()
+\item 
+void \doxymbox{\hyperlink{output_8c_a20ff8f13500f1a64f0712a2ae8f0615b}{output\+\_\+data\+\_\+to\+\_\+lcd}} (const \doxymbox{\hyperlink{structAngleData}{Angle\+Data}} \texorpdfstring{$\ast$}{*}angle\+\_\+data)
+\begin{DoxyCompactList}\small\item\em Display the calculated angle and angular speed. Updates the display only when either value differs from the previously displayed value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+static char \doxymbox{\hyperlink{output_8c_ac0e6b718f3470360cea64e552e185d78}{angle\+\_\+label}} \+[$\,$] = "{}Angle (deg):\+"{}
+\item 
+static char \doxymbox{\hyperlink{output_8c_ad4be025aede54bd4015b28c81212a379}{speed\+\_\+label}} \+[$\,$] = "{}Speed (deg/s):\+"{}
+\item 
+static const uint8\+\_\+t \doxymbox{\hyperlink{output_8c_a2ccc6defbe7889b186677be9779d4297}{X\+\_\+\+COORDINATE}} = 3
+\item 
+static const uint8\+\_\+t \doxymbox{\hyperlink{output_8c_a38b8a6af1018204cda253fc09b251639}{X\+\_\+\+OFFSET}} = 12
+\item 
+static const uint8\+\_\+t \doxymbox{\hyperlink{output_8c_af33cbd6b7ab5b68f25afb70ce778dfba}{ANGLE\+\_\+Y}} = 3
+\item 
+static const uint8\+\_\+t \doxymbox{\hyperlink{output_8c_a421217c588a83ec2f18bcd8ca80165ef}{SPEED\+\_\+Y}} = \doxymbox{\hyperlink{output_8c_af33cbd6b7ab5b68f25afb70ce778dfba}{ANGLE\+\_\+Y}} + 2
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implements output to LEDs and the LCD display. 
+
+\begin{DoxyAuthor}{Author}
+Len Peschko (2840024), Lars Taddey (2880138) -\/ HAW Hamburg 
+\end{DoxyAuthor}
+
+
+Definition in file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+
+
+\label{output_8c_doc-define-members}
+\Hypertarget{output_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{output_8c_ae72301650d933292967931380e75134a}\index{output.c@{output.c}!BACKWARD\_LED\_MASK@{BACKWARD\_LED\_MASK}}
+\index{BACKWARD\_LED\_MASK@{BACKWARD\_LED\_MASK}!output.c@{output.c}}
+\doxysubsubsection{\texorpdfstring{BACKWARD\_LED\_MASK}{BACKWARD\_LED\_MASK}}
+{\footnotesize\ttfamily \label{output_8c_ae72301650d933292967931380e75134a} 
+\+\#define BACKWARD\+\_\+\+LED\+\_\+\+MASK~0x40U}
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00016}{16}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8c_acb62e7709d3d2bf169556f0ec971adfe}\index{output.c@{output.c}!COUNTER\_LED\_MASK@{COUNTER\_LED\_MASK}}
+\index{COUNTER\_LED\_MASK@{COUNTER\_LED\_MASK}!output.c@{output.c}}
+\doxysubsubsection{\texorpdfstring{COUNTER\_LED\_MASK}{COUNTER\_LED\_MASK}}
+{\footnotesize\ttfamily \label{output_8c_acb62e7709d3d2bf169556f0ec971adfe} 
+\+\#define COUNTER\+\_\+\+LED\+\_\+\+MASK~0x\+FFU}
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00018}{18}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8c_a85bf9a540c082ce6b71304ae62cd81cc}\index{output.c@{output.c}!ERROR\_LED\_MASK@{ERROR\_LED\_MASK}}
+\index{ERROR\_LED\_MASK@{ERROR\_LED\_MASK}!output.c@{output.c}}
+\doxysubsubsection{\texorpdfstring{ERROR\_LED\_MASK}{ERROR\_LED\_MASK}}
+{\footnotesize\ttfamily \label{output_8c_a85bf9a540c082ce6b71304ae62cd81cc} 
+\+\#define ERROR\+\_\+\+LED\+\_\+\+MASK~0x20U}
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00017}{17}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8c_a6de24c3d90af222b9f7b053f3e775192}\index{output.c@{output.c}!FORWARD\_LED\_MASK@{FORWARD\_LED\_MASK}}
+\index{FORWARD\_LED\_MASK@{FORWARD\_LED\_MASK}!output.c@{output.c}}
+\doxysubsubsection{\texorpdfstring{FORWARD\_LED\_MASK}{FORWARD\_LED\_MASK}}
+{\footnotesize\ttfamily \label{output_8c_a6de24c3d90af222b9f7b053f3e775192} 
+\+\#define FORWARD\+\_\+\+LED\+\_\+\+MASK~0x80U}
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00015}{15}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8c_a2d80ecfaeb558cb0c3cef79f7c691eb0}\index{output.c@{output.c}!GPIO\_CLEAR\_MASK@{GPIO\_CLEAR\_MASK}}
+\index{GPIO\_CLEAR\_MASK@{GPIO\_CLEAR\_MASK}!output.c@{output.c}}
+\doxysubsubsection{\texorpdfstring{GPIO\_CLEAR\_MASK}{GPIO\_CLEAR\_MASK}}
+{\footnotesize\ttfamily \label{output_8c_a2d80ecfaeb558cb0c3cef79f7c691eb0} 
+\+\#define GPIO\+\_\+\+CLEAR\+\_\+\+MASK~16U}
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00020}{20}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8c_a3e0f0f7036c10906f10935a1e3e76a72}\index{output.c@{output.c}!MONITOR\_GPIOE\_MASK@{MONITOR\_GPIOE\_MASK}}
+\index{MONITOR\_GPIOE\_MASK@{MONITOR\_GPIOE\_MASK}!output.c@{output.c}}
+\doxysubsubsection{\texorpdfstring{MONITOR\_GPIOE\_MASK}{MONITOR\_GPIOE\_MASK}}
+{\footnotesize\ttfamily \label{output_8c_a3e0f0f7036c10906f10935a1e3e76a72} 
+\+\#define MONITOR\+\_\+\+GPIOE\+\_\+\+MASK~0x01U}
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00019}{19}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8c_a3c281a921353b403eb54a516b3a6f4c2}\index{output.c@{output.c}!TXT\_BUFFER@{TXT\_BUFFER}}
+\index{TXT\_BUFFER@{TXT\_BUFFER}!output.c@{output.c}}
+\doxysubsubsection{\texorpdfstring{TXT\_BUFFER}{TXT\_BUFFER}}
+{\footnotesize\ttfamily \label{output_8c_a3c281a921353b403eb54a516b3a6f4c2} 
+\+\#define TXT\+\_\+\+BUFFER~32U}
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00021}{21}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8c_abe7fb3fa5b7763a8148bce17066674c9}\index{output.c@{output.c}!TXT\_LCD\_LENGTH@{TXT\_LCD\_LENGTH}}
+\index{TXT\_LCD\_LENGTH@{TXT\_LCD\_LENGTH}!output.c@{output.c}}
+\doxysubsubsection{\texorpdfstring{TXT\_LCD\_LENGTH}{TXT\_LCD\_LENGTH}}
+{\footnotesize\ttfamily \label{output_8c_abe7fb3fa5b7763a8148bce17066674c9} 
+\+\#define TXT\+\_\+\+LCD\+\_\+\+LENGTH~10U}
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00022}{22}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+
+
+\label{output_8c_doc-func-members}
+\Hypertarget{output_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{output_8c_a20ff8f13500f1a64f0712a2ae8f0615b}\index{output.c@{output.c}!output\_data\_to\_lcd@{output\_data\_to\_lcd}}
+\index{output\_data\_to\_lcd@{output\_data\_to\_lcd}!output.c@{output.c}}
+\doxysubsubsection{\texorpdfstring{output\_data\_to\_lcd()}{output\_data\_to\_lcd()}}
+{\footnotesize\ttfamily \label{output_8c_a20ff8f13500f1a64f0712a2ae8f0615b} 
+void output\+\_\+data\+\_\+to\+\_\+lcd (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{structAngleData}{Angle\+Data}} \texorpdfstring{$\ast$}{*}}]{angle\+\_\+data}{}\end{DoxyParamCaption})}
+
+
+
+Display the calculated angle and angular speed. Updates the display only when either value differs from the previously displayed value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em angle\+\_\+data} & Pointer to the angle and angular speed data to display. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00125}{125}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8c_a8aff2e47a9b5548cc175d2963113f105}\index{output.c@{output.c}!output\_init@{output\_init}}
+\index{output\_init@{output\_init}!output.c@{output.c}}
+\doxysubsubsection{\texorpdfstring{output\_init()}{output\_init()}}
+{\footnotesize\ttfamily \label{output_8c_a8aff2e47a9b5548cc175d2963113f105} 
+void output\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Initializes the LCD display and prints default labels. 
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00075}{75}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8c_a83a3a93ef878c29c6433229aa91c1da9}\index{output.c@{output.c}!print\_label@{print\_label}}
+\index{print\_label@{print\_label}!output.c@{output.c}}
+\doxysubsubsection{\texorpdfstring{print\_label()}{print\_label()}}
+{\footnotesize\ttfamily \label{output_8c_a83a3a93ef878c29c6433229aa91c1da9} 
+void print\+\_\+label (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{x\+\_\+coordinate}{, }\item[{uint8\+\_\+t}]{y\+\_\+coordinate}{, }\item[{char}]{label}{\+[$\,$]}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Displays a label on the LCD at the specified coordinates. Positions the LCD cursor at the given coordinates and prints the provided label. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x\+\_\+coordinate} & X-\/coordinate on the LCD where the label starts. \\
+\hline
+{\em y\+\_\+coordinate} & Y-\/coordinate of the LCD row.\\
+\hline
+{\em label} & String containing the text to display. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00069}{69}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8c_a619d4426a440d830b601b7fe003e1765}\index{output.c@{output.c}!print\_values@{print\_values}}
+\index{print\_values@{print\_values}!output.c@{output.c}}
+\doxysubsubsection{\texorpdfstring{print\_values()}{print\_values()}}
+{\footnotesize\ttfamily \label{output_8c_a619d4426a440d830b601b7fe003e1765} 
+void print\+\_\+values (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{x\+\_\+coordinate}{, }\item[{uint8\+\_\+t}]{y\+\_\+coordinate}{, }\item[{double}]{value}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{previous\+\_\+value}{, }\item[{int}]{index}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Updates a single character on the LCD display if its value has changed. Formats the specified value as a right-\/aligned, ten-\/character string with one decimal place. Compares the character at the specified index with the previously displayed character and updates the LCD only if a change is detected. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x\+\_\+coordinate} & x-\/coordinate on the LCD \\
+\hline
+{\em y\+\_\+coordinate} & y-\/coordinate of the LCD \\
+\hline
+{\em value} & Numeric value to format and display \\
+\hline
+{\em previous\+\_\+value} & Buffer containing the previously displayed characters \\
+\hline
+{\em index} & Index of the character to compare and potentially update \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00046}{46}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8c_ad5610074c177787a0bc740bb89cdd540}\index{output.c@{output.c}!set\_counter\_leds@{set\_counter\_leds}}
+\index{set\_counter\_leds@{set\_counter\_leds}!output.c@{output.c}}
+\doxysubsubsection{\texorpdfstring{set\_counter\_leds()}{set\_counter\_leds()}}
+{\footnotesize\ttfamily \label{output_8c_ad5610074c177787a0bc740bb89cdd540} 
+void set\+\_\+counter\+\_\+leds (\begin{DoxyParamCaption}\item[{int32\+\_\+t}]{phase\+\_\+counter}{}\end{DoxyParamCaption})}
+
+
+
+Displays the counter\textquotesingle{}s binary value using LEDs 0-\/7. An turned on LED represents a binary 1, while a turned off LED represents 0. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em phase\+\_\+counter} & Current counter value to display in binary \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00110}{110}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8c_a9fe9c33ff6488807316c3a0bd5085ef5}\index{output.c@{output.c}!set\_default\_output@{set\_default\_output}}
+\index{set\_default\_output@{set\_default\_output}!output.c@{output.c}}
+\doxysubsubsection{\texorpdfstring{set\_default\_output()}{set\_default\_output()}}
+{\footnotesize\ttfamily \label{output_8c_a9fe9c33ff6488807316c3a0bd5085ef5} 
+void set\+\_\+default\+\_\+output (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Sets the default output configuration for the board. Turn off all LEDs and reset the values on the display. 
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00081}{81}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8c_a02262ccc7bbfe748d7e14ac8d8ee5e44}\index{output.c@{output.c}!set\_monitor\_pin\_high@{set\_monitor\_pin\_high}}
+\index{set\_monitor\_pin\_high@{set\_monitor\_pin\_high}!output.c@{output.c}}
+\doxysubsubsection{\texorpdfstring{set\_monitor\_pin\_high()}{set\_monitor\_pin\_high()}}
+{\footnotesize\ttfamily \label{output_8c_a02262ccc7bbfe748d7e14ac8d8ee5e44} 
+void set\+\_\+monitor\+\_\+pin\+\_\+high (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00119}{119}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8c_a652a33fd53a1598f71f9e95783c1e6a2}\index{output.c@{output.c}!set\_monitor\_pin\_low@{set\_monitor\_pin\_low}}
+\index{set\_monitor\_pin\_low@{set\_monitor\_pin\_low}!output.c@{output.c}}
+\doxysubsubsection{\texorpdfstring{set\_monitor\_pin\_low()}{set\_monitor\_pin\_low()}}
+{\footnotesize\ttfamily \label{output_8c_a652a33fd53a1598f71f9e95783c1e6a2} 
+void set\+\_\+monitor\+\_\+pin\+\_\+low (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00121}{121}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8c_a83c8116ea50c4fc0c076f82bec42c5d4}\index{output.c@{output.c}!turn\_off\_backward\_led@{turn\_off\_backward\_led}}
+\index{turn\_off\_backward\_led@{turn\_off\_backward\_led}!output.c@{output.c}}
+\doxysubsubsection{\texorpdfstring{turn\_off\_backward\_led()}{turn\_off\_backward\_led()}}
+{\footnotesize\ttfamily \label{output_8c_a83c8116ea50c4fc0c076f82bec42c5d4} 
+void turn\+\_\+off\+\_\+backward\+\_\+led (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Turns off the LED indicating the backward direction. 
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00102}{102}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8c_a22ed2fe4ca476c49247d839616478c11}\index{output.c@{output.c}!turn\_off\_counter\_leds@{turn\_off\_counter\_leds}}
+\index{turn\_off\_counter\_leds@{turn\_off\_counter\_leds}!output.c@{output.c}}
+\doxysubsubsection{\texorpdfstring{turn\_off\_counter\_leds()}{turn\_off\_counter\_leds()}}
+{\footnotesize\ttfamily \label{output_8c_a22ed2fe4ca476c49247d839616478c11} 
+void turn\+\_\+off\+\_\+counter\+\_\+leds (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Turns off all counter LEDs. 
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00115}{115}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8c_a89715f17e0c2e88430ebf8335a99b611}\index{output.c@{output.c}!turn\_off\_error\_led@{turn\_off\_error\_led}}
+\index{turn\_off\_error\_led@{turn\_off\_error\_led}!output.c@{output.c}}
+\doxysubsubsection{\texorpdfstring{turn\_off\_error\_led()}{turn\_off\_error\_led()}}
+{\footnotesize\ttfamily \label{output_8c_a89715f17e0c2e88430ebf8335a99b611} 
+void turn\+\_\+off\+\_\+error\+\_\+led (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Turns off the LED indicating the error status. 
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00108}{108}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8c_ac6355b92d86311d6d41bb5b0a98fd6c0}\index{output.c@{output.c}!turn\_off\_forward\_led@{turn\_off\_forward\_led}}
+\index{turn\_off\_forward\_led@{turn\_off\_forward\_led}!output.c@{output.c}}
+\doxysubsubsection{\texorpdfstring{turn\_off\_forward\_led()}{turn\_off\_forward\_led()}}
+{\footnotesize\ttfamily \label{output_8c_ac6355b92d86311d6d41bb5b0a98fd6c0} 
+void turn\+\_\+off\+\_\+forward\+\_\+led (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Turns off the LED indicating the forward direction. 
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00096}{96}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8c_a0fc74127a5c709654f9a1b72ad1f1024}\index{output.c@{output.c}!turn\_on\_backward\_led@{turn\_on\_backward\_led}}
+\index{turn\_on\_backward\_led@{turn\_on\_backward\_led}!output.c@{output.c}}
+\doxysubsubsection{\texorpdfstring{turn\_on\_backward\_led()}{turn\_on\_backward\_led()}}
+{\footnotesize\ttfamily \label{output_8c_a0fc74127a5c709654f9a1b72ad1f1024} 
+void turn\+\_\+on\+\_\+backward\+\_\+led (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Turns on the LED indicating the backward direction. 
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00100}{100}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8c_a328e560b8fd47cff656e438ad7698a0e}\index{output.c@{output.c}!turn\_on\_error\_led@{turn\_on\_error\_led}}
+\index{turn\_on\_error\_led@{turn\_on\_error\_led}!output.c@{output.c}}
+\doxysubsubsection{\texorpdfstring{turn\_on\_error\_led()}{turn\_on\_error\_led()}}
+{\footnotesize\ttfamily \label{output_8c_a328e560b8fd47cff656e438ad7698a0e} 
+void turn\+\_\+on\+\_\+error\+\_\+led (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Turns on the LED indicating the error status. 
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00106}{106}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8c_a3fb053b55cb96ea1a41783a09599d48d}\index{output.c@{output.c}!turn\_on\_forward\_led@{turn\_on\_forward\_led}}
+\index{turn\_on\_forward\_led@{turn\_on\_forward\_led}!output.c@{output.c}}
+\doxysubsubsection{\texorpdfstring{turn\_on\_forward\_led()}{turn\_on\_forward\_led()}}
+{\footnotesize\ttfamily \label{output_8c_a3fb053b55cb96ea1a41783a09599d48d} 
+void turn\+\_\+on\+\_\+forward\+\_\+led (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Turns on the LED indicating the forward direction. 
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00094}{94}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+
+
+\label{output_8c_doc-var-members}
+\Hypertarget{output_8c_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{output_8c_ac0e6b718f3470360cea64e552e185d78}\index{output.c@{output.c}!angle\_label@{angle\_label}}
+\index{angle\_label@{angle\_label}!output.c@{output.c}}
+\doxysubsubsection{\texorpdfstring{angle\_label}{angle\_label}}
+{\footnotesize\ttfamily \label{output_8c_ac0e6b718f3470360cea64e552e185d78} 
+char angle\+\_\+label\+[$\,$] = "{}Angle (deg):\+"{}\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00024}{24}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8c_af33cbd6b7ab5b68f25afb70ce778dfba}\index{output.c@{output.c}!ANGLE\_Y@{ANGLE\_Y}}
+\index{ANGLE\_Y@{ANGLE\_Y}!output.c@{output.c}}
+\doxysubsubsection{\texorpdfstring{ANGLE\_Y}{ANGLE\_Y}}
+{\footnotesize\ttfamily \label{output_8c_af33cbd6b7ab5b68f25afb70ce778dfba} 
+const uint8\+\_\+t ANGLE\+\_\+Y = 3\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00028}{28}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8c_ad4be025aede54bd4015b28c81212a379}\index{output.c@{output.c}!speed\_label@{speed\_label}}
+\index{speed\_label@{speed\_label}!output.c@{output.c}}
+\doxysubsubsection{\texorpdfstring{speed\_label}{speed\_label}}
+{\footnotesize\ttfamily \label{output_8c_ad4be025aede54bd4015b28c81212a379} 
+char speed\+\_\+label\+[$\,$] = "{}Speed (deg/s):\+"{}\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00025}{25}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8c_a421217c588a83ec2f18bcd8ca80165ef}\index{output.c@{output.c}!SPEED\_Y@{SPEED\_Y}}
+\index{SPEED\_Y@{SPEED\_Y}!output.c@{output.c}}
+\doxysubsubsection{\texorpdfstring{SPEED\_Y}{SPEED\_Y}}
+{\footnotesize\ttfamily \label{output_8c_a421217c588a83ec2f18bcd8ca80165ef} 
+const uint8\+\_\+t SPEED\+\_\+Y = \doxymbox{\hyperlink{output_8c_af33cbd6b7ab5b68f25afb70ce778dfba}{ANGLE\+\_\+Y}} + 2\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00029}{29}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8c_a2ccc6defbe7889b186677be9779d4297}\index{output.c@{output.c}!X\_COORDINATE@{X\_COORDINATE}}
+\index{X\_COORDINATE@{X\_COORDINATE}!output.c@{output.c}}
+\doxysubsubsection{\texorpdfstring{X\_COORDINATE}{X\_COORDINATE}}
+{\footnotesize\ttfamily \label{output_8c_a2ccc6defbe7889b186677be9779d4297} 
+const uint8\+\_\+t X\+\_\+\+COORDINATE = 3\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00026}{26}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+
+\Hypertarget{output_8c_a38b8a6af1018204cda253fc09b251639}\index{output.c@{output.c}!X\_OFFSET@{X\_OFFSET}}
+\index{X\_OFFSET@{X\_OFFSET}!output.c@{output.c}}
+\doxysubsubsection{\texorpdfstring{X\_OFFSET}{X\_OFFSET}}
+{\footnotesize\ttfamily \label{output_8c_a38b8a6af1018204cda253fc09b251639} 
+const uint8\+\_\+t X\+\_\+\+OFFSET = 12\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \doxymbox{\hyperlink{output_8c_source_l00027}{27}} of file \doxymbox{\hyperlink{output_8c_source}{output.\+c}}.
+

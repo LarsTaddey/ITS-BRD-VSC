@@ -1,7 +1,8 @@
 /**
  * @file phase_change.h
- * @brief Declares a function for detecting rotary encoder phase transitions and
+ * @brief Declares a function for detecting rotation phase transitions and
  * updating the rotation direction and transition counter.
+ * @author Len Peschko (2840024), Lars Taddey (2880138) - HAW Hamburg
  */
 
 #ifndef PHASE_CHANGE_H
@@ -11,16 +12,20 @@
 #include <stdint.h>
 
 /**
- * @brief Detects rotary encoder phase transitions, updates the rotation
- * direction and transition counter.
- * @param phase_last Pointer to the previous phase data. Updated after a valid
+ * @brief Determines the direction of phase progression and updates the phase
+ * counter and detected direction accordingly
+ * Compares the previous and current phases to identify forward movement,
+ * backward movement, or no change. Returns INVALID_TRANSITION for invalid
+ * phase transitions.
+
+ * @param previous_phase Pointer to the previous phase data. Updated after a
+ valid
  * transition.
- * @param phase_now Pointer to the current phase data.
- * @param counter Pointer to the transition counter, incremented when a valid
- * phase transition occured.
+ * @param current_phase Pointer to the current phase data.
+
  * @return uint32_t The rotation direction, or an invalid transition value if
  * the transition is not valid.
  */
-int32_t phase_change(PhaseData *phase_last, PhaseData *phase_now);
+int32_t phase_change(PhaseData *previous_phase, PhaseData *current_phase);
 
 #endif

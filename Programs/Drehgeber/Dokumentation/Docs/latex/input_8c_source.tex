@@ -1,0 +1,27 @@
+\doxysection{input.\+c}
+\hypertarget{input_8c_source}{}\label{input_8c_source}\index{Programs/Drehgeber/Src/input.c@{Programs/Drehgeber/Src/input.c}}
+\doxymbox{\hyperlink{input_8c}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{input_8c_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{input_8c_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{input_8c_source_l00008}00008\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{input_8h}{input.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{input_8c_source_l00009}00009\ \textcolor{preprocessor}{\#include\ "{}stm32f429xx.h"{}}}
+\DoxyCodeLine{\Hypertarget{input_8c_source_l00010}00010\ \textcolor{preprocessor}{\#include\ "{}timer.h"{}}}
+\DoxyCodeLine{\Hypertarget{input_8c_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{input_8c_source_l00012}\doxymbox{\hyperlink{input_8c_a473da93ae0643a006a8c75fe5ec989ce}{00012}}\ \textcolor{preprocessor}{\#define\ PHASE\_INPUT\_MASK\ 0x03U}}
+\DoxyCodeLine{\Hypertarget{input_8c_source_l00013}\doxymbox{\hyperlink{input_8c_ad87bd41b3116dba9e27c26862533253c}{00013}}\ \textcolor{preprocessor}{\#define\ BUTTON\_CLEAR\_MASK\ 0x40U}}
+\DoxyCodeLine{\Hypertarget{input_8c_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{input_8c_source_l00015}\doxymbox{\hyperlink{input_8h_add1b3b8ad2df5c84a40abdccf1984ab8}{00015}}\ int32\_t\ \doxymbox{\hyperlink{input_8h_add1b3b8ad2df5c84a40abdccf1984ab8}{read\_pins\_and\_time}}(\doxymbox{\hyperlink{structPhaseData}{PhaseData}}\ *phase\_data)\ \{}
+\DoxyCodeLine{\Hypertarget{input_8c_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{input_8c_source_l00017}00017\ \ \ \ \textcolor{keywordflow}{if}\ (phase\_data\ ==\ NULL)\ \{}
+\DoxyCodeLine{\Hypertarget{input_8c_source_l00018}00018\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{\Hypertarget{input_8c_source_l00019}00019\ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{input_8c_source_l00020}00020\ \ \ \ phase\_data-\/>\doxymbox{\hyperlink{structPhaseData_a408da633c5586f4966849e1b70256377}{phase}}\ =\ (GPIOF-\/>IDR)\ \&\ \doxymbox{\hyperlink{input_8c_a473da93ae0643a006a8c75fe5ec989ce}{PHASE\_INPUT\_MASK}};}
+\DoxyCodeLine{\Hypertarget{input_8c_source_l00021}00021\ \ \ \ phase\_data-\/>\doxymbox{\hyperlink{structPhaseData_aaf633fcbeec757199479867ede292a35}{timestamp}}\ =\ getTimeStamp();}
+\DoxyCodeLine{\Hypertarget{input_8c_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{input_8c_source_l00023}00023\ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{input_8c_source_l00024}00024\ \}}
+\DoxyCodeLine{\Hypertarget{input_8c_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{input_8c_source_l00026}\doxymbox{\hyperlink{input_8h_a3a92c85d17326a6cc35e141b4e07d6d4}{00026}}\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{input_8h_a3a92c85d17326a6cc35e141b4e07d6d4}{clear\_button\_pressed}}()\ \{\ \textcolor{keywordflow}{return}\ GPIOF-\/>IDR\ \&\ \doxymbox{\hyperlink{input_8c_ad87bd41b3116dba9e27c26862533253c}{BUTTON\_CLEAR\_MASK}}\ ?\ 0\ :\ 1;\ \}}
+
+\end{DoxyCode}

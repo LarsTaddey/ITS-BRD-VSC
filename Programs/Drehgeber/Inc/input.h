@@ -1,7 +1,8 @@
 /**
  * @file input.h
  * @brief Declares functions for reading the board input pins and detecting
- * clear button events.
+ * button events.
+ * @author Len Peschko (2840024), Lars Taddey (2880138) - HAW Hamburg
  */
 
 #ifndef INPUT_H

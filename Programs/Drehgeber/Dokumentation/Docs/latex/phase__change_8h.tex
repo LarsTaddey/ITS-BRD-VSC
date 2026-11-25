@@ -1,0 +1,55 @@
+\doxysection{Programs/\+\+Drehgeber/\+\+Inc/\+phase\+\_\+change.h File Reference}
+\hypertarget{phase__change_8h}{}\label{phase__change_8h}\index{Programs/Drehgeber/Inc/phase\_change.h@{Programs/Drehgeber/Inc/phase\_change.h}}
+
+
+Declares a function for detecting rotation phase transitions and updating the rotation direction and transition counter.  
+
+
+{\ttfamily \+\#include "{}data\+\_\+types.\+h"{}}\newline
+{\ttfamily \+\#include $<$stdint.\+h$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\+\_\+t \doxymbox{\hyperlink{phase__change_8h_a27745b3d2dc436a04430f2d6337836bd}{phase\+\_\+change}} (\doxymbox{\hyperlink{structPhaseData}{Phase\+Data}} \texorpdfstring{$\ast$}{*}previous\+\_\+phase, \doxymbox{\hyperlink{structPhaseData}{Phase\+Data}} \texorpdfstring{$\ast$}{*}current\+\_\+phase)
+\begin{DoxyCompactList}\small\item\em Determines the direction of phase progression and updates the phase counter and detected direction accordingly Compares the previous and current phases to identify forward movement, backward movement, or no change. Returns INVALID\+\_\+\+TRANSITION for invalid phase transitions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Declares a function for detecting rotation phase transitions and updating the rotation direction and transition counter. 
+
+\begin{DoxyAuthor}{Author}
+Len Peschko (2840024), Lars Taddey (2880138) -\/ HAW Hamburg 
+\end{DoxyAuthor}
+
+
+Definition in file \doxymbox{\hyperlink{phase__change_8h_source}{phase\+\_\+change.\+h}}.
+
+
+
+\label{phase__change_8h_doc-func-members}
+\Hypertarget{phase__change_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{phase__change_8h_a27745b3d2dc436a04430f2d6337836bd}\index{phase\_change.h@{phase\_change.h}!phase\_change@{phase\_change}}
+\index{phase\_change@{phase\_change}!phase\_change.h@{phase\_change.h}}
+\doxysubsubsection{\texorpdfstring{phase\_change()}{phase\_change()}}
+{\footnotesize\ttfamily \label{phase__change_8h_a27745b3d2dc436a04430f2d6337836bd} 
+int32\+\_\+t phase\+\_\+change (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{structPhaseData}{Phase\+Data}} \texorpdfstring{$\ast$}{*}}]{previous\+\_\+phase}{, }\item[{\doxymbox{\hyperlink{structPhaseData}{Phase\+Data}} \texorpdfstring{$\ast$}{*}}]{current\+\_\+phase}{}\end{DoxyParamCaption})}
+
+
+
+Determines the direction of phase progression and updates the phase counter and detected direction accordingly Compares the previous and current phases to identify forward movement, backward movement, or no change. Returns INVALID\+\_\+\+TRANSITION for invalid phase transitions. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em previous\+\_\+phase} & Pointer to the previous phase data. Updated after a valid transition. \\
+\hline
+{\em current\+\_\+phase} & Pointer to the current phase data.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+uint32\+\_\+t The rotation direction, or an invalid transition value if the transition is not valid. 
+\end{DoxyReturn}
+
+
+Definition at line \doxymbox{\hyperlink{phase__change_8c_source_l00018}{18}} of file \doxymbox{\hyperlink{phase__change_8c_source}{phase\+\_\+change.\+c}}.
+
