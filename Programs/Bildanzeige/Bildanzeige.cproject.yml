@@ -47,6 +47,8 @@ project:
             - -Wextra
           C-CPP:
             # Optionen für C++
+            - -O3
+            - -flto
             - -fno-rtti
             - -funsigned-char
             - -fshort-enums
@@ -68,8 +70,13 @@ project:
             # C++-spezifische Optionen
             - -xc++
             - -std=c++11
+          ASM:
+            # Suppress unused driver arguments and the legacy assembler notice.
+            - -Wno-unused-command-line-argument
+            - -Wa,armasm,--diag_suppress=1950
           Link:
             # Linker-Optionen
+            - --lto
             - --library_type=microlib
             - --map
             - --load_addr_map_info
@@ -87,6 +94,12 @@ project:
 
   linker:
     - script: Bildanzeige_ITSboard.sct
+
+  # Keep the ELF image and also emit a raw binary for Nucleo drag-and-drop.
+  output:
+    type:
+      - elf
+      - bin
 
   groups:
     # Dokumentationsgruppe

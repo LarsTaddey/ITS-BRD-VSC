@@ -76,6 +76,12 @@ project:
   linker:
     - script: LauflichtASM_ITSboard.sct
 
+  # Keep the debug image and also emit a raw binary for Nucleo drag-and-drop.
+  output:
+    type:
+      - elf
+      - bin
+
   groups:
     # Dokumentationsgruppe
     - group: Doc

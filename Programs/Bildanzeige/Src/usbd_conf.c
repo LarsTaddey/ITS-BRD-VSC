@@ -94,6 +94,7 @@ PCD_HandleTypeDef hpcd;
  * @retval None
  */
 void HAL_PCD_MspInit(PCD_HandleTypeDef *hpcd) {
+   (void)hpcd;
    GPIO_InitTypeDef GPIO_InitStruct;
 
    /* Configure USB FS GPIOs */
@@ -133,6 +134,7 @@ void HAL_PCD_MspInit(PCD_HandleTypeDef *hpcd) {
  * @retval None
  */
 void HAL_PCD_MspDeInit(PCD_HandleTypeDef *hpcd) {
+   (void)hpcd;
    /* Disable USB FS Clock */
    __HAL_RCC_USB_OTG_FS_CLK_DISABLE();
 }
@@ -488,6 +490,7 @@ void USBD_LL_Delay(uint32_t Delay) { HAL_Delay(Delay); }
  * @retval None
  */
 void *USBD_static_malloc(uint32_t size) {
+   (void)size;
    static uint32_t mem[MAX_STATIC_ALLOC_SIZE];
    return mem;
 }

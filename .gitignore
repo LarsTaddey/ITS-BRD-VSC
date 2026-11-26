@@ -9,6 +9,7 @@
 /Programs/**/.clangd
 /Programs/*/.clangd
 /Programs/**/.cmsis/tools-environment.yml
+/Programs/**/.cmsis/*.dbgconf*
 /Programs/*/clang_tidy_result.txt
 __pycache__/
 .vscode.d/
