@@ -7,12 +7,16 @@
 /Programs/*/*.cbuild-idx.yml
 /Programs/*/*.cbuild-pack.yml
 /Programs/**/.clangd
+/Programs/**/.cmsis/tools-environment.yml
 /Programs/*/clang_tidy_result.txt
 __pycache__/
 .vscode.d/
 
 # Ignore User specific setting
 /Programs/*/*.uvguix.*
+
+# Ignore office lock files, which can include user-specific home-directory paths
+**/.~lock.*#
 
 ### macOS ###
 # General
