@@ -3,16 +3,10 @@
     "tasks": [
         {
             "label": "CMSIS Erase",
-            "type": "shell",
+            "type": "cmsis-csolution.pyocd",
             "command": "pyocd",
             "options": {
-                "cwd": "${workspaceFolder}/Programs/TestIt",
-                "shell": {
-                    "executable": "/bin/bash",
-                    "args": [
-                        "-c"
-                    ]
-                }
+                "cwd": "${workspaceFolder}/Programs/Bildanzeige"
             },
             "args": [
                 "erase",
@@ -26,16 +20,10 @@
         },
         {
             "label": "CMSIS Load",
-            "type": "shell",
+            "type": "cmsis-csolution.pyocd",
             "command": "pyocd",
             "options": {
-                "cwd": "${workspaceFolder}/Programs/TestIt",
-                "shell": {
-                    "executable": "/bin/bash",
-                    "args": [
-                        "-c"
-                    ]
-                }
+                "cwd": "${workspaceFolder}/Programs/Bildanzeige"
             },
             "args": [
                 "load",
@@ -48,23 +36,15 @@
         },
         {
             "label": "CMSIS Run",
-            "type": "shell",
+            "type": "cmsis-csolution.pyocd",
             "command": "pyocd",
             "options": {
-                "cwd": "${workspaceFolder}/Programs/TestIt",
-                "shell": {
-                    "executable": "/bin/bash",
-                    "args": [
-                        "-c"
-                    ]
-                }
+                "cwd": "${workspaceFolder}/Programs/Bildanzeige"
             },
             "args": [
                 "gdbserver",
                 "--probe",
                 "stlink:",
-                "--connect",
-                "attach",
                 "--persist",
                 "--reset-run",
                 "--cbuild-run",
@@ -89,7 +69,7 @@
             "type": "shell",
             "command": "pyocd",
             "options": {
-                "cwd": "${workspaceFolder}/Programs/TestIt",
+                "cwd": "${workspaceFolder}/Programs/Bildanzeige",
                 "shell": {
                     "executable": "/bin/bash",
                     "args": [
@@ -98,11 +78,33 @@
                 }
             },
             "args": [
-                "list",
+                "info",
+                "--probe",
+                "stlink:",
                 "--cbuild-run",
                 "${command:cmsis-csolution.getCbuildRunFile}"
             ],
             "problemMatcher": []
+        },
+        {
+            "label": "C-Pretty-Printer",
+            "type": "shell",
+            "command": "python3",
+            "args": [
+                "${workspaceFolder}/bin/format_all.py",
+                "${command:cmsis-csolution.getSolutionFile}"
+            ],
+            "group": "none"
+        },
+        {
+            "label": "C-Linter",
+            "type": "shell",
+            "command": "python3",
+            "args": [
+                "${workspaceFolder}/bin/lint_all.py",
+                "${command:cmsis-csolution.getSolutionFile}"
+            ],
+            "group": "none"
         }
     ]
 }
