@@ -7,10 +7,13 @@
 /Programs/*/*.cbuild-idx.yml
 /Programs/*/*.cbuild-pack.yml
 /Programs/**/.clangd
+/Programs/*/.clangd
 /Programs/**/.cmsis/tools-environment.yml
 /Programs/*/clang_tidy_result.txt
 __pycache__/
 .vscode.d/
+/.vscode/cmsis.json
+/.vscode/launch.json
 
 # Ignore User specific setting
 /Programs/*/*.uvguix.*
