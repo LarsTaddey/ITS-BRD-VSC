@@ -13,13 +13,13 @@ Basiert auf JS-Implementierung, sichtbar unter https://l3p3.de/svr/etc/bmprl.htm
 
 ## Module
 
-main.c
+main
 -	int main()
 
-bmp_display.c
+bmp_display
 -	void drawBmp(void) – Header einlesen und anzeigen, auf S5 warten, Farbtabelle und Bilddaten dekodieren und anzeigen
 
-read.c
+read
 -	uint8_t read_uint8(bool *was_eof)
 -	uint16_t read_uint16(bool *was_eof)
 -	uint32_t read_uint32(bool *was_eof)
