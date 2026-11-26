@@ -46,7 +46,7 @@
 
 #include "byte_io_backend.h"
 #include "cdc_input_if.h"
-#include "core_cm4.h" /* __disable_irq, __enable_irq, __get/set_PRIMASK */
+#include "stm32f4xx.h" /* Device IRQn_Type and Cortex-M core definitions */
 #include "error.h"    /* Error_Handler bei rx_overflow */
 #include "ringbuf.h"
 #include "stm32f4xx_hal.h"

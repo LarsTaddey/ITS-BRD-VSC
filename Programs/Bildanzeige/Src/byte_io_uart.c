@@ -24,7 +24,7 @@
  */
 
 #include "byte_io_backend.h"
-#include "core_cm4.h" /* NVIC_DisableIRQ, SystemCoreClock */
+#include "stm32f4xx.h" /* Device IRQn_Type and Cortex-M core definitions */
 #include <stddef.h>
 #include <stdint.h>
 #include <stm32f4xx_ll_bus.h>

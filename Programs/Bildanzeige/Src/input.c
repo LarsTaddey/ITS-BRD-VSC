@@ -45,7 +45,7 @@
 #include "byte_io.h"
 #include "errorhandler.h"
 #include "lcd.h"
-#include "stm32f429xx.h" /* GPIOF (CMSIS Device Header, Leaf-Header des F429) */
+#include "stm32f4xx.h" /* CMSIS device, IRQn_Type, and HAL umbrella header */
 #include "stm32f4xx_hal_gpio.h" /* HAL_GPIO_ReadPin, GPIO_PIN_5/6/7, GPIO_PIN_RESET */
 #include "timer.h"
 #include "transport.h" /* transport_t, TRANSPORT_USB_CDC, TRANSPORT_UART_VIA_USB */
