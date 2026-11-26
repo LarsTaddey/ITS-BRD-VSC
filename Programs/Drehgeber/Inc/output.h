@@ -72,4 +72,7 @@ void turn_off_counter_leds();
  */
 void output_data_to_lcd(const AngleData *angle_data);
 
+void set_monitor_pin_high();
+void set_monitor_pin_low();
+
 #endif

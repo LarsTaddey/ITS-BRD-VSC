@@ -22,7 +22,7 @@
 #include <complex.h>
 #include <stdint.h>
 
-#define REFRESH_DELAY ((300 * 1000) * TICKS_PER_US)
+#define REFRESH_DELAY ((250 * 1000) * TICKS_PER_US)
 
 int main(void) {
    PhaseData previous_phase;
@@ -39,6 +39,8 @@ int main(void) {
    state = STATE_INIT;
 
    while (1) {
+      //set_monitor_pin_high();
+      read_pins_and_time(&current_phase);
       if (clear_button_pressed()) {
          state = STATE_INIT;
       }
@@ -48,11 +50,12 @@ int main(void) {
       case STATE_INIT:
 
          set_default_output();
+         current_phase.phase_counter = 0;
          previous_phase.phase_counter = 0;
-         previous_phase.timestamp = 0;
-         current_phase = previous_phase;
+         previous_phase.timestamp = current_phase.timestamp;
+               
          reference_phase = previous_phase;
-         read_pins_and_time(&previous_phase);
+   
          state = STATE_RUN;
          break;
 
@@ -60,22 +63,24 @@ int main(void) {
       // angle speed
       case STATE_RUN:
 
-         read_pins_and_time(&current_phase);
+         
          direction = phase_change(&previous_phase, &current_phase);
 
-         if ((current_phase.timestamp - reference_phase.timestamp) >
-             REFRESH_DELAY) {
+         if (
+            ((current_phase.timestamp - reference_phase.timestamp) > REFRESH_DELAY  && (previous_phase.phase!=current_phase.phase)) ||
+            ((current_phase.timestamp - reference_phase.timestamp) > (REFRESH_DELAY * 12))
+         ) {
             angle_data.angle = calculate_angle(&current_phase);
             angle_data.angle_speed =
                 calculate_angular_speed(&reference_phase, &current_phase);
-
+            
             reference_phase = current_phase;
          }
-
+         output_data_to_lcd(&angle_data);
          previous_phase = current_phase;
 
          set_counter_leds(current_phase.phase_counter);
-         output_data_to_lcd(&angle_data);
+         
 
          if (direction == DIRECTION_FORWARD) {
             turn_off_backward_led();
@@ -102,6 +107,7 @@ int main(void) {
          state = STATE_INIT;
          break;
       }
+      //set_monitor_pin_low();
    }
 }
 
