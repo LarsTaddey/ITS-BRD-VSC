@@ -13,6 +13,7 @@
 #include "input.h"
 #include "lcd.h"
 #include "read.h"
+#include <inttypes.h>
 
 // just a random number to lock out insanely large images
 #define MAX_BMP_DIMENSION 10240U
@@ -47,8 +48,8 @@ static const char *parseHeader(uint32_t *width, uint32_t *height,
    uint32_t file_size = read_uint32(&was_eof);
    if (was_eof)
       goto error;
-   snprintf(lcdPrint_buffer, lcdPrint_buffer_size, "File size: %lu bytes",
-            (unsigned long)file_size);
+   snprintf(lcdPrint_buffer, lcdPrint_buffer_size, "File size: %" PRIu32 " bytes",
+            file_size);
    lcdPrintlnS(lcdPrint_buffer);
 
    (void)read_uint32(&was_eof); /* reserved */
@@ -56,14 +57,14 @@ static const char *parseHeader(uint32_t *width, uint32_t *height,
    if (was_eof)
       goto error;
    snprintf(lcdPrint_buffer, lcdPrint_buffer_size,
-            "Pixel data offset: %lu bytes", (unsigned long)*pixel_data_offset);
+            "Pixel data offset: %" PRIu32 " bytes", *pixel_data_offset);
    lcdPrintlnS(lcdPrint_buffer);
 
    uint32_t dib_header_size = read_uint32(&was_eof);
    if (was_eof)
       goto error;
-   snprintf(lcdPrint_buffer, lcdPrint_buffer_size, "DIB header size: %lu bytes",
-            (unsigned long)dib_header_size);
+   snprintf(lcdPrint_buffer, lcdPrint_buffer_size, "DIB header size: %" PRIu32 " bytes",
+            dib_header_size);
    lcdPrintlnS(lcdPrint_buffer);
    if (dib_header_size != 40) {
       error = "DIB header size must be 40";
@@ -73,8 +74,8 @@ static const char *parseHeader(uint32_t *width, uint32_t *height,
    *width = read_uint32(&was_eof);
    if (was_eof)
       goto error;
-   snprintf(lcdPrint_buffer, lcdPrint_buffer_size, "Image width: %lu pixels",
-            (unsigned long)*width);
+   snprintf(lcdPrint_buffer, lcdPrint_buffer_size, "Image width: %" PRIu32 " pixels",
+            *width);
    lcdPrintlnS(lcdPrint_buffer);
    if (*width > MAX_BMP_DIMENSION) {
       error = "width too large";
@@ -84,8 +85,8 @@ static const char *parseHeader(uint32_t *width, uint32_t *height,
    *height = read_uint32(&was_eof);
    if (was_eof)
       goto error;
-   snprintf(lcdPrint_buffer, lcdPrint_buffer_size, "Image height: %lu pixels",
-            (unsigned long)*height);
+   snprintf(lcdPrint_buffer, lcdPrint_buffer_size, "Image height: %" PRIu32 " pixels",
+            *height);
    lcdPrintlnS(lcdPrint_buffer);
    if (*height > MAX_BMP_DIMENSION) {
       error = "height too large";
@@ -119,22 +120,22 @@ static const char *parseHeader(uint32_t *width, uint32_t *height,
    uint32_t image_size = read_uint32(&was_eof);
    if (was_eof)
       goto error;
-   snprintf(lcdPrint_buffer, lcdPrint_buffer_size, "Image size: %lu bytes",
-            (unsigned long)image_size);
+   snprintf(lcdPrint_buffer, lcdPrint_buffer_size, "Image size: %" PRIu32 " bytes",
+            image_size);
    lcdPrintlnS(lcdPrint_buffer);
 
    uint32_t x_pixels_per_meter = read_uint32(&was_eof);
    if (was_eof)
       goto error;
-   snprintf(lcdPrint_buffer, lcdPrint_buffer_size, "X pixels per meter: %lu",
-            (unsigned long)x_pixels_per_meter);
+   snprintf(lcdPrint_buffer, lcdPrint_buffer_size, "X pixels per meter: %" PRIu32,
+            x_pixels_per_meter);
    lcdPrintlnS(lcdPrint_buffer);
 
    uint32_t y_pixels_per_meter = read_uint32(&was_eof);
    if (was_eof)
       goto error;
-   snprintf(lcdPrint_buffer, lcdPrint_buffer_size, "Y pixels per meter: %lu",
-            (unsigned long)y_pixels_per_meter);
+   snprintf(lcdPrint_buffer, lcdPrint_buffer_size, "Y pixels per meter: %" PRIu32,
+            y_pixels_per_meter);
    lcdPrintlnS(lcdPrint_buffer);
 
    *color_table_length = read_uint32(&was_eof);
@@ -143,8 +144,8 @@ static const char *parseHeader(uint32_t *width, uint32_t *height,
    if (!*color_table_length)
       *color_table_length = MAX_COLOR_TABLE_SIZE;
    snprintf(lcdPrint_buffer, lcdPrint_buffer_size,
-            "Color table length: %lu colors",
-            (unsigned long)*color_table_length);
+            "Color table length: %" PRIu32 " colors",
+            *color_table_length);
    lcdPrintlnS(lcdPrint_buffer);
    if (*color_table_length > MAX_COLOR_TABLE_SIZE) {
       error = "palette too long for 8bpp";
@@ -154,8 +155,8 @@ static const char *parseHeader(uint32_t *width, uint32_t *height,
    uint32_t important_color_count = read_uint32(&was_eof);
    if (was_eof)
       goto error;
-   snprintf(lcdPrint_buffer, lcdPrint_buffer_size, "Important color count: %lu",
-            (unsigned long)important_color_count);
+   snprintf(lcdPrint_buffer, lcdPrint_buffer_size, "Important color count: %" PRIu32,
+            important_color_count);
    lcdPrintlnS(lcdPrint_buffer);
 
    return NULL;
@@ -169,7 +170,7 @@ void drawBmp(void) {
    bool was_eof = false;
    char lcdPrint_buffer[80];
    uint32_t width, height, pixel_data_offset, color_table_length;
-   COLOR color_table[MAX_COLOR_TABLE_SIZE] = {0};
+   static COLOR color_table[MAX_COLOR_TABLE_SIZE] = {0};
 
    const char *header_error =
        parseHeader(&width, &height, &pixel_data_offset, &color_table_length,
