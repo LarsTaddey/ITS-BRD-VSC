@@ -18,14 +18,6 @@
 // just a random number to lock out insanely large images
 #define MAX_BMP_DIMENSION 10240U
 
-static void draw_pixel(uint32_t x, int32_t y, COLOR color) {
-   // TODO this check should not be neccessary later
-   if (x >= LCD_WIDTH || y < 0 || y >= LCD_HEIGHT)
-      return;
-   GUI_drawPoint((Coordinate){(POINT)x, (POINT)y}, color, DOT_PIXEL_1X1,
-                 DOT_FILL_RIGHTUP);
-}
-
 /*
  * parse and check header
  */
@@ -168,9 +160,10 @@ error:
 void drawBmp(void) {
    const char *error = "unexpected end of file";
    bool was_eof = false;
-   char lcdPrint_buffer[80];
+   static char lcdPrint_buffer[80];
    uint32_t width, height, pixel_data_offset, color_table_length;
    static COLOR color_table[MAX_COLOR_TABLE_SIZE] = {0};
+   static COLOR line_buffer[LCD_WIDTH] = {0};
 
    const char *header_error =
        parseHeader(&width, &height, &pixel_data_offset, &color_table_length,
@@ -223,16 +216,28 @@ void drawBmp(void) {
       // encoded mode?
       if (count) {
          for (uint32_t i = 0; i < count; i++) {
-            draw_pixel(x++, y, color_table[value]);
+            if (x < LCD_WIDTH)
+               line_buffer[x] = color_table[value];
+            x++;
          }
       }
       // end of line?
       else if (value == 0) {
+         if (y >= 0 && y < LCD_HEIGHT) {
+            uint32_t line_width = x > LCD_WIDTH ? LCD_WIDTH : x;
+            GUI_WriteLine((Coordinate){(POINT)0, (POINT)y},
+                          (LENGTH)line_width, line_buffer);
+         }
          x = 0;
          y--;
       }
       // end of image?
       else if (value == 1) {
+         if (y >= 0 && y < LCD_HEIGHT) {
+            uint32_t line_width = x > LCD_WIDTH ? LCD_WIDTH : x;
+            GUI_WriteLine((Coordinate){(POINT)0, (POINT)y},
+                          (LENGTH)line_width, line_buffer);
+         }
          break;
       }
       // move position?
@@ -250,7 +255,9 @@ void drawBmp(void) {
             uint8_t index = read_uint8(&was_eof);
             if (was_eof)
                goto error;
-            draw_pixel(x++, y, color_table[index]);
+            if (x < LCD_WIDTH)
+               line_buffer[x] = color_table[index];
+            x++;
          }
          // padding needed?
          if (value & 1) {
